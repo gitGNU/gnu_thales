@@ -119,6 +119,7 @@ fi
 dnl IRCD type
 
 ok=0
+reportusage=1
 if test "x$with_ircd" != "x"; then
 	case $with_ircd in
 		[[Bb][Aa][Hh][Aa][Mm][Uu][Tt]])
@@ -139,6 +140,7 @@ if test "x$with_ircd" != "x"; then
 		[[Uu][Nn][Rr][Ee][Aa][Ll]])
 			AC_DEFINE_UNQUOTED(IRCD_UNREAL, 1, 'ircd type')
 			echo "Using Unreal IRCD"
+			reportusage=0
 			ok=1
 			;;
 		[[Uu][Ll][Tt][Ii][Mm][Aa][Tt][Ee]28])
@@ -176,6 +178,7 @@ if test $ok -eq 0; then
 	case $KBDINPUT in
    	1)
 			AC_DEFINE_UNQUOTED(IRCD_UNREAL, 1, 'ircd type')
+			reportusage=0
 			ok=1
 			;;
 		2)
@@ -211,7 +214,7 @@ AC_ARG_ENABLE(no-modes,
 
 AC_OUTPUT(src/Makefile data/Makefile Makefile)
 
-if test $REPORT -eq 1; then
+if test $REPORT -eq 1 -a $reportusage -eq 1; then
 	./ReportUsage.sh
 fi
 echo

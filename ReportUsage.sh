@@ -1,10 +1,11 @@
 #!/bin/sh
 
-echo "I'd like to collect some infos about who is using thales. This will only"
-echo "take a few seconds to answer the questions."
+echo "You selected an ircd which isn't much used. I'd like to collect some"
+echo "infos about who is using thales with this ircd. It will only take a"
+echo "few seconds to answer the questions."
 echo
-echo "Do you agree to answer them now [Y/N] ? (you can answer them later by"
-echo "running ./ReportUsage.sh in thales' directory)."
+echo "Do you agree to answer them now [Y/N] ? (You don't need to answer them,"
+echo "and it won't affect your usage of GNU Thales) "
 echo -n "[Y] > "
 read answer
 if [ "X$answer" = "XN" -o "X$answer" = "Xn" ]; then
@@ -16,7 +17,7 @@ echo "can eventually connect and say hi !"
 echo -n "> "
 read network
 echo
-echo "Which ircd are you using ?"
+echo "Which ircd are you using (please give the exact version number) ?"
 echo -n "> "
 read ircd
 echo

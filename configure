@@ -2528,6 +2528,7 @@ fi
 
 
 ok=0
+reportusage=1
 if test "x$with_ircd" != "x"; then
 	case $with_ircd in
 		[Bb][Aa][Hh][Aa][Mm][Uu][Tt])
@@ -2560,6 +2561,7 @@ EOF
 EOF
 
 			echo "Using Unreal IRCD"
+			reportusage=0
 			ok=1
 			;;
 		[Uu][Ll][Tt][Ii][Mm][Aa][Tt][Ee]28)
@@ -2606,6 +2608,7 @@ if test $ok -eq 0; then
 #define IRCD_UNREAL 1
 EOF
 
+			reportusage=0
 			ok=1
 			;;
 		2)
@@ -3030,7 +3033,7 @@ rm -fr confdefs* $ac_clean_files
 test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
 
-if test $REPORT -eq 1; then
+if test $REPORT -eq 1 -a $reportusage -eq 1; then
 	./ReportUsage.sh
 fi
 echo
