@@ -1,0 +1,20 @@
+///////////////////////
+This is the Thales based IRC user counter
+It works like a hit counter on web pages, but with irc & thales.
+To see it working, you can point your browser to
+http://www.dwchat.net/tools/thales/compteur.php?chan=dwchat&skin=1 
+(for the direct html output)
+or to 
+http://www.dwchat.net/tools/thales/compteur_js.php?chan=dwchat&skin=1 
+(for the non-php aware hosting services).
+
+This script is based on digits2imgs script delivered with thales too.
+(i admit this script is a bit useless :0).
+
+So, to use it, you will have to configure the MySQL & site variables to fit your
+environnement. That's to say, the mysql host, user, pass & database,
+and the "webpath" to pictures (http://www.dwchat.net/pictures for example).
+/////////////////////
+If you are having problems using this tool, feel free to contact me via
+z-master@apinc.org
+or by IRC : irc.apinc.org / #apinc & #opers

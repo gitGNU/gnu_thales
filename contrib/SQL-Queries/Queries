@@ -1,0 +1,24 @@
+#### SQL Queries provided by Jollino <jollino@sogno.net> ########
+# Good examples of basic SQL queries using all tables of Thales.
+
+# 5 top channels
+select channel, count(*) users from chan, ison where chan.chanid = ison.chanid
+AND chan.mode_ls="N" AND chan.mode_lp="N" GROUP BY channel ORDER BY users DESC LIMIT 5;
+
+# all ircops online
+select nick from user,server where mode_lo='Y' AND user.servid = server.servid and server != "services.WeNet";
+
+# all users online who aren't services
+select * from user,server where user.servid = server.servid and server.server != "services.WeNet" order by nick;
+
+# all botserv bots
+select * from user,server where user.servid = server.servid and server.server = "services.WeNet" and mode_lo = "N";
+
+# all botserv bots and their channels
+select nick, channel from user, server, ison, chan where server.server = "services.WeNet" and user.mode_lo = "N" and server.servid = user.servid and ison.nickid = user.nickid and ison.chanid = chan.chanid order by nick;
+
+# all users in a channel
+select * from ison,chan,user where channel='#amici' and ison.chanid=chan.chanid and user.nickid=ison.nickid;
+
+# number of users in a channel
+select count(*) users from chan, ison where chan.chanid = ison.chanid and channel="#amici";

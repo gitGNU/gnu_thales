@@ -1,0 +1,14 @@
+** Unreal cloacking for 3.1.4 and 3.2 **
+provide the algorithm as a PHP script
+
+** PostgreSQL support **
+because MySQL is MySQL.
+
+** IPv6 support **
+do_ipdecode for IPv6 addresses forwarded using NICKIP ?
+
+** optimize tables each X minutes **
+can someone prove me it really improves performance ?
+
+** makes thales optionnally send WALLOPS when the network max user & chan load is reached. **
+nobody seems to be interested in this.

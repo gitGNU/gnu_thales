@@ -1,0 +1,28 @@
+Thales structures :
+
+If you are interested in improving thales, you might want to read the following about thales structure.
+
+IRC messages handling, and database handling, are done in :
+- messages.*
+- actions.*
+- db.*
+
+messages.* handles the basic IRC commands, like PING, MOTD, etc ... using m_* functions.
+When a command requires to query the database, it is forwarded to the corresponding do_* function in actions.*.
+do_* use db_* functions (in db.*) to query the database.
+
+Patches :
+
+If you want to send a patch, please use diff -burN, and review your patch by hand. I particularly dislikes reading patches which include your config.log, makefiles, etc ... :)
+
+IRCD modes :
+
+Here are the modes for the ircds supported by thales :
+Ultimate 3.0 : 
+  channels :
+    include/struct.h:1164
+    src/channel.c:1405
+  nicks :
+    src/s_user.c:78
+
+add other ircds here

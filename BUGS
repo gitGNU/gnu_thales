@@ -1,0 +1,1 @@
+Thales doesn't handle correctly messages from servers using a different codepage. You should disable the hashlist (see INSTALL) if you experience hashlist-related crashes because of this.

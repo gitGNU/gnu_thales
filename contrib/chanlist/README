@@ -1,0 +1,14 @@
+Hello, here's an example of how to make a PHP page that uses thales to
+list all the currently active channels on your IRC network.  You will need
+to do a bit of customising of the PHP file in some hopefully obvious places.
+
+You can see an example of this working at http://blitzed.org/channels.phtml,
+and if you have no idea what to do at all you can mail your questions to
+me, grifferz@blitzed.org.  But I don't have a lot of time to support this
+so please don't expect me to rewrite it for you -- it is provided as an
+example mainly.
+
+I would, however, love to know if you improve it.
+
+Hope it is helpful to you,
+Andy Smith <grifferz@blitzed.org>
