@@ -178,13 +178,14 @@ int main(int argc, char **argv)
 	}
 #if defined(IRCD_UNREAL)
 	send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3");
+	send_cmd(NULL, "CAPAB NOQUIT");
 #endif
 #if defined(IRCD_HYBRID)
 	send_cmd(NULL, "PASS %s :TS", RemotePassword);
 	send_cmd(NULL, "CAPAB :HOPS TBURST");
 #elif defined (IRCD_BAHAMUT)
 	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB TS3 SSJOIN NICKIP");
+	send_cmd(NULL, "CAPAB TS3 SSJOIN NICKIP NOQUIT");
 #elif defined (IRCD_IRCDRU)
 	send_cmd(NULL, "PASS %s :TS", RemotePassword);
 	send_cmd(NULL, "CAPAB TS3 SSJOIN 8BNCI NICKIP");

@@ -487,12 +487,16 @@ void do_server(char *server, char *comment, char *linkedto)
 void do_squit(char *server)
 {
 	server = db_escape(server);
+	
+	/* We guess which users are now offline (for NOQUIT support) */
+	db_offlineusers(db_getserver(server));	
 	if (ServerCacheTime)
 	{
 		db_query("UPDATE " TBL_SERV
 					" SET online=\"N\", lastsplit=NOW(),linkedto=NULL WHERE servid=\"%d\"",
 					db_getserver(server));
 		db_cleanserver();
+
 	}
 	else
 	{

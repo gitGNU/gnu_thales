@@ -521,3 +521,21 @@ void db_cleanuser()
 		}
 	}
 }
+
+void db_offlineusers(int servid)
+{
+	MYSQL_RES *resptr2;
+	char **res2;
+	
+	/* We select users that went on the splitted server and send them to the appropritate functions */
+	db_query("SELECT nick, nickid FROM " TBL_USER " WHERE servid=\"%d\"", servid);
+	resptr2 = mysql_store_result(myptr);
+	while ((res2 = mysql_fetch_row(resptr2)))
+	{
+		char *nick = db_escape(res2[0]);
+		int nickid = atoi(res2[1]);
+	    	db_removenick(nick);
+	    	db_removefromchans(nickid);
+		free(nick);
+	}
+}

@@ -1,3 +1,4 @@
+   - added support for Unreal and Bahamut's NOQUIT
 GNU Thales 1.0 (09/05/2004)
    - added a workaround for a possible unreal bug.
    - using autoconf 2.59 instead of autoconf 2.13.

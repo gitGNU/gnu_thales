@@ -46,6 +46,7 @@ void db_checkemptychan(int chanid, char *chan);
 void db_close();
 void db_cleanserver();
 void db_cleanuser();
+void db_offlineusers();
 int db_getlusers(int type);
 #define LUSERS_USERS 1
 #define LUSERS_USERSINV 2
