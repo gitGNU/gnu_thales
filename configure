@@ -2589,40 +2589,42 @@ if test $ok -eq 0; then
 	echo
 	echo "Which of the following is closest to the type of server used on"
 	echo "your IRC network ?"
-	echo "    1) Bahamut 1.4.27 or later"
-	echo "    2) Hybrid 7 or later"
-	echo "    3) ircd-RU! 1.4.0 or later"
-	echo "    4) UnrealIRCd 3.1.1 or later"
+	echo "    1) UnrealIRCd 3.1.1 or later"
+   echo "Support for these servers is still available but might not be"
+   echo "complete. See the NeedMaintainers file for more info."
+	echo "    2) Bahamut 1.4.27 or later"
+	echo "    3) Hybrid 7 or later"
+	echo "    4) ircd-RU! 1.4.0 or later"
 	echo "    5) UltimateIRCD 2.8 or later (2.8 branch)"
 	echo "    6) UltimateIRCD 3.0.0 or later"
 	while `test $ok -eq 0` ; do
 	echo -n '> '
 	read KBDINPUT
 	case $KBDINPUT in
-		1)
+   	1)
 			cat >> confdefs.h <<EOF
-#define IRCD_BAHAMUT 1
+#define IRCD_UNREAL 1
 EOF
 
 			ok=1
 			;;
 		2)
 			cat >> confdefs.h <<EOF
-#define IRCD_HYBRID 1
+#define IRCD_BAHAMUT 1
 EOF
 
 			ok=1
 			;;
 		3)
 			cat >> confdefs.h <<EOF
-#define IRCD_IRCDRU 1
+#define IRCD_HYBRID 1
 EOF
 
 			ok=1
 			;;
-			4)
-				cat >> confdefs.h <<EOF
-#define IRCD_UNREAL 1
+		4)
+			cat >> confdefs.h <<EOF
+#define IRCD_IRCDRU 1
 EOF
 
 			ok=1

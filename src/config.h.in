@@ -94,6 +94,9 @@
 #undef IRCD_ULTIMATE
 
 /* 'ircd type' */
+#undef IRCD_UNREAL
+
+/* 'ircd type' */
 #undef IRCD_BAHAMUT
 
 /* 'ircd type' */
@@ -101,9 +104,6 @@
 
 /* 'ircd type' */
 #undef IRCD_IRCDRU
-
-/* 'ircd type' */
-#undef IRCD_UNREAL
 
 /* 'ircd type' */
 #undef IRCD_ULTI28

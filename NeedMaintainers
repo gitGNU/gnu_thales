@@ -1,0 +1,10 @@
+Support for other ircds :
+=========================
+Most of the people using GNU Thales use it with the Unreal IRCD. However, from
+time to time, people want to use it with another IRCD, which might be
+unsupported. We can't afford to port Thales to all known IRCDs. But if you are
+interested in porting Thales to another IRCD, we can help you :
+- By giving you cvs commit access to the Repository at savannah.gnu.org.
+- By helping you understand the current codebase.
+
+Don't hesitate to contact us for more info.
