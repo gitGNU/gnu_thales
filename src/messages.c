@@ -256,7 +256,7 @@ static void m_motd(char *source, int ac, char **av)
 	send_cmd(ServerName, "372 %s :-GNU Thales is an IRC to MySQL gateway.",
 				source);
 	send_cmd(ServerName, "372 %s :-   More info is available on", source);
-	send_cmd(ServerName, "372 %s :-http://www.gnu.org/software/thales/",
+	send_cmd(ServerName, "372 %s :- http://www.gnu.org/software/thales/",
 				source);
 	send_cmd(ServerName, "376 %s :End of /MOTD command.", source);
 }
@@ -272,7 +272,7 @@ static void m_admin(char *source, int ac, char **av)
 				"258 %s :Written by Lucas Nussbaum <lucas@lucas-nussbaum.net>",
 				source);
 	send_cmd(ServerName,
-				"259 %s :See http://www.lucas-nussbaum.net/thales/ for more info.",
+				"259 %s :See http://www.gnu.org/software/thales/ for more info.",
 				source);
 }
 
