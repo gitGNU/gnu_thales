@@ -63,10 +63,7 @@ void do_tburst(char *chan, char *time, char *author, char *topic);
 #endif /* IRCD_HYBRID */
 
 /* available modes for each ircd */
-#if defined(IRCD_SEQUANA)
-#define USERMODES "abcdefghiknorswxyAR"
-#define CHANMODES "beIovciklmnprstLMRO"
-#elif defined(IRCD_BAHAMUT)
+#if defined(IRCD_BAHAMUT)
 #define USERMODES "abcdefghiknorswyAR"
 #define CHANMODES "beIovciklmnprstLMRO"
 #elif defined(IRCD_IRCDRU)

@@ -149,7 +149,7 @@ static void do_chanmodes(int chanid, char **av, int ac)
 				argptr++;
 #endif
 
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
 			else if (*modes == 'o' || *modes == 'v')
 #elif defined(IRCD_HYBRID)||defined(IRCD_ULTI28)
 			else if (*modes == 'o' || *modes == 'v' || *modes == 'h')
@@ -338,7 +338,7 @@ static void do_addusers(int chanid, char *users)
 		nickid = db_checknick(users);
 		if (nickid != -1)
 		{
-#if defined(IRCD_BAHAMUT)||defined(IRCD_SEQUANA)||defined(IRCD_IRCDRU)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
 			db_query("INSERT INTO " TBL_ISON
 						" (nickid, chanid, mode_lo, mode_lv) VALUES (\'%d\', \'%d\',\'%s\',\'%s\')",
 						nickid, chanid, (op ? "Y" : "N"), (voice ? "Y" : "N"));
@@ -504,22 +504,18 @@ void do_nick_new(int ac, char **av)
 
 	nick = db_escape(av[0]);
 	connecttime = atoi(av[2]);
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
 	username = db_escape(av[4]);
 	hostname = db_escape(av[5]);
 	serv = db_escape(av[6]);
-#ifdef IRCD_SEQUANA
-	hiddenhost = db_escape(av[8]);
-	ipaddr = do_ipdecode(av[9]);
-	realname = db_escape(av[10]);
-#elif defined(IRCD_HYBRID)
+#if defined(IRCD_HYBRID)
 	hiddenhost = "";
 	realname = db_escape(av[7]);
 #else
 	hiddenhost = "";
 	ipaddr = do_ipdecode(av[8]);
 	realname = db_escape(av[9]);
-#endif /* IRCD_SEQUANA/BAHAMUT/ULTIMATE/HYBRID */
+#endif
 #elif defined(IRCD_UNREAL)||defined(IRCD_ULTI28)
 	username = db_escape(av[3]);
 	hostname = db_escape(av[4]);
@@ -541,7 +537,7 @@ void do_nick_new(int ac, char **av)
 			 " SET nick=\'%s\', realname=\'%s\', hostname=\'%s\', ipaddr=\'%s\', username=\'%s\', connecttime=FROM_UNIXTIME(\'%d\'), servid=\'%d\',lastquit=NULL, online=\'Y\', away=\'N\', awaymsg=\'\' WHERE nickid=\'%d\'",
 			 nick, realname, hostname, ipaddr, username, connecttime, servid,
 			 nickid);
-#elif defined(IRCD_SEQUANA)||defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
+#elif defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
 		db_query
 			("UPDATE " TBL_USER
 			 " SET nick=\'%s\', realname=\'%s\', hostname=\'%s\', hiddenhostname=\"%s\", ipaddr=\'%s\', username=\'%s\', connecttime=FROM_UNIXTIME(\'%d\'), servid=\'%d\', lastquit=NULL, online=\'Y\', away=\'N\', awaymsg=\'\' WHERE nickid=\'%d\'",
@@ -568,7 +564,7 @@ void do_nick_new(int ac, char **av)
 			("INSERT INTO " TBL_USER
 			 " (nick, realname, hostname, ipaddr, username, connecttime, servid) VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',FROM_UNIXTIME(\'%d\'),\'%d\')",
 			 nick, realname, hostname, ipaddr, username, connecttime, servid);
-#elif defined(IRCD_SEQUANA)||defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
+#elif defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
 		db_query
 			("INSERT INTO " TBL_USER
 			 " (nick, realname, hostname, hiddenhostname, ipaddr, username, connecttime, servid) VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',FROM_UNIXTIME(\'%d\'),\'%d\')",
@@ -594,11 +590,11 @@ void do_nick_new(int ac, char **av)
 	free(username);
 	free(hostname);
 	free(serv);
-#if defined(IRCD_SEQUANA)||defined(IRCD_UNREAL)
+#if defined(IRCD_UNREAL)
 	free(hiddenhost);
 #endif
 	free(realname);
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
 	do_usermodes(db_insertid(), av[3]);
 #elif defined(IRCD_UNREAL)
 	do_usermodes(db_insertid(), av[7]);

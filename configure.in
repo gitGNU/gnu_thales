@@ -30,7 +30,7 @@ AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(gettimeofday select socket strcspn strdup strerror strspn strtol)
 
 AC_ARG_WITH(ircd, 
-[  --with-ircd=ircdtype  type of the ircd used with thales (bahamut, hybrid, ircdru, sequana, unreal, ultimate28 or ultimate30)])
+[  --with-ircd=ircdtype  type of the ircd used with thales (bahamut, hybrid, ircdru, unreal, ultimate28 or ultimate30)])
 AC_ARG_WITH(tableprefix, 
 [  --tableprefix=string  prefix to add to all SQL tables names. database creation scripts need to be modified accordingly.)])
 AC_ARG_WITH(hashlist, 
@@ -136,11 +136,6 @@ if test "x$with_ircd" != "x"; then
 			echo "Using IRCD-RU IRCD"
 			ok=1
 			;;
-		[[Ss][Ee][Qq][Uu][Aa][Nn][Aa]])
-			AC_DEFINE_UNQUOTED(IRCD_SEQUANA, 1, 'ircd type')
-			echo "Using Sequana IRCD"
-			ok=1
-			;;
 		[[Uu][Nn][Rr][Ee][Aa][Ll]])
 			AC_DEFINE_UNQUOTED(IRCD_UNREAL, 1, 'ircd type')
 			echo "Using Unreal IRCD"
@@ -170,10 +165,9 @@ if test $ok -eq 0; then
 	echo "    1) Bahamut 1.4.27 or later"
 	echo "    2) Hybrid 7 or later"
 	echo "    3) ircd-RU! 1.4.0 or later"
-	echo "    4) Sequana 0.2.0 or later"
-	echo "    5) UnrealIRCd 3.1.1 or later"
-	echo "    6) UltimateIRCD 2.8 or later (2.8 branch)"
-	echo "    7) UltimateIRCD 3.0.0 or later"
+	echo "    4) UnrealIRCd 3.1.1 or later"
+	echo "    5) UltimateIRCD 2.8 or later (2.8 branch)"
+	echo "    6) UltimateIRCD 3.0.0 or later"
 	while `test $ok -eq 0` ; do
 	echo -n '> '
 	read KBDINPUT
@@ -191,18 +185,14 @@ if test $ok -eq 0; then
 			ok=1
 			;;
 			4)
-				AC_DEFINE_UNQUOTED(IRCD_SEQUANA, 1, 'ircd type')
-			ok=1
-			;;
-			5)
 				AC_DEFINE_UNQUOTED(IRCD_UNREAL, 1, 'ircd type')
 			ok=1
 			;;
-			6)
+			5)
 				AC_DEFINE_UNQUOTED(IRCD_ULTI28, 1, 'ircd type')
 	      ok=1
 	      ;;
-			7)
+			6)
 				AC_DEFINE_UNQUOTED(IRCD_ULTIMATE, 1, 'ircd type')
 	      ok=1
 	      ;;

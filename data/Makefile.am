@@ -2,9 +2,9 @@ bindir=$(exec_prefix)
 sbindir=$(exec_prefix)
 datadir=$(exec_prefix)
 
-data_DATA = mysql-bahamut.sql mysql-sequana.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
+data_DATA = mysql-bahamut.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
 
-EXTRA_DIST = mysql-bahamut.sql mysql-sequana.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
+EXTRA_DIST = mysql-bahamut.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
 
 install-data-local:
 	@if test -f $(datadir)/thales.conf ; then \

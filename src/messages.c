@@ -128,7 +128,7 @@ static void m_quit(char *source, int ac, char **av)
 static void m_sjoin(char *source, int ac, char **av)
 {
 
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)
 	if (ac == 2)
 		do_join(av[1], source);	  /* like a join */
 	else
@@ -140,7 +140,7 @@ static void m_sjoin(char *source, int ac, char **av)
 static void m_svsmode(char *source, int ac, char **av)
 {
 	if (*av[0] != '#')
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_ULTIMATE)||defined(IRCD_IRCDRU)||defined(IRCD_HYBRID)
 		do_umode(av[0], av[2]);
 #elif defined(IRCD_UNREAL)||defined(IRCD_ULTI28)
 		do_umode(av[0], av[1]);

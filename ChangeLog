@@ -1,4 +1,5 @@
 GNU Thales 0.9.5 (XX/XX/XXXX)
+   - removed Sequana support
    - safely ignore Unreal's EOS messages, but send one after login.
    - now keeps track of max number of servers too.
    - hardcoded url (motd, admin) changes to savannah.

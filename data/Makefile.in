@@ -53,9 +53,14 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 AWK = @AWK@
 CC = @CC@
+HAVE_LIB = @HAVE_LIB@
+LIB = @LIB@
 LN_S = @LN_S@
+LTLIB = @LTLIB@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 VERSION = @VERSION@
@@ -64,9 +69,9 @@ bindir = $(exec_prefix)
 sbindir = $(exec_prefix)
 datadir = $(exec_prefix)
 
-data_DATA = mysql-bahamut.sql mysql-sequana.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
+data_DATA = mysql-bahamut.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
 
-EXTRA_DIST = mysql-bahamut.sql mysql-sequana.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
+EXTRA_DIST = mysql-bahamut.sql mysql-unreal.sql mysql-ultimate28.sql mysql-ultimate30.sql mysql-hybrid.sql mysql-ircdru.sql thales.conf.default
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../src/config.h
 CONFIG_CLEAN_FILES = 

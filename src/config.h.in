@@ -85,9 +85,6 @@
 #undef IRCD_IRCDRU
 
 /* 'ircd type' */
-#undef IRCD_SEQUANA
-
-/* 'ircd type' */
 #undef IRCD_UNREAL
 
 /* 'ircd type' */
@@ -104,9 +101,6 @@
 
 /* 'ircd type' */
 #undef IRCD_IRCDRU
-
-/* 'ircd type' */
-#undef IRCD_SEQUANA
 
 /* 'ircd type' */
 #undef IRCD_UNREAL

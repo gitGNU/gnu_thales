@@ -13,7 +13,7 @@ Thales's installation is quite straightforward.
     to $HOME/thales, but can be forced using --prefix=DESTDIR.
   * You can specify the IRCD type on the command line. If you don't, you'll be
     asked for it. Use --with-ircd=IRCDTYPE, where IRCDTYPE is bahamut, hybrid,
-    ircdru, sequana, unreal, ultimate28 or ultimate30.
+    ircdru, unreal, ultimate28 or ultimate30.
   * If the compiled binary fails to work (often because of a linking problem),
     you can try the --enable-static option, so that the generated binary will
     be statically linked.

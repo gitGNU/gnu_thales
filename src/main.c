@@ -146,8 +146,6 @@ int main(int argc, char **argv)
 		 "unreal",
 #elif defined(IRCD_HYBRID)
 		 "hybrid",
-#elif defined(IRCD_SEQUANA)
-		 "sequana",
 #elif defined (IRCD_BAHAMUT)
 		 "bahamut",
 #elif defined (IRCD_IRCDRU)
@@ -181,10 +179,7 @@ int main(int argc, char **argv)
 #if defined(IRCD_UNREAL)
 	send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3");
 #endif
-#if defined(IRCD_SEQUANA)
-	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB NICKIP SSJOIN TS3");
-#elif defined(IRCD_HYBRID)
+#if defined(IRCD_HYBRID)
 	send_cmd(NULL, "PASS %s :TS", RemotePassword);
 	send_cmd(NULL, "CAPAB :HOPS TBURST");
 #elif defined (IRCD_BAHAMUT)
@@ -209,7 +204,7 @@ int main(int argc, char **argv)
 	send_cmd(NULL, "SERVER %s 1 :%s", ServerName, ServerDesc);
 #endif
 
-#if defined(IRCD_SEQUANA)||defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
+#if defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
 	send_cmd(NULL, "SVINFO 3 1 0 :%ld", time(NULL));
 #elif defined(IRCD_ULTIMATE)
 	send_cmd(NULL, "SVINFO 5 3 0 :%ld", time(NULL));

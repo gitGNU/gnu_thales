@@ -13,7 +13,7 @@ ac_default_prefix=/usr/local
 # Any additions from configure.in:
 ac_default_prefix=\${HOME}/thales
 ac_help="$ac_help
-  --with-ircd=ircdtype  type of the ircd used with thales (bahamut, hybrid, ircdru, sequana, unreal, ultimate28 or ultimate30)"
+  --with-ircd=ircdtype  type of the ircd used with thales (bahamut, hybrid, ircdru, unreal, ultimate28 or ultimate30)"
 ac_help="$ac_help
   --tableprefix=string  prefix to add to all SQL tables names. database creation scripts need to be modified accordingly.)"
 ac_help="$ac_help
@@ -2554,14 +2554,6 @@ EOF
 			echo "Using IRCD-RU IRCD"
 			ok=1
 			;;
-		[Ss][Ee][Qq][Uu][Aa][Nn][Aa])
-			cat >> confdefs.h <<EOF
-#define IRCD_SEQUANA 1
-EOF
-
-			echo "Using Sequana IRCD"
-			ok=1
-			;;
 		[Uu][Nn][Rr][Ee][Aa][Ll])
 			cat >> confdefs.h <<EOF
 #define IRCD_UNREAL 1
@@ -2600,10 +2592,9 @@ if test $ok -eq 0; then
 	echo "    1) Bahamut 1.4.27 or later"
 	echo "    2) Hybrid 7 or later"
 	echo "    3) ircd-RU! 1.4.0 or later"
-	echo "    4) Sequana 0.2.0 or later"
-	echo "    5) UnrealIRCd 3.1.1 or later"
-	echo "    6) UltimateIRCD 2.8 or later (2.8 branch)"
-	echo "    7) UltimateIRCD 3.0.0 or later"
+	echo "    4) UnrealIRCd 3.1.1 or later"
+	echo "    5) UltimateIRCD 2.8 or later (2.8 branch)"
+	echo "    6) UltimateIRCD 3.0.0 or later"
 	while `test $ok -eq 0` ; do
 	echo -n '> '
 	read KBDINPUT
@@ -2631,26 +2622,19 @@ EOF
 			;;
 			4)
 				cat >> confdefs.h <<EOF
-#define IRCD_SEQUANA 1
+#define IRCD_UNREAL 1
 EOF
 
 			ok=1
 			;;
 			5)
 				cat >> confdefs.h <<EOF
-#define IRCD_UNREAL 1
-EOF
-
-			ok=1
-			;;
-			6)
-				cat >> confdefs.h <<EOF
 #define IRCD_ULTI28 1
 EOF
 
 	      ok=1
 	      ;;
-			7)
+			6)
 				cat >> confdefs.h <<EOF
 #define IRCD_ULTIMATE 1
 EOF
