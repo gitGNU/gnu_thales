@@ -265,6 +265,9 @@ static void do_addusers(int chanid, char *users)
 	int nickid;
 	while (users && (*users))
 	{
+		/* Neostats is broken and sends an additional space. */
+		if (*users == ' ')
+			users++;
 #if defined(IRCD_UNREAL)
 		/* Unreal uses SJOIN to send bans and exempts. Just ignore them. */
 		if ((*users == '&') || (*users == '\"'))
