@@ -1,4 +1,5 @@
 GNU Thales 0.9.6 (XX/XX/XXXX)
+   - nickinfo, an example from Andreas Lindemann <admiral@1sq.org> !
    - Recycled-counter, an example from ProPheT <prophet@recycled-irc.org> !
    - server.linkedto is now an int (was a tinyint).
 GNU Thales 0.9.5 (08/02/2004)
