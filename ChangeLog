@@ -1,4 +1,5 @@
 GNU Thales 0.9.6 (XX/XX/XXXX)
+   - Recycled-counter, an example from ProPheT <prophet@recycled-irc.org> !
    - server.linkedto is now an int (was a tinyint).
 GNU Thales 0.9.5 (08/02/2004)
    - Fixed user/chan modes for Unreal beta19 support (chanmodes +I and +H not
