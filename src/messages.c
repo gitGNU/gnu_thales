@@ -373,7 +373,7 @@ static void m_sdesc(char *source, int ac, char **av)
 /* SWHOIS - forwarded */
 static void m_swhois(char *source, int ac, char **av)
 {
-	do_swhois(source, av[0]);
+	do_swhois(av[0], av[1]);
 }
 
 
