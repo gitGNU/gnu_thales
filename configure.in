@@ -49,44 +49,66 @@ AC_ARG_ENABLE(noreportusage,
 dnl Check usr/local first, in case sys admin has installed a later version
 dnl than was included with the OS (in which case the older will be in  /usr)
 
+mysqlhead=0
+mysqllib=0
+
+AC_CHECK_LIB(mysqlclient,mysql_real_connect, [LIBS="-lmysqlclient $LIBS"; mysqllib=1])
+
 if test "x$with_mysql_includes" != "x"; then
 	AC_CHECK_HEADER($with_mysql_includes/mysql.h,
-		[CFLAGS="$CFLAGS -I$with_mysql_includes"],
-		AC_MSG_ERROR(Need MySQL includes!))
+		[CFLAGS="$CFLAGS -I$with_mysql_includes" ; mysqlinc=1])
 fi
 
 if test "x$with_mysql_libraries" != "x"; then
-	AC_CHECK_LIB_LOC($with_mysql_libraries,mysqlclient,mysql_real_connect,,
-		AC_MSG_ERROR(Need MySQL client library!))
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC($with_mysql_libraries,mysqlclient,mysql_real_connect, [LIBS="-L$with_mysql_libraries -lmysqlclient $LIBS"; mysqllib=1])
+		fi
 fi
 
 if test "x$with_mysql" != "x"; then
 	if test "x$with_mysql_libraries" = "x"; then
-		AC_CHECK_LIB_LOC($with_mysql/lib/mysql,mysqlclient,mysql_real_connect,,
-			AC_MSG_ERROR(Need MySQL client library!))
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC($with_mysql/lib/mysql,mysqlclient,mysql_real_connect, [LIBS="-L$with_mysql_libraries -lmysqlclient $LIBS"; mysqllib=1])
+		fi
 	fi
 	if test "x$with_mysql_includes" = "x"; then
 		AC_CHECK_HEADER($with_mysql/include/mysql/mysql.h,
-			[CFLAGS="$CFLAGS -I$with_mysql/include/mysql"],
-			AC_MSG_ERROR(Need MySQL includes!))
+			[CFLAGS="$CFLAGS -I$with_mysql/include/mysql" ; mysqlhead=1])
 	fi
 else
 	if test "x$with_mysql_libraries" = "x"; then
-		AC_CHECK_LIB_LOC(/opt/lib/mysql,mysqlclient,mysql_real_connect,,
-		AC_CHECK_LIB_LOC(/usr/local/lib/mysql,mysqlclient,mysql_real_connect,,
-		AC_CHECK_LIB_LOC(/usr/lib/mysql,mysqlclient,mysql_real_connect,,
-		AC_CHECK_LIB_LOC(/usr/local/lib,mysqlclient,mysql_real_connect,,
-		AC_CHECK_LIB_LOC(/opt/lib,mysqlclient,mysql_real_connect,,
-		AC_CHECK_LIB_LOC(/usr/lib,mysqlclient,mysql_real_connect,,
-		AC_MSG_ERROR(Need MySQL client library!)))))))
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/opt/lib/mysql,mysqlclient,mysql_real_connect,[LIBS="-L/opt/lib/mysql -lmysqlclient $LIBS"; mysqllib=1])
+		fi
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/usr/local/lib/mysql,mysqlclient,mysql_real_connect,[LIBS="-L/usr/local/lib/mysql -lmysqlclient $LIBS"; mysqllib=1])
+		fi
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/usr/lib/mysql,mysqlclient,mysql_real_connect,[LIBS="-L/usr/lib/mysql -lmysqlclient $LIBS"; mysqllib=1])
+		fi
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/usr/local/lib,mysqlclient,mysql_real_connect,[LIBS="-L/usr/local/lib -lmysqlclient $LIBS"; mysqllib=1])
+		fi
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/opt/lib,mysqlclient,mysql_real_connect,[LIBS="-L/opt/lib -lmysqlclient $LIBS"; mysqllib=1])
+		fi
+		if test $mysqllib -eq 0; then
+			AC_CHECK_LIB_LOC(/usr/lib,mysqlclient,mysql_real_connect,[LIBS="-L/usr/lib -lmysqlclient $LIBS"; mysqllib=1])
+		fi
 	fi
 	if test "x$with_mysql_includes" = "x"; then
-		AC_CHECK_HEADER(/opt/include/mysql/mysql.h, CFLAGS="$CFLAGS -I/opt/include/mysql",
-		AC_CHECK_HEADER(/usr/local/include/mysql/mysql.h, CFLAGS="$CFLAGS -I/usr/local/include/mysql",
-		AC_CHECK_HEADER(/usr/include/mysql/mysql.h, CFLAGS="$CFLAGS -I/usr/include/mysql",
-		AC_MSG_ERROR(Need MySQL includes!))))
+		AC_CHECK_HEADER(/opt/include/mysql/mysql.h, [CFLAGS="$CFLAGS -I/opt/include/mysql" ; mysqlhead=1])
+		AC_CHECK_HEADER(/usr/local/include/mysql/mysql.h, [CFLAGS="$CFLAGS -I/usr/local/include/mysql" ; mysqlhead=1])
+		AC_CHECK_HEADER(/usr/include/mysql/mysql.h, [CFLAGS="$CFLAGS -I/usr/include/mysql"; mysqlhead=1])
 	fi
 fi
+if test $mysqlhead -eq 0; then
+	AC_MSG_ERROR(Need MySQL includes! You have to install the libmysqlclient-dev package.)
+fi
+if test $mysqllib -eq 0; then
+	AC_MSG_ERROR(Need MySQL library! You have to install the libmysqlclient package.)
+fi
+
 CFLAGS="$CFLAGS -Wall"
 
 AC_ARG_ENABLE(static, 

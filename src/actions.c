@@ -384,7 +384,7 @@ static void do_addusers(int chanid, char *users)
 		else
 		{
 			mylog("received join of non-existing user %s on channel ID %d",
-				 users, chanid);
+					users, chanid);
 		}
 		free(users);
 		users = nextusers;
@@ -479,7 +479,7 @@ void do_server(char *server, char *comment, char *linkedto)
 	free(server);
 	free(comment);
 	free(linkedto);
-   nbservs++;
+	nbservs++;
 	do_checknbservsmax();
 }
 
@@ -500,7 +500,7 @@ void do_squit(char *server)
 		db_delserver(server);
 	}
 	free(server);
-   nbservs--;
+	nbservs--;
 }
 
 /* NICK (new nick) */
@@ -553,7 +553,7 @@ void do_nick_new(int ac, char **av)
 			 " SET nick=\'%s\', realname=\'%s\', hostname=\'%s\', ipaddr=\'%s\', username=\'%s\', connecttime=FROM_UNIXTIME(\'%d\'), servid=\'%d\',lastquit=NULL, online=\'Y\', away=\'N\', awaymsg=\'\' WHERE nickid=\'%d\'",
 			 nick, realname, hostname, ipaddr, username, connecttime, servid,
 			 nickid);
-#elif defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
+#elif defined(IRCD_ULTIMATE)	  /* with nickip & hiddenhost */
 		db_query
 			("UPDATE " TBL_USER
 			 " SET nick=\'%s\', realname=\'%s\', hostname=\'%s\', hiddenhostname=\"%s\", ipaddr=\'%s\', username=\'%s\', connecttime=FROM_UNIXTIME(\'%d\'), servid=\'%d\', lastquit=NULL, online=\'Y\', away=\'N\', awaymsg=\'\' WHERE nickid=\'%d\'",
@@ -580,7 +580,7 @@ void do_nick_new(int ac, char **av)
 			("INSERT INTO " TBL_USER
 			 " (nick, realname, hostname, ipaddr, username, connecttime, servid) VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',FROM_UNIXTIME(\'%d\'),\'%d\')",
 			 nick, realname, hostname, ipaddr, username, connecttime, servid);
-#elif defined(IRCD_ULTIMATE)	/* with nickip & hiddenhost */
+#elif defined(IRCD_ULTIMATE)	  /* with nickip & hiddenhost */
 		db_query
 			("INSERT INTO " TBL_USER
 			 " (nick, realname, hostname, hiddenhostname, ipaddr, username, connecttime, servid) VALUES(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',FROM_UNIXTIME(\'%d\'),\'%d\')",
@@ -867,32 +867,33 @@ void do_sdesc(char *user, char *msg)
 
 #define SWHOISBUGFREQ 20
 
-void do_swhois(char * user, char * msg)
+void do_swhois(char *user, char *msg)
 {
-   int nickid;
-   static int count = 0;
+	int nickid;
+	static int count = 0;
 	user = db_escape(user);
 	msg = db_escape(msg);
-   nickid = db_getnick_unsure(user);
-   if (nickid == -1)
-   {
-      if (count % SWHOISBUGFREQ == 0)
-   		wallops(NULL, "ERROR! Received SWHOIS for %s, but %s is not"
-            " registered yet! Please contact lucas@lucas-nussbaum.net"
-            " if you see this. I will only report this once every %d times"
-            " to avoid flooding you.", user, user, SWHOISBUGFREQ);
-      count++;
-      mylog("Received SWHOIS for unregistered user %s. This is an ircd bug. "
-            "Contact lucas@lucas-nussbaum.net if you see this on your"
-            " network.", user);
-   }
-   else
-   	db_query
-	   	("UPDATE " TBL_USER " SET swhois=\'%s\' WHERE nickid=\'%d\'",
-		    msg, nickid);
+	nickid = db_getnick_unsure(user);
+	if (nickid == -1)
+	{
+		if (count % SWHOISBUGFREQ == 0)
+			wallops(NULL, "ERROR! Received SWHOIS for %s, but %s is not"
+					  " registered yet! Please contact lucas@lucas-nussbaum.net"
+					  " if you see this. I will only report this once every %d times"
+					  " to avoid flooding you.", user, user, SWHOISBUGFREQ);
+		count++;
+		mylog
+			("Received SWHOIS for unregistered user %s. This is an ircd bug. "
+			 "Contact lucas@lucas-nussbaum.net if you see this on your"
+			 " network.", user);
+	}
+	else
+		db_query
+			("UPDATE " TBL_USER " SET swhois=\'%s\' WHERE nickid=\'%d\'",
+			 msg, nickid);
 	free(user);
 	free(msg);
-}   
+}
 
 #endif
 
