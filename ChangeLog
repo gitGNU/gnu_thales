@@ -1,4 +1,4 @@
-GNU Thales 0.9.6 (XX/XX/XXXX)
+GNU Thales 1.0 (06/05/2004)
    - no longer report usage if you are using Unreal.
    - added support for unreal modules' modes. see the UnrealModules file.
    - added Memphisnet.org's memphistools ! see examples/memphistools/.
