@@ -35,4 +35,6 @@ Unreal 3.2 :
       src/channel.c:129
    users :
       src/umodes.c:120
+      grep UmodeAdd umodes.c |grep UMODE | grep -v UMODE_LOCAL | grep -E "[a-z]'" | sed "s/^.*NULL, '\(.\)', UMODE.*$/\1/" | sort | tr -d '\n'
+      grep UmodeAdd umodes.c |grep UMODE | grep -v UMODE_LOCAL | grep -E "[A-Z]'" | sed "s/^.*NULL, '\(.\)', UMODE.*$/\1/" | sort | tr -d '\n'
 

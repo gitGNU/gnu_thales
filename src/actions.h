@@ -70,7 +70,7 @@ void do_tburst(char *chan, char *time, char *author, char *topic);
 #define USERMODES "abcdefghiknorswyAR"
 #define CHANMODES "beIBXEovciklmnw7prstLMRO"
 #elif defined(IRCD_UNREAL)
-#define USERMODES "abcdefghijkoqrstuvwxzABCFGHINORSTVW"
+#define USERMODES "adghiopqrtvwxABCGHNRSTVW"
 #define CHANMODES "beIovahqcfiklmnprstuzACGHKLMNOQRSV"
 #elif defined(IRCD_ULTIMATE)
 #define USERMODES "acdefghijkmnoprstwxyACDFJOPSTWZ"
