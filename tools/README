@@ -1,3 +1,9 @@
 This directory contains scripts that might be useful if you are using Thales.
 For scripts using Thales' database to retrieve interesting information, see
 the examples/ directory.
+
+If you wrote some scripts of interest, please send them to me so that I can
+include them in this directory. They must be released under GPL v.2 or later.
+Thank you,
+
+- Lucas
