@@ -1,5 +1,8 @@
 <?
-//-------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+# compteur_js.php - Web page counter for Thales
+# Copyright (C) 2003 Hervé Rousseau <z-master@apinc.org>
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -16,7 +19,7 @@
 
 # Little hack from digits2img script by me [ z-master@apinc.org ]
 # Contact me for bug, requests etc...
-//-------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
 /* MySQL Configuration */
 $host = "localhost";
