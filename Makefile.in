@@ -73,7 +73,7 @@ datadir = $(exec_prefix)
 
 SUBDIRS = src data
 
-EXTRA_DIST = README README.coders ChangeLog INSTALL contrib ReportUsage.sh
+EXTRA_DIST = README README.coders ChangeLog INSTALL tools examples ReportUsage.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./src/config.h

@@ -6,4 +6,4 @@ datadir=$(exec_prefix)
 
 SUBDIRS = src data
 
-EXTRA_DIST = README README.coders ChangeLog INSTALL contrib ReportUsage.sh
+EXTRA_DIST = README README.coders ChangeLog INSTALL tools examples ReportUsage.sh
