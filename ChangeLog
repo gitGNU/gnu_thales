@@ -1,4 +1,4 @@
-GNU Thales 0.9.5 (XX/XX/XXXX)
+GNU Thales 0.9.5 (08/02/2004)
    - Fixed user/chan modes for Unreal beta19 support (chanmodes +I and +H not
      used anymore)
    - NeedMaintainers file added.
