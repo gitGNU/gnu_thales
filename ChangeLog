@@ -1,4 +1,6 @@
 GNU Thales 0.9.6 (XX/XX/XXXX)
+   - added Memphisnet.org's memphistools ! see examples/memphistools/.
+   - added secondary keys to ison table, which provided a 10% speed benefit.
    - added unreal's +T cmode.
    - added unreal's +D umode (needed for PrivDeaf module)
    - added unreal's +z umode. patch from nick martini <nick@misanthropia.nu>

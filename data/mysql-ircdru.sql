@@ -37,7 +37,9 @@ CREATE TABLE ison (
   chanid int unsigned NOT NULL default '0',
   mode_lo enum('Y','N') NOT NULL default 'N',
   mode_lv enum('Y','N') NOT NULL default 'N',
-  PRIMARY KEY  (nickid,chanid)
+  PRIMARY KEY  (nickid,chanid),
+  KEY nickid (nickid),
+  KEY chanid (chanid)
 ) TYPE=MyISAM;
 
 CREATE TABLE server (

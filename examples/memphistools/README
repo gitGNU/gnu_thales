@@ -1,0 +1,77 @@
+GNU Thales Example Tools
+----------
+by XytraS <xytras@memphisnet.org>
+
+
+-- Introduction --
+
+These are example scripts using GNU Thales on your network. These tools are
+written in PHP, but can generate both PHP and JavaScript display.
+
+
+-- Installation --
+
+Just fill the mysql.ini.php file correctly.
+
+
+-- List of files --
+
+- mysql.ini.php
+   mysql information needed for the db connection
+   
+- common.php
+   mysql connection
+   
+- counters/users_tc.php
+   count the number of users on the network
+   readfile('http://tools.yournetwork.org/counters/users_tc.php');
+   
+- counters/chans_tc.php
+   count the number of chans on the network
+   readfile('http://tools.yournetwork.org/counters/chans_tc.php');
+   
+- counters/servers_tc.php
+   count the number of servers on the network
+   readfile('http://tools.yournetwork.org/counters/servers_tc.php');
+
+- counters/chans_po.php
+   count the number of people on a given chan
+   readfile('http://tools.yournetwork.org/counters/chan_po.php?c=CHAN');
+   
+- counters/users_max.php
+   users maxvalue
+   readfile('http://tools.yournetwork.org/counters/users_max.php');
+   
+- counters/chans_max.php
+   chans maxvalue
+   readfile('http://tools.yournetwork.org/counters/chans_max.php');
+   
+- status/user_ison.php
+   get the list of users on a channel
+   readfile('http://tools.yournetwork.org/status/user_ison.php?c=CHAN');
+   
+- status/user_status.php
+   return the status of an user
+   readfile('http://tools.memphisnet.org/status/user_status.php?n=NICK');
+   
+- status/chan_topic.php
+   get the current topic of a chan
+   readfile('http://tools.yournetwork.org/status/chan_topic.php?c=CHAN');
+   
+- status/server_on.php
+   return the status of a server (internal tool)
+   readfile('http://tools.yournetwork.org/status/server_on.php?s=irc.yournetwork.org');
+
+
+-- Important Notes --
+
+1. There is more information in script files
+
+2. How to generate JavaScript code? Just add " m=js ". Here is an example!
+   <script type="text/javascript" src="http://tools.yournetwork.org/counters/users_tc.php?m=js"></script>
+   
+3. You can see these scripts running on http://tools.memphisnet.org
+
+4. I don't provide any help running these scripts, but you can contact the
+Thales Mailing List.
+   See GNU Thales README file for more information
