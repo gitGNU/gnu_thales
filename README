@@ -67,7 +67,8 @@ uname -a
 mysql -V
 ...
 If you reproduce the bug, please run thales with the -v option to generate a
-more verbose log.
+more verbose log.  Before sending the log, please use 
+tools/logfilter/logfilter.sh to filter & gzip the logfile.
 
 -- Credits --
 
