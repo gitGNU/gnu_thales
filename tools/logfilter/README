@@ -1,5 +1,6 @@
 ## logfilter ##
 # by lucas@lucas-nussbaum.net
+# licensed under GPL v2 or later
 
 This small shell script generates a gziped logfile, stripping all unrelevant information to reduce its size.
 
