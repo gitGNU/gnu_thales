@@ -1,0 +1,8 @@
+Those modules are supported by Thales. If you are using a module that isn't
+supported, please report it.
+
+For UserModes and ChanModes, if the mode is followed by a ":", it needs an
+argument.
+
+Name             Version UserModes ChanModes Supported
+------------------------------------------------------
