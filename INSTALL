@@ -7,21 +7,31 @@ Thales's installation is quite straightforward.
 - cd to the directory newly created
 
 - ./configure
+
+  * You need to have installed the packages with the files libmysqlclient.so
+    and mysql.h. (with Debian, libmysqlclient-dev and libmysqlclient12)
+
   * You might want to use --with-mysql=PREFIX to specify where to look for mysql
     includes and libraries.
+
   * You might also want to specify where thales will be installed. It defaults
     to $HOME/thales, but can be forced using --prefix=DESTDIR.
+	 
   * You can specify the IRCD type on the command line. If you don't, you'll be
     asked for it. Use --with-ircd=IRCDTYPE, where IRCDTYPE is bahamut, hybrid,
     ircdru, unreal, ultimate28 or ultimate30.
+	 
   * If the compiled binary fails to work (often because of a linking problem),
     you can try the --enable-static option, so that the generated binary will
     be statically linked.
+	 
   * If you don't want modes to be stored in the chan and user tables, use the
     --enable-no-modes option. This will decrease CPU usage. Modes in the ison
     table will still be stored.
+	 
   * If you experience hashlist-related crashes, you might want to disable it.
     Use --with-hashlist=NO, but thales will run 20% slower.
+	 
   * You can use different SQL tables names (Thales will use user, chan, ison,
     server and maxvalues). See "Using Different Tables Names" below.
 
