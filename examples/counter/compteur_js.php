@@ -23,8 +23,8 @@
 
 /* MySQL Configuration */
 $host = "localhost";
-$user = "thales";
-$pass = "1234";
+$user = "lucas";
+$pass = "X";
 $bdd = "thales";
 function writenumbers($number,$funcset)
 	{
@@ -41,7 +41,7 @@ function writenumbers($number,$funcset)
 				for ($k = 0; $k < $digits;$k++)
 					{
 						$tmp = substr($number,$k,1);
-						$img = $img . "<img src=\"".$path."".$funcset."/".$tmp.".png\" title=\"Thales IRC UserCounter\">";
+						$img = $img . "<img src=\"".$path."".$funcset."/".$tmp.".png\" title=\"".$number."\">";
 					}
 			}
 		else return $img;
@@ -69,7 +69,7 @@ if(!$skin)
 else
 {
 	/* Images output */
-	$img_tags = writenumbers($r,$skin);
+	$img_tags = writenumbers($r,$skin,$chan);
 	//echo("<!-- Thales IRC UserCounter -->\n");
 	print("document.write('$img_tags');");
 //	echo "\n<br>";
