@@ -242,6 +242,19 @@ static void do_chanmodes(int chanid, char **av, int ac)
 						strcat(db, "mode_lf_data=\"\", ");
 					}
 				}
+				else if (*modes == 'j')
+				{
+					if (tmp[9] == 'Y')
+					{
+						strcat(db, "mode_lj_data=\"");
+						strcat(db, av[argptr++]);
+						strcat(db, "\", ");
+					}
+					else
+					{
+						strcat(db, "mode_lj_data=\"\", ");
+					}
+				}
 #endif
 			}
 			break;

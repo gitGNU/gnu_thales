@@ -71,7 +71,7 @@ void do_tburst(char *chan, char *time, char *author, char *topic);
 #define CHANMODES "beIBXEovciklmnw7prstLMRO"
 #elif defined(IRCD_UNREAL)
 #define USERMODES "adghiopqrtvwxzABCDGHNRSTVW"
-#define CHANMODES "beIovahqcfiklmnprstuzACGHKLMNOQRSTV" /* ChanModes +I and +H are not used anymore in 3.2 beta19 */
+#define CHANMODES "beIovahqcfijklmnprstuyzACDGHKLMNOQRSTV" /* ChanModes +I and +H are not used anymore in 3.2 beta19 */
 #elif defined(IRCD_ULTIMATE)
 #define USERMODES "acdefghijkmnoprstwxyACDFJOPSTWZ"
 #define CHANMODES "beIovahceiklmnprstKNOR"
