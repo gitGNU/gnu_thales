@@ -1,5 +1,6 @@
 GNU Thales 0.9.6 (XX/XX/XXXX)
    - added Memphisnet.org's memphistools ! see examples/memphistools/.
+     Provided by XytraS <xytras@memphisnet.org>
    - added secondary keys to ison table, which provided a 10% speed benefit.
    - added unreal's +T cmode.
    - added unreal's +D umode (needed for PrivDeaf module)
