@@ -49,6 +49,9 @@ void do_defname(char *user, char *msg);
 void do_defident(char *user, char *msg);
 void do_sdesc(char *user, char *msg);
 #endif
+#if defined(IRCD_UNREAL)
+void do_swhois(char * user, char * msg);
+#endif
 #ifdef IRCD_HYBRID
 void do_realhost(char *user, char *host);
 #endif

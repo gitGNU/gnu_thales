@@ -76,6 +76,7 @@ CREATE TABLE user (
   hostname varchar(64) NOT NULL default '',
   hiddenhostname varchar(64) NOT NULL default '',
   username varchar(11) NOT NULL default '',
+  swhois varchar(32) NOT NULL default '',
   connecttime datetime NOT NULL default '0000-00-00 00:00:00',
   servid int unsigned NOT NULL default '0',
   away enum('Y','N') NOT NULL default 'N',

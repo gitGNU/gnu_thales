@@ -369,6 +369,14 @@ static void m_sdesc(char *source, int ac, char **av)
 {
 	do_sdesc(source, av[0]);
 }
+
+/* SWHOIS - forwarded */
+static void m_setname(char *source, int ac, char **av)
+{
+	do_swhois(source, av[0]);
+}
+
+
 #endif
 
 #if defined(IRCD_UNREAL)||defined(IRCD_ULTI28)
@@ -582,6 +590,8 @@ Message messages[] = {
 	{"SETIDENT", m_setident}
 	,
 	{"SETNAME", m_setname}
+	,
+	{"SWHOIS", m_swhois}
 	,
 #endif
 #ifdef IRCD_HYBRID

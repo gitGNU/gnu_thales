@@ -1,4 +1,5 @@
 GNU Thales 0.9.5 (XX/XX/XXXX)
+   - Unreal's SWHOIS support.
    - server.lastsplit is not overwritten when a server rejoins.
    - changed "Thales" to "GNU Thales" where it was relevant.
    - renamed log() to mylog(), and log_perror() to mylog_perror() to prevent

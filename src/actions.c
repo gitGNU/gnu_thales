@@ -836,6 +836,17 @@ void do_sdesc(char *user, char *msg)
 	free(msg);
 }
 
+void do_swhois(char * user, char * msg)
+{
+	user = db_escape(user);
+	msg = db_escape(msg);
+	db_query
+		("UPDATE " TBL_USER " SET swhois=\'%s\' WHERE nickid=\'%d\'",
+		 msg, db_getnick(user));
+	free(user);
+	free(msg);
+}   
+
 #endif
 
 #ifdef IRCD_HYBRID
