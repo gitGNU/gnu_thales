@@ -6,3 +6,7 @@ argument.
 
 Name             Version UserModes ChanModes Supported
 ------------------------------------------------------
+jointhrottle		2.4				+j		N
+m_blocknonalpha	1.0				+y		N
+noctcp			1.3				+D		N
+privdeaf			0.0.6	+D				Y
