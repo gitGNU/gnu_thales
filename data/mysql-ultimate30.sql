@@ -45,7 +45,7 @@ CREATE TABLE server (
   servid int unsigned NOT NULL auto_increment,
   server varchar(64) NOT NULL default '',
   comment varchar(255) NOT NULL default '',
-  linkedto tinyint(3) unsigned default NULL,
+  linkedto int unsigned default NULL,
   connecttime datetime default NULL,
   online enum('Y','N') NOT NULL DEFAULT 'Y',
   lastsplit datetime default NULL,
