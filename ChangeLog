@@ -1,4 +1,5 @@
 GNU Thales 0.9.5 (XX/XX/XXXX)
+   - safely ignore Unreal's EOS messages, but send one after login.
    - now keeps track of max number of servers too.
    - hardcoded url (motd, admin) changes to savannah.
    - Unreal's SWHOIS support.
@@ -9,7 +10,7 @@ GNU Thales 0.9.5 (XX/XX/XXXX)
    - added TBUST to hybrid CAPAB line. Credits go to Wes Baehr
      <iwes@totalmac.net>
    - added a php script for clones detection. contributed by
-	  Jens 'DukePyrolator' Voss <DukePyrolator@wiredirc.net>
+     Jens 'DukePyrolator' Voss <DukePyrolator@wiredirc.net>
    - added Unreal mode +M
 Thales 0.9.4 (19/03/2003)
    - away status was not properly restored in Caching mode. (reported

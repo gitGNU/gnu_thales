@@ -214,6 +214,9 @@ int main(int argc, char **argv)
 #elif defined(IRCD_ULTIMATE)
 	send_cmd(NULL, "SVINFO 5 3 0 :%ld", time(NULL));
 #endif
+#if defined(IRCD_UNREAL)
+   send_cmd(NULL, ":%s EOS", ServerName);
+#endif
 	sgets2(inbuf, sizeof(inbuf), servsock);
 	if (strnicmp(inbuf, "ERROR", 5) == 0)
 	{

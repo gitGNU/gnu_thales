@@ -593,6 +593,8 @@ Message messages[] = {
 	,
 	{"SWHOIS", m_swhois}
 	,
+	{"EOS", NULL}
+	,
 #endif
 #ifdef IRCD_HYBRID
 	{"REALHOST", m_realhost}
