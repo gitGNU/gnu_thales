@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -122,7 +122,7 @@ int db_query(const char *fmt, ...)
 	va_start(args, fmt);
 	vsprintf(buf, fmt, args);
 	if (verbose)
-		log(">SQL : %s", buf);
+		mylog(">SQL : %s", buf);
 	if (mysql_real_query(myptr, buf, strlen(buf)))
 		fatal("Query failed: %s", mysql_error(myptr));
 	return 0;

@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ void *smalloc(long size)
 
 	if (!size)
 	{
-		log("smalloc: Illegal attempt to allocate 0 bytes");
+		mylog("smalloc: Illegal attempt to allocate 0 bytes");
 		size = 1;
 	}
 	buf = malloc(size);
@@ -55,7 +55,7 @@ void *scalloc(long elsize, long els)
 
 	if (!elsize || !els)
 	{
-		log("scalloc: Illegal attempt to allocate 0 bytes");
+		mylog("scalloc: Illegal attempt to allocate 0 bytes");
 		elsize = els = 1;
 	}
 	buf = calloc(elsize, els);
@@ -74,7 +74,7 @@ void *srealloc(void *oldptr, long newsize)
 
 	if (!newsize)
 	{
-		log("srealloc: Illegal attempt to allocate 0 bytes");
+		mylog("srealloc: Illegal attempt to allocate 0 bytes");
 		newsize = 1;
 	}
 	buf = realloc(oldptr, newsize);

@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -48,13 +48,13 @@ void vsend_cmd(const char *source, const char *fmt, va_list args)
 	{
 		sockprintf(servsock, ":%s %s\r\n", source, buf);
 		if (verbose)
-			log(">IRC : %s %s", source, buf);
+			mylog(">IRC : %s %s", source, buf);
 	}
 	else
 	{
 		sockprintf(servsock, "%s\r\n", buf);
 		if (verbose)
-			log(">IRC : %s", buf);
+			mylog(">IRC : %s", buf);
 	}
 }
 

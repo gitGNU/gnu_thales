@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,8 @@
 #ifndef _HASHLIST_H_
 #define _HASHLIST_H_
 
+#define KEYOTHER 1
+#define KEYCHAN 2
 struct item
 {
 	char *str;

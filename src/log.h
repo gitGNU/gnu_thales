@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -28,11 +28,11 @@ int open_log(void);
 void close_log(void);
 
 /* Log stuff to the log file with a datestamp. errno preserved. */
-void log(const char *fmt, ...);
+void mylog(const char *fmt, ...);
 
 /* Like log(), but tack a ": " and a system error message (as returned by strerror()) onto the end.
 */
-void log_perror(const char *fmt, ...);
+void mylog_perror(const char *fmt, ...);
 
 /* fatal error, log then go down */
 void fatal(const char *fmt, ...);

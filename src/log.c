@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ void close_log(void)
 }
 
 /* Log stuff to the log file with a datestamp. errno preserved. */
-void log(const char *fmt, ...)
+void mylog(const char *fmt, ...)
 {
 	va_list args;
 	time_t t;
@@ -99,11 +99,11 @@ void log(const char *fmt, ...)
 	errno = errno_save;
 }
 
-/* Like log(), but tack a ": " and a system error message (as returned by
+/* Like mylog(), but tack a ": " and a system error message (as returned by
  * strerror()) onto the end.
  */
 
-void log_perror(const char *fmt, ...)
+void mylog_perror(const char *fmt, ...)
 {
 	va_list args;
 	time_t t;
@@ -160,7 +160,7 @@ void fatal(const char *fmt, ...)
 	struct tm tm;
 	char buf[256], buf2[4096];
 
-	log("IRC context : %s", inbuf);
+	mylog("IRC context : %s", inbuf);
 
 	va_start(args, fmt);
 	time(&t);
@@ -204,7 +204,7 @@ void fatal_perror(const char *fmt, ...)
 	char buf[256], buf2[4096];
 	int errno_save = errno;
 
-	log("IRC context : %s", inbuf);
+	mylog("IRC context : %s", inbuf);
 
 	va_start(args, fmt);
 	time(&t);

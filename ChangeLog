@@ -1,4 +1,8 @@
-Thales 0.9.5 (XX/XX/XXXX)
+GNU Thales 0.9.5 (XX/XX/XXXX)
+   - server.lastsplit is not overwritten when a server rejoins.
+   - changed "Thales" to "GNU Thales" where it was relevant.
+   - renamed log() to mylog(), and log_perror() to mylog_perror() to prevent
+     conflicts.
    - added TBUST to hybrid CAPAB line. Credits go to Wes Baehr
      <iwes@totalmac.net>
    - added a php script for clones detection. contributed by

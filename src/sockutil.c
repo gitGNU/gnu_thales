@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -79,7 +79,7 @@ static int buffered_read(int fd, char *buf, int len)
 			nread = read(fd, read_bufend, maxread);
 			errno_save = errno;
 			if (debug >= 3)
-				log("debug: buffered_read wanted %d, got %d", maxread, nread);
+				mylog("debug: buffered_read wanted %d, got %d", maxread, nread);
 			if (nread <= 0)
 				break;
 			read_bufend += nread;
@@ -113,7 +113,7 @@ static int buffered_read(int fd, char *buf, int len)
 	total_read += len - left;
 	if (debug >= 4)
 	{
-		log("debug: buffered_read(%d,%p,%d) returning %d",
+		mylog("debug: buffered_read(%d,%p,%d) returning %d",
 			 fd, buf, len, len - left);
 	}
 	errno = errno_save;
@@ -155,7 +155,7 @@ static int buffered_read_one(int fd)
 		nread = read(fd, read_bufend, maxread);
 		errno_save = errno;
 		if (debug >= 3)
-			log("debug: buffered_read_one wanted %d, got %d", maxread, nread);
+			mylog("debug: buffered_read_one wanted %d, got %d", maxread, nread);
 		if (nread <= 0)
 			break;
 		read_bufend += nread;
@@ -165,7 +165,7 @@ static int buffered_read_one(int fd)
 	if (read_curpos == read_bufend)
 	{									  /* No more data on socket */
 		if (debug >= 4)
-			log("debug: buffered_read_one(%d) returning %d", fd, EOF);
+			mylog("debug: buffered_read_one(%d) returning %d", fd, EOF);
 		errno = errno_save;
 		return EOF;
 	}
@@ -174,7 +174,7 @@ static int buffered_read_one(int fd)
 		read_curpos = read_netbuf;
 	total_read++;
 	if (debug >= 4)
-		log("debug: buffered_read_one(%d) returning %d", fd, c);
+		mylog("debug: buffered_read_one(%d) returning %d", fd, c);
 	return (int) c & 0xFF;
 }
 
@@ -227,7 +227,7 @@ static int flush_write_buffer(int wait)
 		nwritten = write(write_fd, write_curpos, maxwrite);
 		errno_save = errno;
 		if (debug >= 3)
-			log("debug: flush_write_buffer wanted %d, got %d", maxwrite,
+			mylog("debug: flush_write_buffer wanted %d, got %d", maxwrite,
 				 nwritten);
 		if (nwritten > 0)
 		{
@@ -309,7 +309,7 @@ static int buffered_write(int fd, char *buf, int len)
 
 	if (debug >= 4)
 	{
-		log("debug: buffered_write(%d,%p,%d) returning %d",
+		mylog("debug: buffered_write(%d,%p,%d) returning %d",
 			 fd, buf, len, len - left);
 	}
 	errno = errno_save;
@@ -343,7 +343,7 @@ static int buffered_write_one(int c, int fd)
 		{
 			/* Write failed */
 			if (debug >= 4)
-				log("debug: buffered_write_one(%d) returning %d", fd, EOF);
+				mylog("debug: buffered_write_one(%d) returning %d", fd, EOF);
 			return EOF;
 		}
 	}
@@ -357,7 +357,7 @@ static int buffered_write_one(int c, int fd)
 	flush_write_buffer(0);
 
 	if (debug >= 4)
-		log("debug: buffered_write_one(%d) returning %d", fd, c);
+		mylog("debug: buffered_write_one(%d) returning %d", fd, c);
 	return (int) c & 0xFF;
 }
 #endif /* 0 */

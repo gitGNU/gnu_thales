@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -119,7 +119,7 @@ static void do_chanmodes(int chanid, char **av, int ac)
 			{
 				if (!log_cmode[(int) *modes])
 				{
-					log("unknown mode : chanmode %c (in %s)", *modes, inbuf);
+					mylog("unknown mode : chanmode %c (in %s)", *modes, inbuf);
 					log_cmode[(int) *modes] = TRUE;
 				}
 			}
@@ -353,7 +353,7 @@ static void do_addusers(int chanid, char *users)
 		}
 		else
 		{
-			log("received join of non-existing user %s on channel ID %d",
+			mylog("received join of non-existing user %s on channel ID %d",
 				 users, chanid);
 		}
 		free(users);
@@ -386,7 +386,7 @@ static void do_usermodes(int nickid, char *modes)
 			{
 				if (!log_umode[(int) *modes])
 				{
-					log("unknown mode : usermode %c (in %s)", *modes, inbuf);
+					mylog("unknown mode : usermode %c (in %s)", *modes, inbuf);
 					log_umode[(int) *modes] = TRUE;
 				}
 			}
@@ -431,7 +431,7 @@ void do_server(char *server, char *comment, char *linkedto)
 	if (ServerCacheTime && ((servid = db_checkserver(server)) != -1))
 	{
 		db_query("UPDATE " TBL_SERV
-					" SET server=\"%s\", comment=\"%s\", linkedto=\"%d\", connecttime=NOW(), lastsplit=NULL, online=\"Y\" WHERE servid=\"%d\"",
+					" SET server=\"%s\", comment=\"%s\", linkedto=\"%d\", connecttime=NOW(), online=\"Y\" WHERE servid=\"%d\"",
 					server, comment, db_getserver(linkedto), servid);
 		db_addserver(server, servid);
 		add = 0;

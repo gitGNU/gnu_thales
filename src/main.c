@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/* Thales - main file */
+/* GNU Thales - main file */
 
 #include "thales.h"
 #include "conf.h"
@@ -74,7 +74,7 @@ void write_pidfile(void)
 	}
 	else
 	{
-		log_perror("Warning: cannot write to PID file %s", PIDFilename);
+		mylog_perror("Warning: cannot write to PID file %s", PIDFilename);
 	}
 }
 
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 			verbose = 1;
 			break;
 		case 'V':
-			printf("Thales v.%s\n", VERSION);
+			printf("GNU Thales v.%s\n", VERSION);
 			exit(0);
 			break;
 		default:
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 	write_pidfile();
 
 	/* Announce ourselves to the logfile. */
-	log("Thales %s starting up with %s support%s", VERSION,
+	mylog("GNU Thales %s starting up with %s support%s", VERSION,
 #if defined(IRCD_UNREAL)
 		 "unreal",
 #elif defined(IRCD_HYBRID)

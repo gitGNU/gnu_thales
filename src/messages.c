@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -195,7 +195,7 @@ static void m_away(char *source, int ac, char **av)
 static void m_version(char *source, int ac, char **av)
 {
 	if (source)
-		send_cmd(ServerName, "351 %s Thales %s %s",
+		send_cmd(ServerName, "351 %s GNU Thales %s %s",
 					source, VERSION, ServerName);
 }
 
@@ -219,7 +219,7 @@ static void m_stats(char *source, int ac, char **av)
 		{
 			int uptime;
 			uptime = time(NULL) - start_time;
-			send_cmd(NULL, "242 %s :Thales up %d day%s, %02d:%02d:%02d",
+			send_cmd(NULL, "242 %s :GNU Thales up %d day%s, %02d:%02d:%02d",
 						source, uptime / 86400, (uptime / 86400 == 1) ? "" : "s",
 						(uptime / 3600) % 24, (uptime / 60) % 60, uptime % 60);
 			send_cmd(NULL, "219 %s u :End of /STATS report.", source);
@@ -251,12 +251,12 @@ static void m_motd(char *source, int ac, char **av)
 	send_cmd(ServerName, "372 %s :-  |_| |_| |_|\\__,_|_|\\___||___/",
 				source);
 	send_cmd(ServerName, "372 %s :-           v. %s", source, VERSION);
-	send_cmd(ServerName, "372 %s :-    (c)2002 Lucas Nussbaum", source);
+	send_cmd(ServerName, "372 %s :-    (c)2002-2004 Lucas Nussbaum", source);
 	send_cmd(ServerName, "372 %s :-", source);
-	send_cmd(ServerName, "372 %s :-Thales is an IRC to MySQL gateway.",
+	send_cmd(ServerName, "372 %s :-GNU Thales is an IRC to MySQL gateway.",
 				source);
-	send_cmd(ServerName, "372 %s :-    More info is available on", source);
-	send_cmd(ServerName, "372 %s :-http://www.lucas-nussbaum.net/thales/",
+	send_cmd(ServerName, "372 %s :-   More info is available on", source);
+	send_cmd(ServerName, "372 %s :-http://www.gnu.org/software/thales/",
 				source);
 	send_cmd(ServerName, "376 %s :End of /MOTD command.", source);
 }
@@ -394,7 +394,7 @@ static void m_sethost(char *source, int ac, char **av)
 /* REALHOST - forwarded */
 static void m_realhost(char *source, int ac, char **av)
 {
-	log("NBPARAMS : %d", ac);
+	mylog("NBPARAMS : %d", ac);
 	if (ac > 1)
 		do_realhost(av[0], av[1]);
 	else

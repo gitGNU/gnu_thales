@@ -1,14 +1,14 @@
-Thales
-------
+GNU Thales
+----------
 by Lucas Nussbaum <lucas@lucas-nussbaum.net>
 
 -- Introduction --
 
-Thales is a IRC-to-MySQL gateway. It connects to your IRC network as a server
-(like other services), and store everything it receives in a MySQL database. It
-doesn't build stats itself, it just fills 5 MySQL tables called user, server,
-chan, ison and maxvalues. You can then query the database with SQL queries to
-retrieve the information you need.
+GNU Thales is a IRC-to-MySQL gateway. It connects to your IRC network as a
+server (like other services), and store everything it receives in a MySQL
+database. It doesn't build stats itself, it just fills 5 MySQL tables called
+user, server, chan, ison and maxvalues. You can then query the database with
+SQL queries to retrieve the information you need.
 
 To see examples of how to use Thales, please refer to the contrib/ dir.
 

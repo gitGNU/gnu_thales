@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ void hash_add(hashlist h, char *str, int n, int keytype)
 	struct item *pin;
 	int key = hash(str, keytype);
 	if (verbose)
-		log("HASH : hash_add %d, %s, %d, %d", (int) h, str, n, keytype);
+		mylog("HASH : hash_add %d, %s, %d, %d", (int) h, str, n, keytype);
 	pio = h[key];
 	pin = (struct item *) malloc(sizeof(struct item));
 	pin->str = strdup(str);
@@ -69,7 +69,7 @@ void hash_del(hashlist h, char *str, int keytype)
 {
 	struct item *pi, **piold;
 	if (verbose)
-		log("HASH : hash_del %d, %s, %d", (int) h, str, keytype);
+		mylog("HASH : hash_del %d, %s, %d", (int) h, str, keytype);
 	for (piold = &h[hash(str, keytype)], pi = *piold; pi; pi = pi->next)
 	{
 		if (!strcmp(str, pi->str))
@@ -91,7 +91,7 @@ int hash_find(hashlist h, char *str, int keytype)
 {
 	int res;
 	if (verbose)
-		log("HASH : hash_find %d, %s, %d", (int) h, str, keytype);
+		mylog("HASH : hash_find %d, %s, %d", (int) h, str, keytype);
 	res = hash_find_unsure(h, str, keytype);
 	if (res != -1)
 		return res;
@@ -104,7 +104,7 @@ int hash_find_unsure(hashlist h, char *str, int keytype)
 {
 	struct item *pi;
 	if (verbose)
-		log("HASH : hash_find_unsure %d, %s, %d", (int) h, str, keytype);
+		mylog("HASH : hash_find_unsure %d, %s, %d", (int) h, str, keytype);
 	for (pi = h[hash(str, keytype)]; pi; pi = pi->next)
 		if (!strcmp(str, pi->str))
 			return pi->n;
@@ -118,7 +118,7 @@ int hash_findel(hashlist h, char *str, int keytype)
 	int n;
 	struct item *pi, **piold;
 	if (verbose)
-		log("HASH : hash_findel %d, %s, %d", (int) h, str, keytype);
+		mylog("HASH : hash_findel %d, %s, %d", (int) h, str, keytype);
 
 	for (piold = &h[hash(str, keytype)], pi = *piold; pi; pi = pi->next)
 	{
@@ -142,7 +142,7 @@ void hash_update(hashlist h, char *newinfo, char *str, int keytype)
 	int key;
 	int key2;
 	if (verbose)
-		log("HASH : hash_update %d, %s, %s, %d", (int) h, newinfo, str,
+		mylog("HASH : hash_update %d, %s, %s, %d", (int) h, newinfo, str,
 			 keytype);
 	if ((key = hash(str, keytype)) == (key2 = hash(newinfo, keytype)))
 	{

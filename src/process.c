@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -96,7 +96,7 @@ void process()
 
 	/* If debugging, log the buffer. */
 	if (verbose)
-		log("<IRC : %s", inbuf);
+		mylog("<IRC : %s", inbuf);
 
 	/* First make a copy of the buffer so we have the original in case we
 	 * crash - in that case, we want to know what we crashed on. */
@@ -141,7 +141,7 @@ void process()
 	}
 	else
 	{
-		log("IRC : unknown message from server (%s)", inbuf);
+		mylog("IRC : unknown message from server (%s)", inbuf);
 	}
 
 	/* Free argument list we created */

@@ -1,4 +1,4 @@
-/*  Thales - IRC to Relational Database Gateway
+/*  GNU Thales - IRC to Relational Database Gateway
  *  Copyright (C) 2002 Lucas Nussbaum <lucas@lucas-nussbaum.net>
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -83,9 +83,9 @@ void error(int linenum, char *message, ...)
 	va_start(args, message);
 	vsnprintf(buf, sizeof(buf), message, args);
 	if (linenum)
-		log("%s:%d: %s", THALES_CONF, linenum, buf);
+		mylog("%s:%d: %s", THALES_CONF, linenum, buf);
 	else
-		log("%s: %s", THALES_CONF, buf);
+		mylog("%s: %s", THALES_CONF, buf);
 	if (!debug && isatty(2))
 	{
 		if (linenum)
@@ -316,11 +316,11 @@ int read_config(void)
 	config = fopen(THALES_CONF, "r");
 	if (!config)
 	{
-		log_perror("Can't open " THALES_CONF);
+		mylog_perror("Can't open " THALES_CONF);
 		if (!debug && isatty(2))
 			perror("Can't open " THALES_CONF);
 		else
-			log("Can't open %s", THALES_CONF);
+			mylog("Can't open %s", THALES_CONF);
 		return 0;
 	}
 	while (fgets(buf, sizeof(buf), config))
