@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 #if defined(IRCD_UNREAL)
-	send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3 NOQUIT
+	send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3 NOQUIT");
 #endif
 #if defined(IRCD_HYBRID)
 	send_cmd(NULL, "PASS %s :TS", RemotePassword);
