@@ -35,6 +35,7 @@ CREATE TABLE chan (
   mode_uq enum('Y','N') NOT NULL default 'N',
   mode_ur enum('Y','N') NOT NULL default 'N',
   mode_us enum('Y','N') NOT NULL default 'N',
+  mode_ut enum('Y','N') NOT NULL default 'N',
   mode_uv enum('Y','N') NOT NULL default 'N',
   mode_ll_data int(10) NOT NULL default '0',
   mode_ul_data varchar(33) NOT NULL default '',

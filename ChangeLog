@@ -1,4 +1,5 @@
 GNU Thales 0.9.6 (XX/XX/XXXX)
+   - added unreal's +T cmode.
    - added unreal's +D umode (needed for PrivDeaf module)
    - added unreal's +z umode. patch from nick martini <nick@misanthropia.nu>
    - nickinfo, an example from Andreas Lindemann <admiral@1sq.org> !
