@@ -16,7 +16,7 @@ AC_CHECK_LIB(m, floor)
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(limits.h sys/time.h unistd.h)
+AC_CHECK_HEADERS(limits.h sys/time.h unistd.h netdb.h netinet/in.h sys/socket.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -27,7 +27,12 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(gettimeofday select socket strcspn strdup strerror strspn strtol)
+AC_CHECK_FUNCS(gettimeofday select socket strcspn strdup strerror strspn strtol gethostbyname memmove memset strcasecmp strchr strpbrk strtoul)
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_FORK
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_SELECT_ARGTYPES
 
 AC_ARG_WITH(ircd, 
 [  --with-ircd=ircdtype  type of the ircd used with thales (bahamut, hybrid, ircdru, unreal, ultimate28 or ultimate30)])
