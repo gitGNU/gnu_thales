@@ -30,4 +30,9 @@ Ultimate 3.0 :
   nicks :
     src/s_user.c:78
 
-add other ircds here
+Unreal 3.2 :
+   channels :
+      src/channel.c:129
+   users :
+      src/umodes.c:120
+
