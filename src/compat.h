@@ -18,10 +18,6 @@
 #ifndef _COMPAT_H_
 #define _COMPAT_H_
 
-#if !HAVE_STRICMP && !HAVE_STRCASECMP
-int stricmp(const char *s1, const char *s2);
-int strnicmp(const char *s1, const char *s2, size_t len);
-#endif
 #if !HAVE_STRDUP
 char *strdup(const char *s);
 #endif

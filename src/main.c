@@ -214,7 +214,7 @@ int main(int argc, char **argv)
    send_cmd(NULL, ":%s EOS", ServerName);
 #endif
 	sgets2(inbuf, sizeof(inbuf), servsock);
-	if (strnicmp(inbuf, "ERROR", 5) == 0)
+	if (strncasecmp(inbuf, "ERROR", 5) == 0)
 	{
 		/* Close server socket first to stop wallops, since the other
 		 * server doesn't want to listen to us anyway */

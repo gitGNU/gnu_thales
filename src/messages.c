@@ -609,7 +609,7 @@ Message *find_message(const char *name)
 {
 	Message *m;
 	for (m = messages; m->name; m++)
-		if (stricmp(name, m->name) == 0)
+		if (strcasecmp(name, m->name) == 0)
 			return m;
 	return NULL;
 }

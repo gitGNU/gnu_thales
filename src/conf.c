@@ -159,7 +159,7 @@ int parse(char *buf, int linenum, int reload)
 	for (n = 0; n < lenof(directives); n++)
 	{
 		Directive *d = &directives[n];
-		if (stricmp(dir, d->name) != 0)
+		if (strcasecmp(dir, d->name) != 0)
 			continue;
 		optind = 0;
 		for (i = 0; i < MAXPARAMS && d->params[i].type != PARAM_NONE; i++)
