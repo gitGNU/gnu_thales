@@ -1,4 +1,5 @@
 GNU Thales 0.9.5 (XX/XX/XXXX)
+   - now keeps track of max number of servers too.
    - hardcoded url (motd, admin) changes to savannah.
    - Unreal's SWHOIS support.
    - server.lastsplit is not overwritten when a server rejoins.

@@ -43,6 +43,8 @@ unsigned int nbusers = 0;
 unsigned int nbusers_max = 0;
 unsigned int nbchans = 0;
 unsigned int nbchans_max = 0;
+unsigned int nbservs = 0;
+unsigned int nbservs_max = 0;
 /* keep track of logged umodes et cmodes, init to 0 by default */
 int log_umode[256];
 int log_cmode[256];
@@ -69,6 +71,18 @@ void do_checknbusersmax()
 		db_query
 			("UPDATE " TBL_MAXV
 			 " SET val=\'%d\', time=NOW() WHERE type='users'", nbusers_max);
+	}
+}
+
+/* check if nbservs > nbservs_max */
+void do_checknbservsmax()
+{
+	if (nbservs > nbservs_max)
+	{
+		nbservs_max = nbservs;
+		db_query
+			("UPDATE " TBL_MAXV
+			 " SET val=\'%d\', time=NOW() WHERE type='servers'", nbservs_max);
 	}
 }
 
@@ -449,6 +463,8 @@ void do_server(char *server, char *comment, char *linkedto)
 	free(server);
 	free(comment);
 	free(linkedto);
+   nbservs++;
+	do_checknbservsmax();
 }
 
 /* SQUIT */
@@ -468,6 +484,7 @@ void do_squit(char *server)
 		db_delserver(server);
 	}
 	free(server);
+   nbservs--;
 }
 
 /* NICK (new nick) */

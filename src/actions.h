@@ -21,6 +21,7 @@
 
 void do_checknbchansmax();
 void do_checknbusersmax();
+void do_checknbservsmax();
 
 void do_server(char *server, char *comment, char *linkedto);
 void do_squit(char *server);

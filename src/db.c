@@ -33,6 +33,8 @@ extern unsigned int nbusers_max;
 extern unsigned int nbusers;
 extern unsigned int nbchans_max;
 extern unsigned int nbchans;
+extern unsigned int nbservs_max;
+extern unsigned int nbservs;
 
 extern int verbose;
 
@@ -89,6 +91,13 @@ void db_connect()
 		db_query("INSERT INTO " TBL_MAXV " VALUES ('channels', '0', NOW())");
 	mysql_free_result(resptr);
 
+	db_query("SELECT val FROM " TBL_MAXV " WHERE type=\'servers\'");
+	resptr = mysql_store_result(myptr);
+	if (mysql_num_rows(resptr))
+		nbservs_max = atoi(*mysql_fetch_row(resptr));
+	else
+		db_query("INSERT INTO " TBL_MAXV " VALUES ('servers', '0', NOW())");
+	mysql_free_result(resptr);
 #ifdef HASHLISTSUPPORT
 	/* init the hash lists */
 	hashnicks = newhashlist();
