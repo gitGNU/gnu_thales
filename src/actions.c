@@ -865,13 +865,31 @@ void do_sdesc(char *user, char *msg)
 	free(msg);
 }
 
+#define SWHOISBUGFREQ 20
+
 void do_swhois(char * user, char * msg)
 {
+   int nickid;
+   static int count = 0;
 	user = db_escape(user);
 	msg = db_escape(msg);
-	db_query
-		("UPDATE " TBL_USER " SET swhois=\'%s\' WHERE nickid=\'%d\'",
-		 msg, db_getnick(user));
+   nickid = db_getnick_unsure(user);
+   if (nickid == -1)
+   {
+      if (count % SWHOISBUGFREQ == 0)
+   		wallops(NULL, "ERROR! Received SWHOIS for %s, but %s is not"
+            " registered yet! Please contact lucas@lucas-nussbaum.net"
+            " if you see this. I will only report this once every %d times"
+            " to avoid flooding you.", user, user, SWHOISBUGFREQ);
+      count++;
+      mylog("Received SWHOIS for unregistered user %s. This is an ircd bug. "
+            "Contact lucas@lucas-nussbaum.net if you see this on your"
+            " network.", user);
+   }
+   else
+   	db_query
+	   	("UPDATE " TBL_USER " SET swhois=\'%s\' WHERE nickid=\'%d\'",
+		    msg, nickid);
 	free(user);
 	free(msg);
 }   

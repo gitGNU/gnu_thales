@@ -31,6 +31,7 @@ int db_getserver(char *serv);
 int db_getservfromnick(char *nick);
 int db_checknick(char *nick);
 int db_getnick(char *nick);
+int db_getnick_unsure(char *nick);
 int db_insertid();
 void db_chgnick(char *newnick, char *oldnick);
 void db_addserver(char *server, int servid);

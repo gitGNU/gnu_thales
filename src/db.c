@@ -241,6 +241,32 @@ int db_checknick(char *nick)
 }
 
 /* nick should be db_escape'd before call */
+int db_getnick_unsure(char *nick)
+{
+#ifdef HASHLISTSUPPORT
+	int res = 0;
+	char *nicklow = strdup(nick);
+	strtolwr(nicklow);
+	res = hash_find_unsure(hashnicks, nicklow, KEYOTHER);
+	free(nicklow);
+	return res;
+#else
+	MYSQL_RES *resptr;
+	int res = 0;
+
+	db_query("SELECT nickid FROM " TBL_USER " WHERE nick=\'%s\'", nick);
+	resptr = mysql_store_result(myptr);
+	if (mysql_num_rows(resptr))
+		res = atoi(*mysql_fetch_row(resptr));
+	else
+		res = -1;
+	mysql_free_result(resptr);
+	return res;
+#endif
+}
+
+
+/* nick should be db_escape'd before call */
 int db_getnick(char *nick)
 {
 #ifdef HASHLISTSUPPORT
