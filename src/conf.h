@@ -23,7 +23,6 @@
 #include "log.h"
 
 /* Configuration directives. */
-#define THALES_CONF "thales.conf"
 #define MAXPARAMS	4
 
 typedef struct
