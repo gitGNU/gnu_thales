@@ -31,7 +31,7 @@
 
 int debug = 0;						  /* -d , debug mode = don't fork + log to stderr */
 
-int verbose = 0;					  /* -v, verbose output */
+int verbose = 0;					  /* -V, verbose output */
 
 /* Socket for talking to server */
 int servsock = -1;
@@ -51,15 +51,28 @@ extern char *RemotePassword;
 extern char *ServerName;
 extern char *ServerDesc;
 
-/* display usage */
-void usage()
+
+void
+usage()
 {
-	printf("\n   Syntax : thales\n");
-	printf("         -v : enable verbose mode\n");
-	printf("         -d : enable debugging mode\n");
-	printf("         -V : display version and exit\n");
-	exit(1);
+  printf("Usage:\n\
+  -d, --debug                   enable debugging mode\n\
+  -h, --help                    print this text\n\
+  -v, --version                 display version and exit\n");
+  
 }
+
+void
+version()
+{
+  printf("%s\n\
+Copyright 2007 Free Software Foundation, Inc.\n\
+This program is free software; you may redistribute it under the terms of\n\
+the GNU General Public License.  This program has absolutely no warranty.\n",
+	 PACKAGE_STRING);
+  
+}
+
 
 /* Create our PID file and write the PID to it. */
 void write_pidfile(void)
@@ -81,172 +94,226 @@ void write_pidfile(void)
 /* Main routine */
 int main(int argc, char **argv)
 {
-	char ch;
-	int i;
-	char *ch1, *ch2;
-	/* record start time */
-	start_time = time(NULL);
-	/* Parse command line options */
-	while ((ch = getopt(argc, argv, "dvV")) != -1)
+  char ch;
+  int i;
+  char *ch1, *ch2;
+  int opt = 0;
+  int opt_index = 0;
+
+  static struct option thales_options[] =
+    {
+      {"version", no_argument, NULL, 'v'},
+      {"verbose", no_argument, NULL, 'V'},
+      {"help", no_argument, NULL, 'h'},
+      {"debug", no_argument, NULL, 'd'},
+      {0, 0, 0, 0}
+    };
+
+
+  /* record start time */
+  start_time = time(NULL);
+  
+  opt = getopt_long(argc, argv, "hvVd",
+		    thales_options, &opt_index);
+
+  while(opt != EOF)
+    {
+      switch(opt)
 	{
-		switch (ch)
-		{
-		case 'd':
-			debug = 1;
-			verbose = 1;
-			break;
-		case 'v':
-			verbose = 1;
-			break;
-		case 'V':
-			printf("GNU Thales v.%s\n", VERSION);
-			exit(0);
-			break;
-		default:
-			usage();
-		}
+	case 'd':
+	  verbose = 1;
+	  debug = 1;
+	  break;
+
+
+	case 'h':
+	  usage();
+	  exit(EXIT_SUCCESS);
+	  break;
+	  
+	case 'v':
+	  version();
+	  exit(EXIT_SUCCESS);
+	  break;
+	  
+	case 'V':
+	  verbose = 1;
+	  break;
+	  
+
+	default:
+	  usage();
 	}
+      
+      opt = getopt_long(argc, argv, "hvVc:",
+			thales_options, &opt_index);
+    }
 
-	/* Read configuration file; exit if there are problems. */
-	if (!read_config())
-		exit(-1);
 
-	/* Open logfile, and complain if we didn't. */
-	if (open_log() < 0)
+
+#if 0
+  /* Parse command line options */
+  while ((ch = getopt(argc, argv, "dvV")) != -1)
+    {
+      switch (ch)
 	{
-		fprintf(stderr, "Warning: unable to open log file : %s\n",
-				  strerror(errno));
-		exit(1);
+	case 'd':
+	  debug = 1;
+	  verbose = 1;
+	  break;
+	case 'v':
+	  verbose = 1;
+	  break;
+	case 'V':
+	  printf("GNU Thales v.%s\n", VERSION);
+	  exit(0);
+	  break;
+	default:
+	  usage();
 	}
-
-	/* Detach ourselves if requested. */
-	if (!debug)
-	{
-		if ((i = fork()) < 0)
-		{
-			perror("fork()");
-			return -1;
-		}
-		else if (i != 0)
-		{
-			exit(0);
-		}
-		if (isatty(0) && isatty(1) && isatty(2))
-		{
-			close(0);
-			close(1);
-			close(2);
-		}
-	}
-	write_pidfile();
-
-	/* Announce ourselves to the logfile. */
-	mylog("GNU Thales %s starting up with %s support%s", VERSION,
-#if defined(IRCD_UNREAL)
-		 "unreal",
-#elif defined(IRCD_HYBRID)
-		 "hybrid",
-#elif defined (IRCD_BAHAMUT)
-		 "bahamut",
-#elif defined (IRCD_IRCDRU)
-		 "ircdru",
-#elif defined (IRCD_ULTIMATE)
-		 "ultimate30",
-#elif defined (IRCD_ULTI28)
-		 "ultimate28",
-#else
-		 "unknown (!)",
+    }
 #endif
-		 verbose ? (debug ? " (options: debug)" : " (options: verbose") :
-		 "");
-	/* I should init databases here */
-	db_connect();
-	ch1 = db_escape(ServerName);
-	ch2 = db_escape(ServerDesc);
-	db_query("INSERT INTO " TBL_SERV
-				" (server, comment, connecttime) values('%s', '%s', NOW())",
-				ch1, ch2);
-	db_addserver(ch1, db_insertid());
-	free(ch1);
-	free(ch2);
-	/* connect to RemoteServer */
-	servsock = conn(RemoteServer, RemotePort, LocalHost, LocalPort);
-	if (servsock < 0)
+  
+  /* Read configuration file; exit if there are problems. */
+  if (!read_config())
+    exit(-1);
+  
+  /* Open logfile, and complain if we didn't. */
+  if (open_log() < 0)
+    {
+      fprintf(stderr, "Warning: unable to open log file : %s\n",
+		    strerror(errno));
+      exit(1);
+    }
+  
+  /* Detach ourselves if requested. */
+  if (!debug)
+    {
+      if ((i = fork()) < 0)
 	{
-		fatal_perror("Can't connect to server");
-		exit(-1);
+	  perror("fork()");
+	  return -1;
 	}
+      else if (i != 0)
+	{
+	  exit(0);
+	}
+      if (isatty(0) && isatty(1) && isatty(2))
+	{
+	  close(0);
+	  close(1);
+	  close(2);
+	}
+    }
+  write_pidfile();
+
+  /* Announce ourselves to the logfile. */
+  mylog("GNU Thales %s starting up with %s support%s", VERSION,
 #if defined(IRCD_UNREAL)
-	send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3 NOQUIT");
+	"unreal",
+#elif defined(IRCD_HYBRID)
+	"hybrid",
+#elif defined (IRCD_BAHAMUT)
+	"bahamut",
+#elif defined (IRCD_IRCDRU)
+	"ircdru",
+#elif defined (IRCD_ULTIMATE)
+	"ultimate30",
+#elif defined (IRCD_ULTI28)
+	"ultimate28",
+#else
+	"unknown (!)",
+#endif
+	verbose ? (debug ? " (options: debug)" : " (options: verbose") :
+	"");
+  /* I should init databases here */
+  db_connect();
+  ch1 = db_escape(ServerName);
+  ch2 = db_escape(ServerDesc);
+  db_query("INSERT INTO " TBL_SERV
+	   " (server, comment, connecttime) values('%s', '%s', NOW())",
+	   ch1, ch2);
+  db_addserver(ch1, db_insertid());
+  free(ch1);
+  free(ch2);
+  /* connect to RemoteServer */
+  servsock = conn(RemoteServer, RemotePort, LocalHost, LocalPort);
+  if (servsock < 0)
+    {
+      fatal_perror("Can't connect to server");
+      exit(-1);
+    }
+#if defined(IRCD_UNREAL)
+  send_cmd(NULL, "PROTOCTL NICKv2 SJOIN SJOIN2 SJ3 NOQUIT");
 #endif
 #if defined(IRCD_HYBRID)
-	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB :HOPS TBURST");
+  send_cmd(NULL, "PASS %s :TS", RemotePassword);
+  send_cmd(NULL, "CAPAB :HOPS TBURST");
 #elif defined (IRCD_BAHAMUT)
-	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB TS3 SSJOIN NICKIP NOQUIT");
+  send_cmd(NULL, "PASS %s :TS", RemotePassword);
+  send_cmd(NULL, "CAPAB TS3 SSJOIN NICKIP NOQUIT");
 #elif defined (IRCD_IRCDRU)
-	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB TS3 SSJOIN 8BNCI NICKIP");
-
+  send_cmd(NULL, "PASS %s :TS", RemotePassword);
+  send_cmd(NULL, "CAPAB TS3 SSJOIN 8BNCI NICKIP");
+  
 #elif defined (IRCD_ULTIMATE)
-	send_cmd(NULL, "PASS %s :TS", RemotePassword);
-	send_cmd(NULL, "CAPAB TS5 SSJ5 NICKIP");
+  send_cmd(NULL, "PASS %s :TS", RemotePassword);
+  send_cmd(NULL, "CAPAB TS5 SSJ5 NICKIP");
 #elif defined(IRCD_ULTI28)		  /* special case to prevent future errors */
-	send_cmd(NULL, "PASS %s", RemotePassword);
+  send_cmd(NULL, "PASS %s", RemotePassword);
 #else
-	send_cmd(NULL, "PASS %s", RemotePassword);
+  send_cmd(NULL, "PASS %s", RemotePassword);
 #endif
-
+  
 #if defined(IRCD_IRCDRU)
-	send_cmd(NULL, "SERVER %s 1 8 :%s", ServerName, ServerDesc);
+  send_cmd(NULL, "SERVER %s 1 8 :%s", ServerName, ServerDesc);
 #else
-	send_cmd(NULL, "SERVER %s 1 :%s", ServerName, ServerDesc);
+  send_cmd(NULL, "SERVER %s 1 :%s", ServerName, ServerDesc);
 #endif
-
+  
 #if defined(IRCD_BAHAMUT)||defined(IRCD_IRCDRU)
-	send_cmd(NULL, "SVINFO 3 1 0 :%ld", time(NULL));
+  send_cmd(NULL, "SVINFO 3 1 0 :%ld", time(NULL));
 #elif defined(IRCD_ULTIMATE)
-	send_cmd(NULL, "SVINFO 5 3 0 :%ld", time(NULL));
+  send_cmd(NULL, "SVINFO 5 3 0 :%ld", time(NULL));
 #endif
 #if defined(IRCD_UNREAL)
    send_cmd(NULL, ":%s EOS", ServerName);
 #endif
-	sgets2(inbuf, sizeof(inbuf), servsock);
-	if (strncasecmp(inbuf, "ERROR", 5) == 0)
-	{
-		/* Close server socket first to stop wallops, since the other
-		 * server doesn't want to listen to us anyway */
-		disconn(servsock);
-		servsock = -1;
-		fatal("Remote server returned: %s", inbuf);
-	}
-	/* We have a line left over from earlier, process it now */
-	process();
-	while (1)
-	{
-		i = (int) (long) sgets2(inbuf, sizeof(inbuf), servsock);
-		if (i > 0)
-		{
-			process();
-		}
-		else if (i == 0)
-		{
-			int errno_save = errno;
-			quitmsg = (char *) scalloc(BUFSIZE, 1);
-			if (quitmsg)
-			{
-				snprintf(quitmsg, BUFSIZE, "Read error from server: %s",
-							strerror(errno_save));
+   sgets2(inbuf, sizeof(inbuf), servsock);
+   if (strncasecmp(inbuf, "ERROR", 5) == 0)
+     {
+       /* Close server socket first to stop wallops, since the other
+	* server doesn't want to listen to us anyway */
+       disconn(servsock);
+       servsock = -1;
+       fatal("Remote server returned: %s", inbuf);
+     }
+   /* We have a line left over from earlier, process it now */
+   process();
+   while (1)
+     {
+       i = (int) (long) sgets2(inbuf, sizeof(inbuf), servsock);
+       if (i > 0)
+	 {
+	   process();
+	 }
+       else if (i == 0)
+	 {
+	   int errno_save = errno;
+	   quitmsg = (char *) scalloc(BUFSIZE, 1);
+	   if (quitmsg)
+	     {
+	       snprintf(quitmsg, BUFSIZE, "Read error from server: %s",
+			strerror(errno_save));
+	     }
+	   else
+	     {
+	       quitmsg = "Read error from server";
 			}
-			else
-			{
-				quitmsg = "Read error from server";
-			}
-			send_cmd(ServerName, "SQUIT %s :%s", ServerName, quitmsg);
-			disconn(servsock);
-			close_log();
-			return 0;
-		}
-	}
+	   send_cmd(ServerName, "SQUIT %s :%s", ServerName, quitmsg);
+	   disconn(servsock);
+	   close_log();
+	   return 0;
+	 }
+     }
 }

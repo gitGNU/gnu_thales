@@ -34,6 +34,7 @@
 #include <ctype.h>
 #include <signal.h>
 #include <mysql.h>
+#include <getopt.h>
 #include "defs.h"
 #include "config.h"
 
