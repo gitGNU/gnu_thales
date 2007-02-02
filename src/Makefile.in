@@ -49,13 +49,11 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_thales_OBJECTS = thales-main.$(OBJEXT) thales-log.$(OBJEXT) \
-	thales-conf.$(OBJEXT) thales-compat.$(OBJEXT) \
-	thales-misc.$(OBJEXT) thales-send.$(OBJEXT) \
-	thales-sockutil.$(OBJEXT) thales-messages.$(OBJEXT) \
-	thales-process.$(OBJEXT) thales-memory.$(OBJEXT) \
-	thales-db.$(OBJEXT) thales-actions.$(OBJEXT) \
-	thales-hashlist.$(OBJEXT)
+am_thales_OBJECTS = main.$(OBJEXT) log.$(OBJEXT) conf.$(OBJEXT) \
+	compat.$(OBJEXT) misc.$(OBJEXT) send.$(OBJEXT) \
+	sockutil.$(OBJEXT) messages.$(OBJEXT) process.$(OBJEXT) \
+	memory.$(OBJEXT) db.$(OBJEXT) actions.$(OBJEXT) \
+	hashlist.$(OBJEXT)
 thales_OBJECTS = $(am_thales_OBJECTS)
 thales_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I.
@@ -150,7 +148,6 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 thales_SOURCES = main.c log.c log.h thales.h conf.c conf.h compat.c compat.h misc.c misc.h defs.h send.c send.h sockutil.c sockutil.h messages.c messages.h process.c process.h memory.c memory.h db.c db.h actions.c actions.h hashlist.c hashlist.h
-thales_CPPFLAGS = "-DTHALES_CONF=\"$(sysconfdir)/thales.conf\""
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -235,19 +232,19 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-actions.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-compat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-conf.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-db.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-hashlist.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-log.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-memory.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-messages.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-misc.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-process.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-send.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thales-sockutil.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/actions.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/compat.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hashlist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/memory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/misc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/send.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sockutil.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
@@ -262,188 +259,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-thales-main.o: main.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-main.o -MD -MP -MF "$(DEPDIR)/thales-main.Tpo" -c -o thales-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-main.Tpo" "$(DEPDIR)/thales-main.Po"; else rm -f "$(DEPDIR)/thales-main.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='thales-main.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-main.o `test -f 'main.c' || echo '$(srcdir)/'`main.c
-
-thales-main.obj: main.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-main.obj -MD -MP -MF "$(DEPDIR)/thales-main.Tpo" -c -o thales-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-main.Tpo" "$(DEPDIR)/thales-main.Po"; else rm -f "$(DEPDIR)/thales-main.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main.c' object='thales-main.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
-
-thales-log.o: log.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-log.o -MD -MP -MF "$(DEPDIR)/thales-log.Tpo" -c -o thales-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-log.Tpo" "$(DEPDIR)/thales-log.Po"; else rm -f "$(DEPDIR)/thales-log.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='thales-log.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-log.o `test -f 'log.c' || echo '$(srcdir)/'`log.c
-
-thales-log.obj: log.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-log.obj -MD -MP -MF "$(DEPDIR)/thales-log.Tpo" -c -o thales-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-log.Tpo" "$(DEPDIR)/thales-log.Po"; else rm -f "$(DEPDIR)/thales-log.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='log.c' object='thales-log.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-log.obj `if test -f 'log.c'; then $(CYGPATH_W) 'log.c'; else $(CYGPATH_W) '$(srcdir)/log.c'; fi`
-
-thales-conf.o: conf.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-conf.o -MD -MP -MF "$(DEPDIR)/thales-conf.Tpo" -c -o thales-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-conf.Tpo" "$(DEPDIR)/thales-conf.Po"; else rm -f "$(DEPDIR)/thales-conf.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='thales-conf.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-conf.o `test -f 'conf.c' || echo '$(srcdir)/'`conf.c
-
-thales-conf.obj: conf.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-conf.obj -MD -MP -MF "$(DEPDIR)/thales-conf.Tpo" -c -o thales-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-conf.Tpo" "$(DEPDIR)/thales-conf.Po"; else rm -f "$(DEPDIR)/thales-conf.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='conf.c' object='thales-conf.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-conf.obj `if test -f 'conf.c'; then $(CYGPATH_W) 'conf.c'; else $(CYGPATH_W) '$(srcdir)/conf.c'; fi`
-
-thales-compat.o: compat.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-compat.o -MD -MP -MF "$(DEPDIR)/thales-compat.Tpo" -c -o thales-compat.o `test -f 'compat.c' || echo '$(srcdir)/'`compat.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-compat.Tpo" "$(DEPDIR)/thales-compat.Po"; else rm -f "$(DEPDIR)/thales-compat.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='compat.c' object='thales-compat.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-compat.o `test -f 'compat.c' || echo '$(srcdir)/'`compat.c
-
-thales-compat.obj: compat.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-compat.obj -MD -MP -MF "$(DEPDIR)/thales-compat.Tpo" -c -o thales-compat.obj `if test -f 'compat.c'; then $(CYGPATH_W) 'compat.c'; else $(CYGPATH_W) '$(srcdir)/compat.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-compat.Tpo" "$(DEPDIR)/thales-compat.Po"; else rm -f "$(DEPDIR)/thales-compat.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='compat.c' object='thales-compat.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-compat.obj `if test -f 'compat.c'; then $(CYGPATH_W) 'compat.c'; else $(CYGPATH_W) '$(srcdir)/compat.c'; fi`
-
-thales-misc.o: misc.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-misc.o -MD -MP -MF "$(DEPDIR)/thales-misc.Tpo" -c -o thales-misc.o `test -f 'misc.c' || echo '$(srcdir)/'`misc.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-misc.Tpo" "$(DEPDIR)/thales-misc.Po"; else rm -f "$(DEPDIR)/thales-misc.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='misc.c' object='thales-misc.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-misc.o `test -f 'misc.c' || echo '$(srcdir)/'`misc.c
-
-thales-misc.obj: misc.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-misc.obj -MD -MP -MF "$(DEPDIR)/thales-misc.Tpo" -c -o thales-misc.obj `if test -f 'misc.c'; then $(CYGPATH_W) 'misc.c'; else $(CYGPATH_W) '$(srcdir)/misc.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-misc.Tpo" "$(DEPDIR)/thales-misc.Po"; else rm -f "$(DEPDIR)/thales-misc.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='misc.c' object='thales-misc.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-misc.obj `if test -f 'misc.c'; then $(CYGPATH_W) 'misc.c'; else $(CYGPATH_W) '$(srcdir)/misc.c'; fi`
-
-thales-send.o: send.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-send.o -MD -MP -MF "$(DEPDIR)/thales-send.Tpo" -c -o thales-send.o `test -f 'send.c' || echo '$(srcdir)/'`send.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-send.Tpo" "$(DEPDIR)/thales-send.Po"; else rm -f "$(DEPDIR)/thales-send.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='send.c' object='thales-send.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-send.o `test -f 'send.c' || echo '$(srcdir)/'`send.c
-
-thales-send.obj: send.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-send.obj -MD -MP -MF "$(DEPDIR)/thales-send.Tpo" -c -o thales-send.obj `if test -f 'send.c'; then $(CYGPATH_W) 'send.c'; else $(CYGPATH_W) '$(srcdir)/send.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-send.Tpo" "$(DEPDIR)/thales-send.Po"; else rm -f "$(DEPDIR)/thales-send.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='send.c' object='thales-send.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-send.obj `if test -f 'send.c'; then $(CYGPATH_W) 'send.c'; else $(CYGPATH_W) '$(srcdir)/send.c'; fi`
-
-thales-sockutil.o: sockutil.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-sockutil.o -MD -MP -MF "$(DEPDIR)/thales-sockutil.Tpo" -c -o thales-sockutil.o `test -f 'sockutil.c' || echo '$(srcdir)/'`sockutil.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-sockutil.Tpo" "$(DEPDIR)/thales-sockutil.Po"; else rm -f "$(DEPDIR)/thales-sockutil.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sockutil.c' object='thales-sockutil.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-sockutil.o `test -f 'sockutil.c' || echo '$(srcdir)/'`sockutil.c
-
-thales-sockutil.obj: sockutil.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-sockutil.obj -MD -MP -MF "$(DEPDIR)/thales-sockutil.Tpo" -c -o thales-sockutil.obj `if test -f 'sockutil.c'; then $(CYGPATH_W) 'sockutil.c'; else $(CYGPATH_W) '$(srcdir)/sockutil.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-sockutil.Tpo" "$(DEPDIR)/thales-sockutil.Po"; else rm -f "$(DEPDIR)/thales-sockutil.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sockutil.c' object='thales-sockutil.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-sockutil.obj `if test -f 'sockutil.c'; then $(CYGPATH_W) 'sockutil.c'; else $(CYGPATH_W) '$(srcdir)/sockutil.c'; fi`
-
-thales-messages.o: messages.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-messages.o -MD -MP -MF "$(DEPDIR)/thales-messages.Tpo" -c -o thales-messages.o `test -f 'messages.c' || echo '$(srcdir)/'`messages.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-messages.Tpo" "$(DEPDIR)/thales-messages.Po"; else rm -f "$(DEPDIR)/thales-messages.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='messages.c' object='thales-messages.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-messages.o `test -f 'messages.c' || echo '$(srcdir)/'`messages.c
-
-thales-messages.obj: messages.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-messages.obj -MD -MP -MF "$(DEPDIR)/thales-messages.Tpo" -c -o thales-messages.obj `if test -f 'messages.c'; then $(CYGPATH_W) 'messages.c'; else $(CYGPATH_W) '$(srcdir)/messages.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-messages.Tpo" "$(DEPDIR)/thales-messages.Po"; else rm -f "$(DEPDIR)/thales-messages.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='messages.c' object='thales-messages.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-messages.obj `if test -f 'messages.c'; then $(CYGPATH_W) 'messages.c'; else $(CYGPATH_W) '$(srcdir)/messages.c'; fi`
-
-thales-process.o: process.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-process.o -MD -MP -MF "$(DEPDIR)/thales-process.Tpo" -c -o thales-process.o `test -f 'process.c' || echo '$(srcdir)/'`process.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-process.Tpo" "$(DEPDIR)/thales-process.Po"; else rm -f "$(DEPDIR)/thales-process.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='process.c' object='thales-process.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-process.o `test -f 'process.c' || echo '$(srcdir)/'`process.c
-
-thales-process.obj: process.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-process.obj -MD -MP -MF "$(DEPDIR)/thales-process.Tpo" -c -o thales-process.obj `if test -f 'process.c'; then $(CYGPATH_W) 'process.c'; else $(CYGPATH_W) '$(srcdir)/process.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-process.Tpo" "$(DEPDIR)/thales-process.Po"; else rm -f "$(DEPDIR)/thales-process.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='process.c' object='thales-process.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-process.obj `if test -f 'process.c'; then $(CYGPATH_W) 'process.c'; else $(CYGPATH_W) '$(srcdir)/process.c'; fi`
-
-thales-memory.o: memory.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-memory.o -MD -MP -MF "$(DEPDIR)/thales-memory.Tpo" -c -o thales-memory.o `test -f 'memory.c' || echo '$(srcdir)/'`memory.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-memory.Tpo" "$(DEPDIR)/thales-memory.Po"; else rm -f "$(DEPDIR)/thales-memory.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='memory.c' object='thales-memory.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-memory.o `test -f 'memory.c' || echo '$(srcdir)/'`memory.c
-
-thales-memory.obj: memory.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-memory.obj -MD -MP -MF "$(DEPDIR)/thales-memory.Tpo" -c -o thales-memory.obj `if test -f 'memory.c'; then $(CYGPATH_W) 'memory.c'; else $(CYGPATH_W) '$(srcdir)/memory.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-memory.Tpo" "$(DEPDIR)/thales-memory.Po"; else rm -f "$(DEPDIR)/thales-memory.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='memory.c' object='thales-memory.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-memory.obj `if test -f 'memory.c'; then $(CYGPATH_W) 'memory.c'; else $(CYGPATH_W) '$(srcdir)/memory.c'; fi`
-
-thales-db.o: db.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-db.o -MD -MP -MF "$(DEPDIR)/thales-db.Tpo" -c -o thales-db.o `test -f 'db.c' || echo '$(srcdir)/'`db.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-db.Tpo" "$(DEPDIR)/thales-db.Po"; else rm -f "$(DEPDIR)/thales-db.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='db.c' object='thales-db.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-db.o `test -f 'db.c' || echo '$(srcdir)/'`db.c
-
-thales-db.obj: db.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-db.obj -MD -MP -MF "$(DEPDIR)/thales-db.Tpo" -c -o thales-db.obj `if test -f 'db.c'; then $(CYGPATH_W) 'db.c'; else $(CYGPATH_W) '$(srcdir)/db.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-db.Tpo" "$(DEPDIR)/thales-db.Po"; else rm -f "$(DEPDIR)/thales-db.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='db.c' object='thales-db.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-db.obj `if test -f 'db.c'; then $(CYGPATH_W) 'db.c'; else $(CYGPATH_W) '$(srcdir)/db.c'; fi`
-
-thales-actions.o: actions.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-actions.o -MD -MP -MF "$(DEPDIR)/thales-actions.Tpo" -c -o thales-actions.o `test -f 'actions.c' || echo '$(srcdir)/'`actions.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-actions.Tpo" "$(DEPDIR)/thales-actions.Po"; else rm -f "$(DEPDIR)/thales-actions.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='actions.c' object='thales-actions.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-actions.o `test -f 'actions.c' || echo '$(srcdir)/'`actions.c
-
-thales-actions.obj: actions.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-actions.obj -MD -MP -MF "$(DEPDIR)/thales-actions.Tpo" -c -o thales-actions.obj `if test -f 'actions.c'; then $(CYGPATH_W) 'actions.c'; else $(CYGPATH_W) '$(srcdir)/actions.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-actions.Tpo" "$(DEPDIR)/thales-actions.Po"; else rm -f "$(DEPDIR)/thales-actions.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='actions.c' object='thales-actions.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-actions.obj `if test -f 'actions.c'; then $(CYGPATH_W) 'actions.c'; else $(CYGPATH_W) '$(srcdir)/actions.c'; fi`
-
-thales-hashlist.o: hashlist.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-hashlist.o -MD -MP -MF "$(DEPDIR)/thales-hashlist.Tpo" -c -o thales-hashlist.o `test -f 'hashlist.c' || echo '$(srcdir)/'`hashlist.c; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-hashlist.Tpo" "$(DEPDIR)/thales-hashlist.Po"; else rm -f "$(DEPDIR)/thales-hashlist.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='hashlist.c' object='thales-hashlist.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-hashlist.o `test -f 'hashlist.c' || echo '$(srcdir)/'`hashlist.c
-
-thales-hashlist.obj: hashlist.c
-@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT thales-hashlist.obj -MD -MP -MF "$(DEPDIR)/thales-hashlist.Tpo" -c -o thales-hashlist.obj `if test -f 'hashlist.c'; then $(CYGPATH_W) 'hashlist.c'; else $(CYGPATH_W) '$(srcdir)/hashlist.c'; fi`; \
-@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/thales-hashlist.Tpo" "$(DEPDIR)/thales-hashlist.Po"; else rm -f "$(DEPDIR)/thales-hashlist.Tpo"; exit 1; fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='hashlist.c' object='thales-hashlist.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(thales_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o thales-hashlist.obj `if test -f 'hashlist.c'; then $(CYGPATH_W) 'hashlist.c'; else $(CYGPATH_W) '$(srcdir)/hashlist.c'; fi`
 uninstall-info-am:
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)

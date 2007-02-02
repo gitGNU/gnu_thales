@@ -74,6 +74,6 @@ int parse(char *buf, int linenum, int reload);
  *
  */
 
-int read_config(void);
+int read_config(char *file);
 
 #endif /* _CONF_H_ */

@@ -26,6 +26,7 @@ extern int debug;
 
 
 /* configuration variables: */
+char *thales_conf;
 char *RemoteServer;
 int RemotePort;
 char *RemotePassword;
@@ -83,15 +84,15 @@ void error(int linenum, char *message, ...)
 	va_start(args, message);
 	vsnprintf(buf, sizeof(buf), message, args);
 	if (linenum)
-		mylog("%s:%d: %s", THALES_CONF, linenum, buf);
+		mylog("%s:%d: %s", thales_conf, linenum, buf);
 	else
-		mylog("%s: %s", THALES_CONF, buf);
+		mylog("%s: %s", thales_conf, buf);
 	if (!debug && isatty(2))
 	{
 		if (linenum)
-			fprintf(stderr, "%s:%d: %s\n", THALES_CONF, linenum, buf);
+			fprintf(stderr, "%s:%d: %s\n", thales_conf, linenum, buf);
 		else
-			fprintf(stderr, "%s: %s\n", THALES_CONF, buf);
+			fprintf(stderr, "%s: %s\n", thales_conf, buf);
 	}
 }
 
@@ -277,8 +278,7 @@ int parse(char *buf, int linenum, int reload)
 	if (n == lenof(directives))
 	{
 		error(linenum, "Unknown directive `%s'", dir);
-		return 1;					  /* don't cause abort */
-	}
+		return 1;					  /* don't cause abort */	}
 
 	return retval;
 }
@@ -308,21 +308,21 @@ int parse(char *buf, int linenum, int reload)
  *
  */
 
-int read_config(void)
+int read_config(char *file)
 {
 	FILE *config;
 	int linenum = 0, retval = 1;
 	char buf[1024];
-	config = fopen(THALES_CONF, "r");
+	config = fopen(file, "r");
 	if (!config)
 	{
-		mylog_perror("Can't open " THALES_CONF);
-		if (!debug && isatty(2))
-			perror("Can't open " THALES_CONF);
-		else
-			mylog("Can't open %s", THALES_CONF);
+		mylog_perror("Can't open %s", file);
+		mylog("Can't open %s", file);
 		return 0;
 	}
+
+	thales_conf = file;
+
 	while (fgets(buf, sizeof(buf), config))
 	{
 		linenum++;

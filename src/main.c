@@ -56,6 +56,7 @@ void
 usage()
 {
   printf("Usage:\n\
+  -c, --config file             load config file, passed as argument\n\
   -d, --debug                   enable debugging mode\n\
   -h, --help                    print this text\n\
   -v, --version                 display version and exit\n");
@@ -106,6 +107,7 @@ int main(int argc, char **argv)
       {"verbose", no_argument, NULL, 'V'},
       {"help", no_argument, NULL, 'h'},
       {"debug", no_argument, NULL, 'd'},
+      {"config", required_argument, NULL, 'c'},
       {0, 0, 0, 0}
     };
 
@@ -113,13 +115,20 @@ int main(int argc, char **argv)
   /* record start time */
   start_time = time(NULL);
   
-  opt = getopt_long(argc, argv, "hvVd",
+  opt = getopt_long(argc, argv, "chvVd",
 		    thales_options, &opt_index);
 
   while(opt != EOF)
     {
       switch(opt)
 	{
+	case 'c':
+	  if(!read_config(optarg))
+	    {
+	      exit(EXIT_FAILURE);
+	    }
+	  break;
+
 	case 'd':
 	  verbose = 1;
 	  debug = 1;
@@ -150,34 +159,7 @@ int main(int argc, char **argv)
     }
 
 
-
-#if 0
-  /* Parse command line options */
-  while ((ch = getopt(argc, argv, "dvV")) != -1)
-    {
-      switch (ch)
-	{
-	case 'd':
-	  debug = 1;
-	  verbose = 1;
-	  break;
-	case 'v':
-	  verbose = 1;
-	  break;
-	case 'V':
-	  printf("GNU Thales v.%s\n", VERSION);
-	  exit(0);
-	  break;
-	default:
-	  usage();
-	}
-    }
-#endif
-  
-  /* Read configuration file; exit if there are problems. */
-  if (!read_config())
-    exit(-1);
-  
+ 
   /* Open logfile, and complain if we didn't. */
   if (open_log() < 0)
     {

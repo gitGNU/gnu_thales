@@ -1,6 +1,10 @@
 2007-02-02  Klaus Weiss  <klaus.weiss@nanet.at>
 
-	* main.c (main): added getopt_long() support
+	* src/main.c (main): added getopt_long() support
+	added -c parameter to allow changing the config file path.
+	* src/conf.c (read_config): changed interface
+	* src/conf.c (error): exchanged THALES_CONF with thales_conf variable
+	* src/Makefile.am: removed THALES_CONF definition
 
 2006-11-18    Claudio Fontana <claudio@gnu.org>
 	
