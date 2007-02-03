@@ -51,6 +51,8 @@ extern char *RemotePassword;
 extern char *ServerName;
 extern char *ServerDesc;
 
+extern char *MysqlPrefix;
+
 
 void
 usage()
@@ -220,8 +222,8 @@ int main(int argc, char **argv)
   db_connect();
   ch1 = db_escape(ServerName);
   ch2 = db_escape(ServerDesc);
-  db_query("INSERT INTO " TBL_SERV
-	   " (server, comment, connecttime) values('%s', '%s', NOW())",
+  db_query("INSERT INTO %s" TBL_SERV
+	   " (server, comment, connecttime) values('%s', '%s', NOW())", MysqlPrefix,
 	   ch1, ch2);
   db_addserver(ch1, db_insertid());
   free(ch1);

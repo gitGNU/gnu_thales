@@ -27,6 +27,7 @@
 extern char *MysqlServer;
 extern int *MysqlPort;
 extern char *MysqlDatabase;
+extern char *MysqlPrefix;
 extern char *MysqlUser;
 extern char *MysqlPassword;
 
@@ -66,40 +67,41 @@ void db_connect()
 	/* connecting to MySQL */
 	myptr = mysql_init(NULL);
 
+	
 
 	if (mysql_real_connect
-		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, MysqlPort,
+		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, (int)MysqlPort,
 		  NULL, 0) == NULL)
 		fatal("Failed to connect to database : %s\n", mysql_error(myptr));
 
 	/* Cleaning up the database */
-	db_query("DELETE FROM " TBL_CHAN);
-	db_query("DELETE FROM " TBL_ISON);
-	db_query("DELETE FROM " TBL_SERV);
-	db_query("DELETE FROM " TBL_USER);
+	db_query("DELETE FROM %s" TBL_CHAN, MysqlPrefix);
+	db_query("DELETE FROM %s" TBL_ISON, MysqlPrefix);
+	db_query("DELETE FROM %s" TBL_SERV, MysqlPrefix);
+	db_query("DELETE FROM %s" TBL_USER, MysqlPrefix);
 
-	db_query("SELECT val FROM " TBL_MAXV " WHERE type=\'users\'");
+	db_query("SELECT val FROM %s" TBL_MAXV " WHERE type=\'users\'", MysqlPrefix);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		nbusers_max = atoi(*mysql_fetch_row(resptr));
 	else
-		db_query("INSERT INTO " TBL_MAXV " VALUES ('users', '0', NOW())");
+		db_query("INSERT INTO %s" TBL_MAXV " VALUES ('users', '0', NOW())", MysqlPrefix);
 	mysql_free_result(resptr);
 
-	db_query("SELECT val FROM " TBL_MAXV " WHERE type=\'channels\'");
+	db_query("SELECT val FROM %s" TBL_MAXV " WHERE type=\'channels\'", MysqlPrefix);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		nbchans_max = atoi(*mysql_fetch_row(resptr));
 	else
-		db_query("INSERT INTO " TBL_MAXV " VALUES ('channels', '0', NOW())");
+		db_query("INSERT INTO %s" TBL_MAXV " VALUES ('channels', '0', NOW())", MysqlPrefix);
 	mysql_free_result(resptr);
 
-	db_query("SELECT val FROM " TBL_MAXV " WHERE type=\'servers\'");
+	db_query("SELECT val FROM %s" TBL_MAXV " WHERE type=\'servers\'", MysqlPrefix);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		nbservs_max = atoi(*mysql_fetch_row(resptr));
 	else
-		db_query("INSERT INTO " TBL_MAXV " VALUES ('servers', '0', NOW())");
+		db_query("INSERT INTO %s" TBL_MAXV " VALUES ('servers', '0', NOW())", MysqlPrefix);
 	mysql_free_result(resptr);
 #ifdef HASHLISTSUPPORT
 	/* init the hash lists */
@@ -146,7 +148,7 @@ int db_checkserver(char *serv)
 {
 	int servid = -1;
 	MYSQL_RES *resptr;
-	db_query("SELECT servid FROM " TBL_SERV " WHERE server=\"%s\"", serv);
+	db_query("SELECT servid FROM %s" TBL_SERV " WHERE server=\"%s\"", MysqlPrefix, serv);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		servid = atoi(*mysql_fetch_row(resptr));
@@ -164,7 +166,7 @@ int db_getserver(char *serv)
 	MYSQL_RES *resptr;
 	int res = 0;
 
-	db_query("SELECT servid FROM " TBL_SERV " WHERE server=\'%s\'", serv);
+	db_query("SELECT servid FROM %s" TBL_SERV " WHERE server=\'%s\'", MysqlPrefix, serv);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -234,7 +236,7 @@ int db_checknick(char *nick)
 #else
 	int nickid = -1;
 	MYSQL_RES *resptr;
-	db_query("SELECT nickid FROM " TBL_USER " WHERE nick=\"%s\"", nick);
+	db_query("SELECT nickid FROM %s" TBL_USER " WHERE nick=\"%s\"", MysqlPrefix, nick);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		nickid = atoi(*mysql_fetch_row(resptr));
@@ -257,7 +259,7 @@ int db_getnick_unsure(char *nick)
 	MYSQL_RES *resptr;
 	int res = 0;
 
-	db_query("SELECT nickid FROM " TBL_USER " WHERE nick=\'%s\'", nick);
+	db_query("SELECT nickid FROM %s" TBL_USER " WHERE nick=\'%s\'", MysqlPrefix, nick);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -283,7 +285,7 @@ int db_getnick(char *nick)
 	MYSQL_RES *resptr;
 	int res = 0;
 
-	db_query("SELECT nickid FROM " TBL_USER " WHERE nick=\'%s\'", nick);
+	db_query("SELECT nickid FROM %s" TBL_USER " WHERE nick=\'%s\'", MysqlPrefix, nick);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -298,7 +300,7 @@ int db_getservfromnick(char *nick)
 {
 	MYSQL_RES *resptr;
 	int res = 0;
-	db_query("SELECT servid FROM " TBL_USER " WHERE nick=\'%s\'", nick);
+	db_query("SELECT servid FROM %s" TBL_USER " WHERE nick=\'%s\'", MysqlPrefix, nick);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -321,11 +323,11 @@ void db_removenick(char *nick)
 		fatal("nickid 0");
 	db_removefromchans(nickid);
 	if (UserCacheTime)
-		db_query("UPDATE " TBL_USER
-					" SET online=\"N\", lastquit=NOW(), servid=NULL WHERE nickid=\"%d\"",
-					nickid);
+		db_query("UPDATE %s" TBL_USER
+			 " SET online=\"N\", lastquit=NOW(), servid=NULL WHERE nickid=\"%d\"",
+			 MysqlPrefix, nickid);
 	else
-		db_query("DELETE FROM " TBL_USER " WHERE nickid=\'%d\'", nickid);
+		db_query("DELETE FROM %s" TBL_USER " WHERE nickid=\'%d\'", MysqlPrefix, nickid);
 }
 
 
@@ -333,11 +335,11 @@ void db_removefromchans(int nickid)
 {
 	MYSQL_RES *resptr;
 	char **res;
-	db_query("SELECT " TBL_ISON ".chanid, channel FROM " TBL_ISON ", "
-				TBL_CHAN " WHERE nickid=\'%d\' AND " TBL_CHAN ".chanid = "
-				TBL_ISON ".chanid", nickid);
+	db_query("SELECT %s" TBL_ISON ".chanid, channel FROM %s" TBL_ISON ", %s"
+		 TBL_CHAN " WHERE nickid=\'%d\' AND %s" TBL_CHAN ".chanid = %s"
+		 TBL_ISON ".chanid", MysqlPrefix, MysqlPrefix, MysqlPrefix, nickid, MysqlPrefix, MysqlPrefix);
 	resptr = mysql_store_result(myptr);
-	db_query("DELETE FROM " TBL_ISON " WHERE nickid=\'%d\'", nickid);
+	db_query("DELETE FROM %s" TBL_ISON " WHERE nickid=\'%d\'", MysqlPrefix, nickid);
 	while ((res = mysql_fetch_row(resptr)))
 	{
 		char *chan = db_escape(res[1]);
@@ -350,11 +352,11 @@ void db_removefromchans(int nickid)
 void db_checkemptychan(int chanid, char *chan)
 {
 	MYSQL_RES *resptr2;
-	db_query("SELECT chanid FROM " TBL_ISON " WHERE chanid=\'%d\'", chanid);
+	db_query("SELECT chanid FROM %s" TBL_ISON " WHERE chanid=\'%d\'", MysqlPrefix, chanid);
 	resptr2 = mysql_store_result(myptr);
 	if (!mysql_num_rows(resptr2))
 	{
-		db_query("DELETE FROM " TBL_CHAN " WHERE chanid=\'%d\'", chanid);
+		db_query("DELETE FROM %s" TBL_CHAN " WHERE chanid=\'%d\'", MysqlPrefix, chanid);
 #ifdef HASHLISTSUPPORT
 		hash_del(hashchans, chan, KEYCHAN);
 #endif
@@ -370,25 +372,25 @@ int db_getlusers(int type)
 	switch (type)
 	{
 	case LUSERS_USERS:
-		db_query("SELECT COUNT(*) FROM " TBL_USER " WHERE mode_li=\'N\'");
+		db_query("SELECT COUNT(*) FROM %s" TBL_USER " WHERE mode_li=\'N\'", MysqlPrefix);
 		break;
 	case LUSERS_USERSINV:
-		db_query("SELECT COUNT(*) FROM " TBL_USER " WHERE mode_li=\'Y\'");
+		db_query("SELECT COUNT(*) FROM %s" TBL_USER " WHERE mode_li=\'Y\'", MysqlPrefix);
 		break;
 	case LUSERS_OPERS:
-		db_query("SELECT COUNT(*) FROM " TBL_USER " WHERE mode_lo=\'Y\'");
+		db_query("SELECT COUNT(*) FROM %s" TBL_USER " WHERE mode_lo=\'Y\'", MysqlPrefix);
 		break;
 	case LUSERS_CHAN:
-		db_query("SELECT COUNT(*) FROM " TBL_CHAN);
+		db_query("SELECT COUNT(*) FROM %s" TBL_CHAN, MysqlPrefix);
 		break;
 	case LUSERS_SERV:
-		db_query("SELECT COUNT(*) FROM " TBL_SERV);
+		db_query("SELECT COUNT(*) FROM %s" TBL_SERV, MysqlPrefix);
 		break;
 	case LUSERS_USERSGLOB:
-		db_query("SELECT COUNT(*) FROM " TBL_USER);
+		db_query("SELECT COUNT(*) FROM %s" TBL_USER, MysqlPrefix);
 		break;
 	case LUSERS_USERSMAX:
-		db_query("SELECT val FROM " TBL_MAXV " WHERE type='users'");
+		db_query("SELECT val FROM %s" TBL_MAXV " WHERE type='users'", MysqlPrefix);
 		break;
 	}
 	resptr = mysql_store_result(myptr);
@@ -411,7 +413,7 @@ int db_getchannel(char *chan)
 
 	MYSQL_RES *resptr;
 	strtolwr(chan);
-	db_query("SELECT chanid FROM " TBL_CHAN " WHERE channel=\'%s\'", chan);
+	db_query("SELECT chanid FROM %s" TBL_CHAN " WHERE channel=\'%s\'", MysqlPrefix, chan);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -434,7 +436,7 @@ int db_getchancreate(char *chan)
 #else
 	MYSQL_RES *resptr;
 	strtolwr(chan);
-	db_query("SELECT chanid FROM " TBL_CHAN " WHERE channel=\'%s\'", chan);
+	db_query("SELECT chanid FROM %s" TBL_CHAN " WHERE channel=\'%s\'", MysqlPrefix, chan);
 	resptr = mysql_store_result(myptr);
 	if (mysql_num_rows(resptr))
 		res = atoi(*mysql_fetch_row(resptr));
@@ -443,7 +445,7 @@ int db_getchancreate(char *chan)
 	if (res == -1)
 
 	{
-		db_query("INSERT INTO " TBL_CHAN " (channel) VALUES (\'%s\')", chan);
+		db_query("INSERT INTO %s" TBL_CHAN " (channel) VALUES (\'%s\')", MysqlPrefix, chan);
 		res = db_insertid();
 #ifdef HASHLISTSUPPORT
 		hash_add(hashchans, chan, res, KEYCHAN);
@@ -473,9 +475,9 @@ void db_cleanserver()
 	if (curtime > (ServerLastClean + ServerCleanFreq))
 	{
 		ServerLastClean = curtime;
-		db_query("SELECT server FROM " TBL_SERV
-					" WHERE online=\"N\" AND lastsplit<FROM_UNIXTIME(\"%d\")",
-					curtime - ServerCacheTime);
+		db_query("SELECT server FROM %s" TBL_SERV
+			 " WHERE online=\"N\" AND lastsplit<FROM_UNIXTIME(\"%d\")", MysqlPrefix,
+			 curtime - ServerCacheTime);
 		resptr = mysql_store_result(myptr);
 		if (mysql_num_rows(resptr))
 		{
@@ -486,9 +488,9 @@ void db_cleanserver()
 				free(server);
 			}
 			mysql_free_result(resptr);
-			db_query("DELETE FROM " TBL_SERV
-						" WHERE online=\"N\" AND lastsplit<FROM_UNIXTIME(\"%d\")",
-						curtime - ServerCacheTime);
+			db_query("DELETE FROM %s" TBL_SERV
+				 " WHERE online=\"N\" AND lastsplit<FROM_UNIXTIME(\"%d\")", MysqlPrefix,
+				 curtime - ServerCacheTime);
 		}
 	}
 }
@@ -504,9 +506,9 @@ void db_cleanuser()
 	if (curtime > (UserLastClean + UserCleanFreq))
 	{
 		UserLastClean = curtime;
-		db_query("SELECT nick FROM " TBL_USER
-					" WHERE online=\"N\" AND lastquit<FROM_UNIXTIME(\"%d\")",
-					curtime - UserCacheTime);
+		db_query("SELECT nick FROM %s" TBL_USER
+			 " WHERE online=\"N\" AND lastquit<FROM_UNIXTIME(\"%d\")", MysqlPrefix,
+			 curtime - UserCacheTime);
 
 		resptr = mysql_store_result(myptr);
 		if (mysql_num_rows(resptr))
@@ -518,9 +520,9 @@ void db_cleanuser()
 				free(nick);
 			}
 			mysql_free_result(resptr);
-			db_query("DELETE FROM " TBL_USER
-						" WHERE online=\"N\" AND lastquit<FROM_UNIXTIME(\"%d\")",
-						curtime - UserCacheTime);
+			db_query("DELETE FROM %s" TBL_USER
+				 " WHERE online=\"N\" AND lastquit<FROM_UNIXTIME(\"%d\")", MysqlPrefix,
+				 curtime - UserCacheTime);
 		}
 	}
 }
@@ -531,7 +533,7 @@ void db_offlineusers(int servid)
 	char **res2;
 	
 	/* We select users that went on the splitted server and send them to the appropritate functions */
-	db_query("SELECT nick, nickid FROM " TBL_USER " WHERE servid=\"%d\"", servid);
+	db_query("SELECT nick, nickid FROM %s" TBL_USER " WHERE servid=\"%d\"", MysqlPrefix, servid);
 	resptr2 = mysql_store_result(myptr);
 	while ((res2 = mysql_fetch_row(resptr2)))
 	{
