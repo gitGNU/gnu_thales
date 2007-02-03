@@ -100,6 +100,7 @@ int main(int argc, char **argv)
   char *ch1, *ch2;
   int opt = 0;
   int opt_index = 0;
+  int config = 0;
 
   static struct option thales_options[] =
     {
@@ -115,7 +116,7 @@ int main(int argc, char **argv)
   /* record start time */
   start_time = time(NULL);
   
-  opt = getopt_long(argc, argv, "chvVd",
+  opt = getopt_long(argc, argv, "c:hvVd",
 		    thales_options, &opt_index);
 
   while(opt != EOF)
@@ -127,6 +128,8 @@ int main(int argc, char **argv)
 	    {
 	      exit(EXIT_FAILURE);
 	    }
+
+	  config = 1;
 	  break;
 
 	case 'd':
@@ -154,10 +157,15 @@ int main(int argc, char **argv)
 	  usage();
 	}
       
-      opt = getopt_long(argc, argv, "hvVc:",
+      opt = getopt_long(argc, argv, "hvVdc:",
 			thales_options, &opt_index);
     }
 
+  if(config == 0)
+    {
+      fprintf(stderr, "Error: no configuration file loaded!\n");
+      exit(EXIT_FAILURE);
+    }
 
  
   /* Open logfile, and complain if we didn't. */

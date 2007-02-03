@@ -65,9 +65,11 @@ void db_connect()
 		mysql_close(myptr);
 	/* connecting to MySQL */
 	myptr = mysql_init(NULL);
-	if (!mysql_real_connect
-		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, *MysqlPort,
-		  NULL, 0))
+
+
+	if (mysql_real_connect
+		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, MysqlPort,
+		  NULL, 0) == NULL)
 		fatal("Failed to connect to database : %s\n", mysql_error(myptr));
 
 	/* Cleaning up the database */
