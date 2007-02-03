@@ -44,7 +44,7 @@ Size : $size
 Email : $email
 Version : $version
 
-Please mail this file to thales-usage@lucas-nussbaum.net
+Please mail this file to thales-misc@gnu.org
 ENDOFFILE
 
 echo "OK, that's all. Here are the results, saved in mail.txt :"
@@ -56,11 +56,11 @@ echo "command ? [Y/N]"
 echo -n "[Y] > "
 read answer
 if [ "X$answer" = "XN" -o "X$answer" = "Xn" ]; then
-	echo "OK, please mail the content of mail.txt to thales-usage@lucas-nussbaum.net"
+	echo "OK, please mail the content of mail.txt to thales-misc@gnu.org"
 	exit 0
 fi
 
-cat mail.txt |mail -s "thales usage" thales-usage@lucas-nussbaum.net
+cat mail.txt |mail -s "thales usage" thales-misc@gnu.org
 echo "mail sent, thanks !"
 rm mail.txt
 echo
