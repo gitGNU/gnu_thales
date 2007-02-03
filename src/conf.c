@@ -41,6 +41,7 @@ char *LogFilename;
 char *MysqlServer;
 int *MysqlPort;
 char *MysqlDatabase;
+char *MysqlPrefix;
 char *MysqlUser;
 char *MysqlPassword;
 
@@ -63,6 +64,7 @@ Directive directives[] = {
 	{"MysqlServer", {{PARAM_STRING, 0, &MysqlServer}}},
 	{"MysqlPort", {{PARAM_POSINT, 0, &MysqlPort}}}, 
 	{"MysqlDatabase", {{PARAM_STRING, 0, &MysqlDatabase}}},
+	{"MysqlPrefix", {{PARAM_STRING, 0, &MysqlPrefix}}},
 	{"MysqlUser", {{PARAM_STRING, 0, &MysqlUser}}},
 	{"MysqlPassword", {{PARAM_STRING, 0, &MysqlPassword}}},
 	{"PIDFile", {{PARAM_STRING, 0, &PIDFilename}}},
