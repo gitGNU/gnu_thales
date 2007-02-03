@@ -95,7 +95,7 @@ RemoteServer    localhost 6667 "mypass"
 #     Specifies the IRC server name which Services should use.  May be
 #     overridden by the -name command-line option.
 
-ServerName  "thales.lucas.in"
+ServerName  "localhost"
 
 # ServerDesc <text>  [REQUIRED]
 #     Specifies the text which should appear as the server's information in
@@ -116,6 +116,13 @@ ServerDesc  "Thales IRC2MySQL Gateway"
 
 MysqlServer  "localhost"
 
+
+# MysqlPort <port> [REQUIRED]
+#     Specifies the port of the MySQL server you want to use.
+#     Default is 3306
+MysqlPort 3307
+
+
 # MysqlDatabase <name>  [REQUIRED]
 #     Specifies the name of the MySQL database you want to store data in.
 #     The Database must exist, and the user specified below must have enough
@@ -123,15 +130,23 @@ MysqlServer  "localhost"
 
 MysqlDatabase "thales"
 
+
+# MysqlPrefix <prefix> [OPTIONAL]
+#     Specifies the table prefix e.g. prefix_user or prefix2_user
+#     This will only edit the SQL queries within the program,
+#     existing tables have to be renamed manual! You should only
+#     change here something if you know exactly what you do!
+MysqlPrefix ""
+
 # MysqlUser <name> [REQUIRED]
 #     Username to use when connecting to MySQL
 
-MysqlUser "lucas"
+MysqlUser "root"
 
 # MysqlPassword <password> [REQUIRED]
 #     Password to use when connecting to MySQL.
 
-MysqlPassword "password"
+MysqlPassword ""
 
 ###########################################################################
 #
