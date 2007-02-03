@@ -25,6 +25,7 @@
 #endif
 
 extern char *MysqlServer;
+extern int *MysqlPort;
 extern char *MysqlDatabase;
 extern char *MysqlUser;
 extern char *MysqlPassword;
@@ -65,7 +66,7 @@ void db_connect()
 	/* connecting to MySQL */
 	myptr = mysql_init(NULL);
 	if (!mysql_real_connect
-		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, 0,
+		 (myptr, MysqlServer, MysqlUser, MysqlPassword, MysqlDatabase, *MysqlPort,
 		  NULL, 0))
 		fatal("Failed to connect to database : %s\n", mysql_error(myptr));
 
