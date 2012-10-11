@@ -1,1 +1,0 @@
--gnu -npsl -bli0 -ut -i3 -ts3 -l75 -lc78 -sc -npcs -nbc
