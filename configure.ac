@@ -1,6 +1,7 @@
 AC_PREREQ([2.69])
 AC_INIT([GNU Thales], [1.91], [thales-misc@gnu.org])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 # Checks for programs.
 AC_PROG_CC
