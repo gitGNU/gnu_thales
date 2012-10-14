@@ -50,12 +50,11 @@ void
 parse_cmdopts(struct cmd_options *opts, int argc, char **argv)
 {
   int val;
-  const char *optstr = "hvdC:";
+  const char *optstr = "hvC:";
   struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {"version", no_argument, NULL, 'v'},
     {"config", required_argument, NULL, 'C'},
-    {"debug", no_argument, &opts->debug, 'd'}
   };
   while ((val = getopt_long(argc, argv, optstr, longopts, NULL))!= EOF)
     switch (val)

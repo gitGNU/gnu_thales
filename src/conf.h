@@ -1,4 +1,4 @@
-/*  Main program of GNU Thales.  Copyright (C)
+/*  Configuration file parsing program of GNU Thales.  Copyright (C)
 2012 Free Software Foundation, Inc.  This file is part of GNU Thales.
 
 GNU Thales is free software; you can redistribute it and/or modify it under the
@@ -14,15 +14,10 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#include <config.h>
+#ifndef CONF_H
+#define CONF_H
 #include <stdio.h>
-#include "cmd.h"
-int
-main(int argc, char **argv)
-{
-  struct cmd_options opts = {
-    .conf_filename = NULL
-  };
-  parse_cmdopts(&opts, argc, argv);
-  return 0;
-}
+
+FILE* default_config_file(void);
+
+#endif

@@ -1,2 +1,2 @@
 bin_PROGRAMS = thales
-thales_SOURCES = main.c cmd.h cmd.c
+thales_SOURCES = main.c cmd.h cmd.c conf.h conf.c
