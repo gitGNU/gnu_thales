@@ -16,5 +16,6 @@ AC_GNU_SOURCE
 
 # Checks for library functions.
 AC_CONFIG_FILES([Makefile
-                                  src/Makefile])
+                                  src/Makefile
+                                  doc/Makefile])
 AC_OUTPUT

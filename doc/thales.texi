@@ -1,0 +1,80 @@
+\input texinfo @c -*- mode: texinfo -*-
+
+@c %**start of header
+@setfilename thales.info
+@documentencoding UTF-8
+@settitle GNU Thales Manual
+@setchapternewpage on
+@c %**end of header
+
+@copying
+This file documents the GNU Thales IRC gateway.
+
+Copyright @copyright{} 2012 Free Software Foundation,
+Inc.
+
+@iftex
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+@end iftex
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.  A
+copy of the license is included in the section entitled ``GNU Free
+Documentation License''.
+@end copying
+
+@titlepage
+@title GNU Thales
+@subtitle IRC statistic collector and any-gateway.
+@author by Dmitry Bogatov
+
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@contents
+
+@ifnottex
+@node Top, History, (dir), (dir)
+@top Thales
+
+@insertcopying
+@end ifnottex
+
+@menu
+* History::
+* Invoking GNU Thales::
+* GNU Free Documentation License::
+@end menu
+
+@node History,  , Top, Top
+@chapter How it all began
+
+GNU Thales originally was written by Lucas Nussbaum in 2002 - 2004
+years. It provided ability to collect statistics about IRC activity to
+MySQL database. However, it directly dealed with IRC server
+differencies and did not used GNUlib, so it's code was not too elegant
+and it was possible to choose only one target server, and only on
+compilation stage, that created problems for distribution. Also, it
+provided close to no documentation. It was not maintained since 2004.
+This version is still accessible on CVS project repository.
+
+This manual describes rewrite from scratch of GNU Thales. Development
+occurs in git repository on Savannah. New version intends to cover
+previous functionality in clean code via use on GNUlib and libircclient,
+and also provide direct access to database via specially structured irc messages.
+If you think you found bug in program or in this manual, please inform about
+it via mailing list @code{thales-misc@@gnu.org}
+
+@node Invoking GNU Thales, GNU Free Documentation License, History, Top
+@chapter Invoking GNU Thales
+
+@node GNU Free Documentation License,  , History, History
+@chapter GNU Free Documentation License
+@include fdl.texi
+@bye
