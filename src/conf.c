@@ -111,7 +111,7 @@ void
 parse_config(FILE *stream, module_initializer init)
 {
   char *line, *name, *type;
-  size_t line_size;
+  size_t line_size = 0;
   struct envz env = {NULL, 0};
 
   line = name = type = NULL;

@@ -4,13 +4,15 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 # Checks for programs.
-AC_PROG_CC
+AC_PROG_CC_C99
 gl_EARLY
 gl_INIT
 AC_GNU_SOURCE
-# Checks for libraries.
 
-# Checks for header files.
+AC_CHECK_HEADER([libircclient/libircclient.h],[],
+                                                  [AC_MSG_ERROR([libircclient header not found])])
+AC_CHECK_LIB([ircclient],[irc_create_session],[],
+        [AC_MSG_ERROR([libircclient library not found])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 
