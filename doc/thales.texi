@@ -52,7 +52,7 @@ Documentation License''.
 * GNU Free Documentation License::
 @end menu
 
-@node History,  , Top, Top
+@node History, Invoking GNU Thales, Top, Top
 @chapter How it all began
 
 GNU Thales originally was written by Lucas Nussbaum in 2002 - 2004
@@ -74,7 +74,7 @@ it via mailing list @code{thales-misc@@gnu.org}
 @node Invoking GNU Thales, GNU Free Documentation License, History, Top
 @chapter Invoking GNU Thales
 
-@node GNU Free Documentation License,  , History, History
+@node GNU Free Documentation License,  , Invoking GNU Thales, Top
 @chapter GNU Free Documentation License
 @include fdl.texi
 @bye

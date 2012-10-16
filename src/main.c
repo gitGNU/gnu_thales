@@ -16,13 +16,37 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "cmd.h"
+#include "conf.h"
+static inline bool
+dummy(const char *type, const char *name,
+      const struct envz *env)
+{
+  printf("[%s]{%s}\n", type, name);
+  fflush(stdout);
+  return true;
+}
+static inline void
+fatal_error(const char *message)
+{
+  fprintf(stderr, "fatal eror: %s\n", message);
+  exit(EXIT_FAILURE);
+}
 int
 main(int argc, char **argv)
 {
   struct cmd_options opts = {
     .conf_filename = NULL
   };
+  FILE *config_file;
+
   parse_cmdopts(&opts, argc, argv);
+  config_file = opts.conf_filename ?
+    fopen(opts.conf_filename, "r")
+    : default_config_file();
+  if (!config_file)
+    fatal_error("failed to open config file");
+  parse_config(config_file, &dummy);
   return 0;
 }

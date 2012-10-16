@@ -17,7 +17,13 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #ifndef CONF_H
 #define CONF_H
 #include <stdio.h>
-
+#include <stdbool.h>
+struct envz {
+  char *envz;
+  size_t envz_len;
+};
+typedef bool (*module_initializer)(const char *type,
+                                  const char *name, const struct envz *env);
 FILE* default_config_file(void);
-
+void parse_config(FILE *stream, module_initializer init);
 #endif

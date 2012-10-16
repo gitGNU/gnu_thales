@@ -65,7 +65,7 @@ parse_cmdopts(struct cmd_options *opts, int argc, char **argv)
       case 'v':
         print_version();
         exit(EXIT_SUCCESS);
-      case 'c':
+      case 'C':
         opts->conf_filename = optarg;
         break;
       case '?':
