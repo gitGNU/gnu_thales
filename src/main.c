@@ -23,6 +23,7 @@ static inline bool
 dummy(const char *type, const char *name,
       const struct envz *env)
 {
+  (void)(&env);
   printf("[%s]{%s}\n", type, name);
   fflush(stdout);
   return true;

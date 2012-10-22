@@ -10,7 +10,7 @@ gl_INIT
 AC_GNU_SOURCE
 
 AC_CHECK_HEADER([libircclient/libircclient.h],[],
-                                                  [AC_MSG_ERROR([libircclient header not found])])
+        [AC_MSG_ERROR([libircclient header not found])])
 AC_CHECK_LIB([ircclient],[irc_create_session],[],
         [AC_MSG_ERROR([libircclient library not found])])
 
@@ -18,6 +18,7 @@ AC_CHECK_LIB([ircclient],[irc_create_session],[],
 
 # Checks for library functions.
 AC_CONFIG_FILES([Makefile
+                                  lib/Makefile
                                   src/Makefile
                                   doc/Makefile])
 AC_OUTPUT

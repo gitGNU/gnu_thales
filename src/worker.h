@@ -16,13 +16,18 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef MODULES_H
 #define MODULES_H
-
+#include <stddef.h>
+#include <envz.h>
+#include <argz.h>
 struct irc_meta {
 
 };
-#define worker_entry(ptr,type,name) (type)((char *)ptr - offsetof(type,name))
+
+#define worker_entry(ptr,type,name) (type*)((char *)ptr - offsetof(type,name))
 struct worker {
-  char *(*func)(const char *msg, struct irc_meta *meta, struct worker *self);
+  char *(*process_command)(const char *msg, struct irc_meta *meta,
+                           struct worker *self, char *name);
+  void (*free_worker)(struct worker *self);
 };
 
 #endif

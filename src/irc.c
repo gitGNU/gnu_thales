@@ -16,6 +16,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "irc.h"
 #include <stdio.h>
 #include <xalloc.h>
+#include <envz.h>
+#include <string.h>
 
 static inline bool
 config_error(const char *msg)
@@ -30,7 +32,7 @@ count_occurences(const char *str, char c)
   int count = 0;
 
   for (const char *p = str; *p; ++p)
-    count += *p = c;
+    count += *p == c;
   return count;
 }
 static char**
