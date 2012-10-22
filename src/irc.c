@@ -18,6 +18,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <xalloc.h>
 #include <envz.h>
 #include <string.h>
+#include <stdlib.h>
 
 static inline bool
 config_error(const char *msg)
@@ -43,7 +44,7 @@ split_at(const char *str, char delim)
   /* Alloc NULL-terminated array of strings */
   result = xcalloc (count_occurences(str, delim)+2, sizeof(char *));
 
-  for (int index = 0; *(delim_ptr = strchr(str, delim)); str = delim)
+  for (int index = 0; *(delim_ptr = strchr(str, delim)); str = delim_ptr)
     result[index] = strndup(str, delim_ptr - str -1);
 
   return result;
