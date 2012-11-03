@@ -31,10 +31,9 @@ default_config_file(void)
     "~/.thales",
     "/etc/thales"
   };
-  int index;
   FILE *config_file;
 
-  for (index = 0; index != countof(filenames); ++index)
+  for (int index = 0; index != countof(filenames); ++index)
     if (filenames[index] && (config_file = fopen(filenames[index], "w")))
       return config_file;
   return NULL;
@@ -104,8 +103,7 @@ xinit_module(module_initializer init,  const char *type,
 {
   if (!type || !name)
     return;
-  if (!(*init)(type, name, env))
-    initialization_error(type, name);
+  (*init)(type, name, env);
 }
 void
 parse_config(FILE *stream, module_initializer init)

@@ -19,15 +19,19 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stddef.h>
 #include <envz.h>
 #include <argz.h>
+
+#include "list.h"
 struct irc_meta {
 
 };
 
 #define worker_entry(ptr,type,name) (type*)((char *)ptr - offsetof(type,name))
 struct worker {
+  char *name;
   char *(*process_command)(const char *msg, struct irc_meta *meta,
                            struct worker *self, char *name);
   void (*free_worker)(struct worker *self);
+  struct list_head list;
 };
 
 #endif

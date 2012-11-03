@@ -6,7 +6,7 @@ terms of the GNU General Public License as published by the Free Software
 Foundation; either version 3 of the License, or (at your option) any later
 version.
 
-GNU Make is distributed in the hope that it will be useful, but
+GNU Thales is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
@@ -19,26 +19,35 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include "cmd.h"
 #include "conf.h"
-static inline bool
-dummy(const char *type, const char *name,
-      const struct envz *env)
+#include "list.h"
+#include "error.h"
+#include  "workers_registration.h"
+static LIST_HEAD(workers);
+static void
+module_initialization_dispatcher(const char *type,
+                                 const char *name, const struct envz *env)
 {
-  (void)(&env);
-  printf("[%s]{%s}\n", type, name);
-  fflush(stdout);
-  return true;
-}
-static inline void
-fatal_error(const char *message)
-{
-  fprintf(stderr, "fatal eror: %s\n", message);
-  exit(EXIT_FAILURE);
+  const struct worker_creator *cr = worker_creator_by_type(type);
+  struct worker *worker;
+
+  if (!cr)
+    fatal_error("No module of type `%s' registered", type);
+
+  worker = (*cr->creator)(env);
+  if (!worker)
+    fatal_error("Failed to initiailize modude of type %s with name %s",
+                type, name);
+
+  list_add(&worker->list, &workers);
 }
 int
 main(int argc, char **argv)
 {
   struct cmd_options opts = {
-    .conf_filename = NULL
+    .conf_filename = NULL,
+    .host = NULL,
+    .port = 0,
+    .channels = NULL
   };
   FILE *config_file;
 
@@ -48,6 +57,8 @@ main(int argc, char **argv)
     : default_config_file();
   if (!config_file)
     fatal_error("failed to open config file");
-  parse_config(config_file, &dummy);
+  init_worker_creators();
+  parse_config(config_file, &module_initialization_dispatcher);
+
   return 0;
 }
