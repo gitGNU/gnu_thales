@@ -22,53 +22,71 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <unistd.h>
 
 static void
-printf_option(const char *option, const char *description)
+printf_option (const char *option, const char *description)
 {
-  printf("  %-20s%-20s\n", option, description);
-}
-static void
-print_help(void)
-{
-  printf("Usage: thales [options]\n");
-  printf_option("--help, -h", "Display this information");
-  printf_option("--version, -v", "Display thales version");
-  printf_option("--debug, -d", "Enable output of debug information");
-  printf_option("--config, -C", "Override default configuration file");
+  printf ("  %-20s%-20s\n", option, description);
 }
 
 static void
-print_version(void)
+print_help (void)
 {
-  puts(PACKAGE_STRING);
-  puts("Copyright (C) 2012 Free Software Foundation, Inc.");
-  puts("This is free software; see the source for copying conditions.  There is NO");
-  puts("warranty; not even for MERCHANTABILITY "
-       "or FITNESS FOR A PARTICULAR PURPOSE.");
+  printf ("Usage: thales [options] channel [channels]\n");
+  printf_option ("--help, -h", "Display this information");
+  printf_option ("--version, -v", "Display thales version");
+  printf_option ("--debug, -d", "Enable output of debug information");
+  printf_option ("--config, -C", "Override default configuration file");
+  printf_option ("--server, -s", "Irc server to connect");
+  printf_option ("--port, -p", "Port to connect");
+  printf_option ("--nick, -n", "Nickname to login with");
+}
+
+static void
+print_version (void)
+{
+  puts (PACKAGE_STRING);
+  puts ("Copyright (C) 2012 Free Software Foundation, Inc.");
+  puts
+    ("This is free software; see the source for copying conditions.  There is NO");
+  puts ("warranty; not even for MERCHANTABILITY "
+	"or FITNESS FOR A PARTICULAR PURPOSE.");
 }
 
 void
-parse_cmdopts(struct cmd_options *opts, int argc, char **argv)
+parse_cmdopts (struct cmd_options *opts, int argc, char **argv)
 {
-  int val;
-  const char *optstr = "hvC:";
-  struct option longopts[] = {
+  const char *optstr = "hvs:p:C:n:";
+  const struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
+    {"server", required_argument, NULL, 's'},
+    {"port", required_argument, NULL, 'p'},
     {"version", no_argument, NULL, 'v'},
+    {"nick", required_argument, NULL, 'n'},
     {"config", required_argument, NULL, 'C'},
   };
-  while ((val = getopt_long(argc, argv, optstr, longopts, NULL))!= EOF)
+  int val;
+  while ((val = getopt_long (argc, argv, optstr, longopts, NULL)) != EOF)
     switch (val)
       {
       case 'h':
-        print_help();
-        exit(EXIT_SUCCESS);
+	print_help ();
+	exit (EXIT_SUCCESS);
       case 'v':
-        print_version();
-        exit(EXIT_SUCCESS);
+	print_version ();
+	exit (EXIT_SUCCESS);
       case 'C':
-        opts->conf_filename = optarg;
-        break;
+	opts->conf_filename = optarg;
+	break;
+      case 's':
+	opts->server = optarg;
+	break;
+      case 'p':
+	opts->port = atoi (optarg);
+	break;
+      case 'n':
+	opts->nick = optarg;
+	break;
       case '?':
-        exit(EXIT_FAILURE);
+	exit (EXIT_FAILURE);
       }
+  opts->channels = argv + optind;
 }

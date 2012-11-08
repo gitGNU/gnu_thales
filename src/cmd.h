@@ -18,8 +18,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define CMD_H
 struct cmd_options {
   const char *conf_filename;
-  const char *host;
-  unsigned int port;
+  const char *server;
+  const char *nick;
+  unsigned short port;
   char **channels; // NULL-terminated
 };
 void parse_cmdopts(struct cmd_options *opts, int argc, char **argv);

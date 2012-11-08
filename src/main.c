@@ -17,48 +17,44 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "cmd.h"
 #include "conf.h"
 #include "list.h"
 #include "error.h"
 #include  "workers_registration.h"
-static LIST_HEAD(workers);
+static LIST_HEAD (workers);
 static void
-module_initialization_dispatcher(const char *type,
-                                 const char *name, const struct envz *env)
+module_initialization_dispatcher (const char *type,
+				  const char *name, const struct envz *env)
 {
-  const struct worker_creator *cr = worker_creator_by_type(type);
+  const struct worker_creator *cr = worker_creator_by_type (type);
   struct worker *worker;
 
   if (!cr)
-    fatal_error("No module of type `%s' registered", type);
+    fatal ("No module of type `%s' registered", type);
 
-  worker = (*cr->creator)(env);
+  worker = (*cr->creator) (env);
   if (!worker)
-    fatal_error("Failed to initiailize modude of type %s with name %s",
-                type, name);
+    fatal ("Failed to initiailize modude of type %s with name %s",
+	   type, name);
 
-  list_add(&worker->list, &workers);
+  list_add (&worker->list, &workers);
 }
+
 int
-main(int argc, char **argv)
+main (int argc, char **argv)
 {
-  struct cmd_options opts = {
-    .conf_filename = NULL,
-    .host = NULL,
-    .port = 0,
-    .channels = NULL
-  };
+  struct cmd_options opts = { 0, };
   FILE *config_file;
 
-  parse_cmdopts(&opts, argc, argv);
+  parse_cmdopts (&opts, argc, argv);
   config_file = opts.conf_filename ?
-    fopen(opts.conf_filename, "r")
-    : default_config_file();
+    fopen (opts.conf_filename, "r") : default_config_file ();
   if (!config_file)
-    fatal_error("failed to open config file");
-  init_worker_creators();
-  parse_config(config_file, &module_initialization_dispatcher);
-
+    fatal ("failed to open config file");
+  init_worker_creators ();
+  parse_config (config_file, &module_initialization_dispatcher);
+  start_listen_irc (&opts, &workers);
   return 0;
 }
