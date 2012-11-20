@@ -23,6 +23,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "list.h"
 #include "error.h"
 #include  "workers_registration.h"
+#include "irc.h"
+
 static LIST_HEAD (workers);
 static void
 module_initialization_dispatcher (const char *type,
