@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define warning(...) do {                                           \
-    fprintf(stderr, "[%s:%s():%d]\tFatal error: ", __FILE__, __func__, __LINE__);      \
+    fprintf(stderr, "[%s:%s():%d]\tError: ", __FILE__, __func__, __LINE__);      \
     fprintf(stderr, __VA_ARGS__);                                       \
     fprintf(stderr, "\n");                                              \
   } while (0)

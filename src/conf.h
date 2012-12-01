@@ -18,10 +18,15 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define CONF_H
 #include <stdio.h>
 #include <stdbool.h>
+#include <envz.h>
 struct envz {
   char *envz;
   size_t envz_len;
 };
+#define DECLARE_ENVZ_GET(envz, key) const char *key = \
+    envz_get((envz)->envz, ((envz)->envz_len), #key)
+
+
 typedef void (*module_initializer)(const char *type,
                                   const char *name, const struct envz *env);
 FILE* default_config_file(void);

@@ -1,4 +1,4 @@
-/*  Log worker of GNU Thales.  Copyright (C)
+/*  Main modules interface of GNU Thales.  Copyright (C)
 2012 Free Software Foundation, Inc.  This file is part of GNU Thales.
 
 GNU Thales is free software; you can redistribute it and/or modify it under the
@@ -13,12 +13,15 @@ General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.  */
-#ifndef LOG_WORKER_H
-#define LOG_WORKER_H
-#include "worker.h"
-#include "conf.h"
 
-struct worker *create_log_worker(const struct envz *env);
+#ifndef SENTRY_H
+#define SENTRY_H
 
-
+#define sentry_entry(ptr,type,name) (type*)((char *)ptr - offsetof(type,name))
+struct sentry {
+    void (*join_event)(struct sentry *, const char *user, const char *channel);
+    void (*message_event)(const struct sentry *, const char *user,
+                          const char *channel, const char *msg);
+    void (*part_event)(struct sentry *, const char *user, const char *channel);
+};
 #endif

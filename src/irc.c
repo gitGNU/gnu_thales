@@ -23,7 +23,7 @@ parse_message (const char *msg, char **name, char **payload)
   const char *payload_begin;
 
   *name = *payload = NULL;
-  if (strncmp (msg, shebang, strlen (shebang)))
+  if (strcmp (msg, shebang))
     return false;		/* Is not command */
 
   /* Looks like command, but no terminating colon */
@@ -60,7 +60,7 @@ static
 EVENT_CALLBACK (event_connect)
 {
   const struct context *ctx =  irc_get_ctx (session);
-  for (const char **chan = opts->channels; *chan; ++chan)
+  for (const char **chan = ctx->opts->channels; *chan; ++chan)
     irc_cmd_join (session, *chan, NULL);
 }
 
