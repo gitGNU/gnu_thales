@@ -20,6 +20,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "utility.h"
 
 static void
 printf_option (const char *option, const char *description)
@@ -52,7 +53,7 @@ print_version (void)
 }
 
 void
-parse_cmdopts (struct cmd_options *opts, int argc, char **argv)
+parse_cmdopts (struct irc_options *opts, int argc, char **argv)
 {
   const char *optstr = "hvs:p:C:n:";
   const struct option longopts[] = {
@@ -89,4 +90,50 @@ parse_cmdopts (struct cmd_options *opts, int argc, char **argv)
 	exit (EXIT_FAILURE);
       }
   opts->channels = argv + optind;
+}
+
+
+FILE*
+default_config_file(void)
+{
+  /* Have to replace hardcoded pathes to
+     Automake generated */
+  const char *filenames[] ={
+    getenv("THALES_CONFIG"),
+    "~/.thales",
+    "/etc/thales"
+  };
+  FILE *config_file;
+
+  for (int index = 0; index != countof(filenames); ++index)
+    if (filenames[index] && (config_file = fopen(filenames[index], "w")))
+      return config_file;
+  return NULL;
+}
+
+static void
+fill_envz(char **envz, size_t *envz_len, FILE *stream)
+{
+  char *line = NULL;
+  size_t line_len;
+
+  while (getline(&line, &line_len, stream) > 0)
+    argz_add(envz, envz_len, line);
+  free(line);
+}
+
+void
+parse_mysql_options(struct mysql_options *opts, FILE *stream)
+{
+  char *envz = NULL;
+  size_t envz_len = 0;
+
+  fill_envz(&envz, &envz_len, stream);
+
+  opts->database = xstrdup_safe(envz_get(envz, envz_len, "database"));
+  opts->host = xstrdup_safe(envz_get(envz, envz_len, "host"));
+  opts->password = xstrdup_safe(envz_get(envz, envz_len, "password"));
+  opts->port = xstrdup_safe(envz_get(envz, envz_len, "port"));
+  opts->username = xstrdup_safe(envz_get(envz, envz_len, "username"));
+
 }

@@ -1,10 +1,10 @@
 #ifndef MYSQL_SENTRY_H
 #define MYSQL_SENTRY_H
 
-#include "sentry.h"
-#include "conf.h"
+struct mysql_options;
+struct sentry;
+typedef struct sentry SENTRY;
 
-#define sentry_entry(ptr,type,name) (type*)((char *)ptr - offsetof(type,name))
-struct sentry* create_mysql_sentry(const struct envz *);
+SENTRY *sentry_initialize(const struct mysql_options *opts);
 
 #endif

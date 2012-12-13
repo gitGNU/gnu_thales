@@ -25,38 +25,21 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include  "workers_registration.h"
 #include "irc.h"
 
-static LIST_HEAD (workers);
-static void
-module_initialization_dispatcher (const char *type,
-				  const char *name, const struct envz *env)
-{
-  const struct worker_creator *cr = worker_creator_by_type (type);
-  struct worker *worker;
-
-  if (!cr)
-    fatal ("No module of type `%s' registered", type);
-
-  worker = (*cr->creator) (env);
-  if (!worker)
-    fatal ("Failed to initiailize modude of type %s with name %s",
-	   type, name);
-
-  list_add (&worker->list, &workers);
-}
-
 int
 main (int argc, char **argv)
 {
-  struct cmd_options opts = { 0, };
+  struct cmd_options cmd_opts = { 0, };
+  struct mysql_options mysql_opts = { 0, };
   FILE *config_file;
 
-  parse_cmdopts (&opts, argc, argv);
-  config_file = opts.conf_filename ?
-    fopen (opts.conf_filename, "r") : default_config_file ();
+  parse_cmdopts (&cmd_opts, argc, argv);
+  config_file = cmd_opts.conf_filename ? fopen (opts.conf_filename, "r")
+    : default_config_file ();
+
   if (!config_file)
     fatal ("failed to open config file");
-  init_worker_creators ();
-  parse_config (config_file, &module_initialization_dispatcher);
-  start_listen_irc (&opts, &workers);
+
+  parse_mysql_options(&mysql_opts);
+  start_listen_irc (&cmd_opts, &workers);
   return 0;
 }

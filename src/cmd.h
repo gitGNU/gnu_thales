@@ -16,13 +16,22 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef CMD_H
 #define CMD_H
-struct cmd_options {
-  const char *conf_filename;
+struct irc_options {
   const char *server;
   const char *nick;
   unsigned short port;
-  char **channels; // NULL-terminated
+  char **channels;
 };
-void parse_cmdopts(struct cmd_options *opts, int argc, char **argv);
+struct mysql_options {
+  const char *host;
+  const char *username;
+  const char *password;
+  const char *database;
+  unsigned short int port;
+};
+
+FILE* default_config_file(void);
+void parse_cmd_options(struct irc_options *opts, int argc, char **argv);
+void parse_mysql_options(struct mysql_options *opts, FILE *stream);
 
 #endif
