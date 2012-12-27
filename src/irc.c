@@ -10,10 +10,9 @@
   function_name (irc_session_t * session, const char *event,            \
                  const char *origin, const char **params, unsigned int count)
 
-struct context
-{
-  const struct cmd_options *opts;
-  const struct list_head *workers;
+struct context {
+  SENTRY *sentry;
+  const struct irc_options *opts;
 };
 
 static bool
@@ -60,7 +59,7 @@ static
 EVENT_CALLBACK (event_connect)
 {
   const struct context *ctx =  irc_get_ctx (session);
-  for (const char **chan = ctx->opts->channels; *chan; ++chan)
+  for (char **chan = ctx->opts->channels; *chan; ++chan)
     irc_cmd_join (session, *chan, NULL);
 }
 
@@ -73,12 +72,13 @@ static irc_callbacks_t callbacks = {
 };
 
 bool
-start_listen_irc (const struct cmd_options *opts,
-		  const struct list_head *workers)
+start_listen_irc (const struct irc_options *opts,
+		  SENTRY *sentry)
 {
   irc_session_t *session = irc_create_session (&callbacks);
   struct context context = {
-    opts, workers
+    .sentry = sentry,
+    .opts = opts
   };
 
   if (!session)

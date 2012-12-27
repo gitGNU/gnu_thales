@@ -2,14 +2,14 @@
 #define IRC_H
 #include <stdbool.h>
 #include "cmd.h"
-#include "list.h"
+#include "mysql_sentry.h"
 struct irc_user {
   char *nickname;
   char *realname;
 };
 
-bool start_listen_irc(const struct cmd_options *opts,
-                      const struct list_head *workers);
+bool start_listen_irc(const struct irc_options *opts, SENTRY *sentry);
+
 
 
 #endif

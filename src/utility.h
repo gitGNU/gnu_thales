@@ -12,7 +12,7 @@ xrangedup (const void *begin, const void *end)
 static inline char*
 xstrdup_safe(const char *ptr)
 {
-  return ptr ? xstrndup(ptr) : NULL;
+  return ptr ? xstrdup(ptr) : NULL;
 }
 
 #endif

@@ -19,27 +19,24 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include <string.h>
 #include "cmd.h"
-#include "conf.h"
-#include "list.h"
 #include "error.h"
-#include  "workers_registration.h"
 #include "irc.h"
 
 int
 main (int argc, char **argv)
 {
-  struct cmd_options cmd_opts = { 0, };
-  struct mysql_options mysql_opts = { 0, };
+  struct irc_options cmd_opts = { 0 };
+  struct mysql_options mysql_opts = { 0 };
+  struct config_options config_opts = { 0 };
   FILE *config_file;
 
-  parse_cmdopts (&cmd_opts, argc, argv);
-  config_file = cmd_opts.conf_filename ? fopen (opts.conf_filename, "r")
+  parse_cmd_options (&cmd_opts, &config_opts, argc, argv);
+  config_file = config_opts.conf_filename ? fopen (config_opts.conf_filename, "r")
     : default_config_file ();
 
   if (!config_file)
     fatal ("failed to open config file");
 
-  parse_mysql_options(&mysql_opts);
-  start_listen_irc (&cmd_opts, &workers);
+  parse_mysql_options(&mysql_opts, config_file);
   return 0;
 }

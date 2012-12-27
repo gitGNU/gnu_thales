@@ -20,6 +20,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <envz.h>
 #include "utility.h"
 
 static void
@@ -53,13 +54,15 @@ print_version (void)
 }
 
 void
-parse_cmdopts (struct irc_options *opts, int argc, char **argv)
+parse_cmd_options (struct irc_options *opts, struct config_options *config_opts,
+               int argc, char **argv)
 {
-  const char *optstr = "hvs:p:C:n:";
+  const char *optstr = "hdvs:p:C:n:";
   const struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {"server", required_argument, NULL, 's'},
     {"port", required_argument, NULL, 'p'},
+    {"debug", no_argument, NULL, 'd'},
     {"version", no_argument, NULL, 'v'},
     {"nick", required_argument, NULL, 'n'},
     {"config", required_argument, NULL, 'C'},
@@ -75,17 +78,19 @@ parse_cmdopts (struct irc_options *opts, int argc, char **argv)
 	print_version ();
 	exit (EXIT_SUCCESS);
       case 'C':
-	opts->conf_filename = optarg;
+	config_opts->conf_filename = optarg;
 	break;
       case 's':
 	opts->server = optarg;
 	break;
       case 'p':
-	opts->port = atoi (optarg);
+	opts->port = (unsigned short int) atoi (optarg); // Port in two byte integral.
 	break;
       case 'n':
 	opts->nick = optarg;
 	break;
+      case 'd':
+        config_opts->debug = true;
       case '?':
 	exit (EXIT_FAILURE);
       }
@@ -111,7 +116,7 @@ default_config_file(void)
   return NULL;
 }
 
-static void
+static inline void
 fill_envz(char **envz, size_t *envz_len, FILE *stream)
 {
   char *line = NULL;

@@ -13,6 +13,10 @@ AC_CHECK_HEADER([libircclient/libircclient.h],[],
         [AC_MSG_ERROR([libircclient header not found])])
 AC_CHECK_LIB([ircclient],[irc_create_session],[],
         [AC_MSG_ERROR([libircclient library not found])])
+AC_CHECK_HEADER([mysql/mysql.h],[],
+        [AC_MSG_ERROR([Mysql header not found])])
+AC_CHECK_LIB([mysqlclient],[mysql_real_connect],[],
+        [AC_MSG_ERROR([Mysql library not found])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 

@@ -16,6 +16,9 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef CMD_H
 #define CMD_H
+#include <stdbool.h>
+#include <stdio.h>
+
 struct irc_options {
   const char *server;
   const char *nick;
@@ -30,8 +33,14 @@ struct mysql_options {
   unsigned short int port;
 };
 
+struct config_options {
+  bool debug;
+  const char *conf_filename;
+};
+
 FILE* default_config_file(void);
-void parse_cmd_options(struct irc_options *opts, int argc, char **argv);
+void parse_cmd_options(struct irc_options *irc_opts, struct config_options *config_opts,
+                       int argc, char **argv);
 void parse_mysql_options(struct mysql_options *opts, FILE *stream);
 
 #endif
