@@ -111,7 +111,7 @@ default_config_file(void)
   FILE *config_file;
 
   for (int index = 0; index != countof(filenames); ++index)
-    if (filenames[index] && (config_file = fopen(filenames[index], "w")))
+    if (filenames[index] && (config_file = fopen(filenames[index], "r")))
       return config_file;
   return NULL;
 }

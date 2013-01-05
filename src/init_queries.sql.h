@@ -47,7 +47,7 @@ static const char *presence_tbl =
   "KEY chanid (chanid))";
 
 /* Stupid restriction of C */
-static inline const char **const
+static inline const char **
 init_queries ()
 {
   enum { query_count = 5 };
@@ -59,10 +59,4 @@ init_queries ()
   queries[4] = NULL;
   return queries;
 }
-
-
-
-
-
-
 #endif
