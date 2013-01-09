@@ -40,7 +40,7 @@ main (int argc, char **argv)
 
   parse_mysql_options(&mysql_opts, config_file);
 
-SENTRY *sentry = sentry_initialize(&mysql_opts);
+SENTRY *sentry = sentry_initialize(&mysql_opts, irc_opts.server);
 #warning "mysql is not used"
 /* if (!sentry) */
 /*   fatal("failed to connect to database"); */

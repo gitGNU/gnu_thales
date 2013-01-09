@@ -1,0 +1,59 @@
+# -*- conf-unix-*-
+autogen definitions init_query;
+query = {
+  value = "CREATE TABLE IF NOT EXISTS channel ("
+    "chanid int unsigned NOT NULL auto_increment,"
+    "channel varchar(33) binary NOT NULL default '',"
+    "topic text,"
+    "topicauthor varchar(31) default NULL,"
+    "topictime datetime default NULL,"
+    "PRIMARY KEY  (chanid),"
+    "UNIQUE KEY channel (channel))";
+
+  error_msg = "Failed to create channel table.";
+};
+
+query = {
+  value = "CREATE TABLE IF NOT EXISTS user ("
+    "nickid int unsigned NOT NULL auto_increment,"
+    "nick varchar(31) NOT NULL default '',"
+    "realname varchar(51) NOT NULL default '',"
+    "hostname varchar(64) NOT NULL default '',"
+    "hiddenhostname varchar(64) NOT NULL default '',"
+    "username varchar(11) NOT NULL default '',"
+    "swhois varchar(32) NOT NULL default '',"
+    "connecttime datetime NOT NULL default '0000-00-00 00:00:00',"
+    "servid int unsigned NOT NULL default '0',"
+    "away enum('Y','N') NOT NULL default 'N',"
+    "awaymsg text,"
+    "online enum('Y','N') NOT NULL DEFAULT 'Y',"
+    "lastquit datetime default NULL,"
+    "PRIMARY KEY  (nickid),"
+    "UNIQUE KEY nick (nick),"
+    "KEY servid (servid))";
+
+  error_msg = "Failed to create user table.";
+};
+
+query = {
+  value = "CREATE TABLE IF NOT EXISTS server ("
+    "servid int unsigned NOT NULL auto_increment,"
+    "server varchar(64) NOT NULL default '',"
+    "connecttime datetime default NULL,"
+    "PRIMARY KEY  (servid),"
+    "UNIQUE KEY server (server))";
+
+  error_msg = "Failed to create server table.";
+};
+
+query = {
+  value = "CREATE TABLE IF NOT EXISTS presence ("
+    "nickid int unsigned NOT NULL default '0',"
+    "chanid int unsigned NOT NULL default '0',"
+    "servid int unsigned NOT NULL default '0',"
+    "PRIMARY KEY  (nickid,chanid,servid),"
+    "KEY nickid (nickid),"
+    "KEY chanid (chanid))";
+
+  error_msg = "Failed to create presence table.";
+};

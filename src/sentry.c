@@ -1,13 +1,13 @@
-#include "mysql_sentry.h"
-#include <mysql/mysql.h>
+#include "sentry.h"
 #include <xalloc.h>
 #include <stdbool.h>
+#include <dbi/dbi.h>
 #include "cmd.h"
 #include "init_queries.sql.h"
 
 struct sentry
 {
-  MYSQL db_handle;
+char *unused;
 };
 
 static inline bool
@@ -20,7 +20,7 @@ initialize_tables(MYSQL *db_handle)
 }
 
 SENTRY *
-sentry_initialize (const struct mysql_options *opts)
+sentry_initialize (const struct mysql_options *opts, const char *server)
 {
   MYSQL db_handle;
   mysql_init (&db_handle);
@@ -38,13 +38,28 @@ sentry_initialize (const struct mysql_options *opts)
     goto tables;
   }
 
-  struct sentry *new = xmalloc (sizeof *new);
+  struct sentry *new = xcalloc (1, sizeof *new);
 
   new->db_handle = db_handle;
+  new->server = xstrdup(server);
   return new;
 
  tables:
   mysql_close(&db_handle);
  connect:
   return NULL;
+}
+
+void
+sentry_channel_presence_clear(SENTRY *sentry, const char *channel)
+{
+  static const char *query =
+}
+
+void
+sentry_channel_presence_add(SENTRY *sentry, const char *channel,
+                            const char *nickname)
+{
+  const char *query = "INSERT INTO presence VALUES (nickid, chanid, servid) where
+
 }
