@@ -2,7 +2,7 @@
 #define IRC_H
 #include <stdbool.h>
 #include "cmd.h"
-#include "mysql_sentry.h"
+#include "sentry.h"
 struct irc_user {
   char *nickname;
   char *realname;

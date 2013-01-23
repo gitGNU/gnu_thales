@@ -6,7 +6,7 @@
 #include "defaults.h"
 #include "error.h"
 #include "utility.h"
-#include "mysql_sentry.h"
+#include "sentry.h"
 
 #define EVENT_CALLBACK(function_name) void                              \
   function_name (irc_session_t * session, const char *event,            \
@@ -28,9 +28,11 @@ EVENT_CALLBACK (event_join)
 {
   const char *nickname =  origin;
   const char *channel = *params;
+  const struct context *ctx = irc_get_ctx(session);
 
   printf ("%s joined %s\n", nickname, channel);
   fflush(stdout);
+  sentry_channel_presence_clear(ctx, channel);
   irc_cmd_names(session, channel);
 }
 
@@ -49,7 +51,9 @@ event_numeric_namreply(struct context *context, const char *channel,
   for (const char *nickname = strtok(nicknames_buf, " ");
        nickname;
        nickname = strtok(NULL, " "))
-    sentry_channel_presence_add(context->sentry, channel, nickname);
+    {
+      sentry_channel_presence_add(context->sentry, channel, nickname);
+    }
 
   free(nicknames_buf);
 }
@@ -107,7 +111,7 @@ start_listen_irc (const struct irc_options *opts,
   irc_set_ctx (session, &context);
   int error = irc_connect (session,
                            opts->server ? opts->server : default_server,
-                           opts->port ? opts->port : default_port, NULL,	/* Password. Not now. */
+                           opts->port ? opts->port : default_port, NULL,	/* Password*/
 			   opts->nick ? opts->nick : default_nick, NULL,
 			   NULL);
   if (error)

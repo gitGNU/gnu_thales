@@ -21,7 +21,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "cmd.h"
 #include "error.h"
 #include "irc.h"
-#include "mysql_sentry.h"
+#include "sentry.h"
 
 int
 main (int argc, char **argv)

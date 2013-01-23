@@ -3,17 +3,17 @@
 #include <stdbool.h>
 #include <dbi/dbi.h>
 #include "cmd.h"
-#include "init_queries.sql.h"
+#include "init_query.h"
 
 struct sentry
 {
-char *unused;
+  char *unused;
 };
 
 static inline bool
 initialize_tables(MYSQL *db_handle)
 {
-  for (const char *query = *init_queries(); *query; ++query)
+  for (const char *query = *init_queries; *query; ++query)
     if (!mysql_query(db_handle, query))
       return false;
   return true;
@@ -38,7 +38,7 @@ sentry_initialize (const struct mysql_options *opts, const char *server)
     goto tables;
   }
 
-  struct sentry *new = xcalloc (1, sizeof *new);
+  struct sentry *new = xmalloc (sizeof *new);
 
   new->db_handle = db_handle;
   new->server = xstrdup(server);
@@ -60,6 +60,6 @@ void
 sentry_channel_presence_add(SENTRY *sentry, const char *channel,
                             const char *nickname)
 {
-  const char *query = "INSERT INTO presence VALUES (nickid, chanid, servid) where
+  const char *query = "INSERT INTO presence VALUES (nickid, chanid, servid) where"
 
 }
