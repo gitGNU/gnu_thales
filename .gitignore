@@ -1,3 +1,5 @@
 *.o
 .deps
+/build-aux
+Makefile
 \#*
