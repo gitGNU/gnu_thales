@@ -13,4 +13,8 @@
   exit(EXIT_FAILURE); \
   } while (0)
 
+#define debug(...) do {                         \
+  fprintf(stderr, __VA_ARGS__);                 \
+} while (0)
+
 #endif

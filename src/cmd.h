@@ -19,28 +19,15 @@ this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdbool.h>
 #include <stdio.h>
 
-struct irc_options {
+struct work_options
+{
   const char *server;
-  const char *nick;
+  const char *nickname;
   unsigned short port;
   char **channels;
 };
-struct mysql_options {
-  const char *host;
-  const char *username;
-  const char *password;
-  const char *database;
-  unsigned short int port;
-};
 
-struct config_options {
-  bool debug;
-  const char *conf_filename;
-};
-
-FILE* default_config_file(void);
-void parse_cmd_options(struct irc_options *irc_opts, struct config_options *config_opts,
-                       int argc, char **argv);
-void parse_mysql_options(struct mysql_options *opts, FILE *stream);
+FILE *default_config_file (void);
+void parse_cmd_options (struct work_options *opts, int argc, char **argv);
 
 #endif
