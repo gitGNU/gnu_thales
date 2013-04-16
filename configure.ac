@@ -2,29 +2,28 @@ AC_PREREQ([2.69])
 AC_INIT([GNU Thales], [1.91], [thales-misc@gnu.org])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 # Checks for programs.
 AC_PROG_CC_C99
 AC_CHECK_PROGS([AUTOGEN], [autogen],
                           [AC_MSG_WARN([GNU Autogen required for developer build])])
-gl_EARLY
-gl_INIT
 AC_GNU_SOURCE
+LT_INIT
 
 AC_CHECK_HEADER([libircclient/libircclient.h],[],
         [AC_MSG_ERROR([libircclient header not found])])
 AC_CHECK_LIB([ircclient],[irc_create_session],[],
         [AC_MSG_ERROR([libircclient library not found])])
-AC_CHECK_HEADER([mysql/mysql.h],[],
-        [AC_MSG_ERROR([Libdbi headers not found])])
-AC_CHECK_LIB([mysqlclient],[mysql_real_connect],[],
-        [AC_MSG_ERROR([Libdbi library not found])])
-
+GUILE_PKG([2.0])
+GUILE_FLAGS
+GUILE_SITE_DIR
+GUILE_PROGS
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
 AC_CONFIG_FILES([Makefile
-                                  lib/Makefile
                                   src/Makefile
+                                  scheme/Makefile
                                   doc/Makefile])
 AC_OUTPUT
