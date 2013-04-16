@@ -1,7 +1,0 @@
-/* -*- conf-unix-*- */
-autogen definitions query.tpl;
-
-query = {
-      action = "nick_quit";
-      format = "foobar %s";
-};
