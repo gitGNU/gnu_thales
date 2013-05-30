@@ -1,1 +1,1 @@
-info_TEXINFOS = guile-libircclient.texinfo
+info_TEXINFOS = guile-libircclient.texi

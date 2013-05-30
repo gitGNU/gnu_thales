@@ -1,4 +1,4 @@
-(define-module (prelude))
+(define-module (functional prelude))
 
 (define-public (partial-apply fn . args)
   "Return function `fn` with first arguments bound with args."

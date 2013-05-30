@@ -1,6 +1,6 @@
 (define-module (im irc)
     #:version (1 6 0)
-    #:use-module (prelude)
+    #:use-module (functional prelude)
     #:use-module (oop goops)
     #:use-module (ice-9 optargs)
     #:use-module (ice-9 receive)

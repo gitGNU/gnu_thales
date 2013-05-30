@@ -1,0 +1,20 @@
+#!/usr/bin/guile -s
+!#
+(use-modules (im irc))
+(use-modules (dbi dbi))
+(use-modules (ice-9 format))
+(use-modules (functional prelude))
+(use-modules (thales init-database))
+
+(define *user* "kaction")
+(define *pass* "fetchmail")
+(define *dbname* "KAction_db")
+(define *host* "kaction.name")
+(define *port* 3306)
+
+
+(define db-obj (dbi-open "mysql" (format #f "~a:~a:~a:tcp:~a:~d"
+                                         *user* *pass* *dbname* *host* *port*)))
+(display db-obj) (newline)
+(initialize-database-tables db-obj)
+(dbi-close db-obj)
