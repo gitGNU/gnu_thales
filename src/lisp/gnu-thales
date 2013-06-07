@@ -5,7 +5,7 @@
 (use-modules (ice-9 format))
 (use-modules (functional prelude))
 (use-modules (thales init-database))
-
+(use-modules)
 (define *user* "kaction")
 (define *pass* "fetchmail")
 (define *dbname* "KAction_db")

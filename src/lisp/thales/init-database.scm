@@ -3,7 +3,7 @@
   #:use-module (dbi dbi)
   #:export (initialize-database-tables))
 
-(define +channel-init-query+ "CREATE TABLE IF NOT EXISTS channel (
+(define +channel-init-query+ "CREATE TABLE IF NOT EXISTS chan (
   chanid int unsigned NOT NULL auto_increment,
   channel varchar(33) binary NOT NULL default '',
   topic text,
@@ -47,7 +47,7 @@
   mode_ll_data int(10) NOT NULL default '0',
   mode_ul_data varchar(33) NOT NULL default '',
   PRIMARY KEY  (chanid),
-  UNIQUE KEY channel (channel))")
+  UNIQUE KEY channel (channel));")
 
 (define +ison-init-query+ "CREATE TABLE IF NOT EXISTS ison (
   nickid int unsigned NOT NULL default '0',
@@ -59,8 +59,65 @@
   mode_lv enum('Y','N') NOT NULL default 'N',
   PRIMARY KEY  (nickid,chanid),
   KEY nickid (nickid),
-  KEY chanid (chanid)
-);")
+  KEY chanid (chanid));")
+
+(define +server-init-query+ "CREATE TABLE IF NOT EXISTS server (
+ servid int unsigned NOT NULL auto_increment,
+ server varchar(64) NOT NULL default '',
+ comment varchar(255) NOT NULL default '',
+ linkedto int unsigned default NULL,
+ connecttime datetime default NULL,
+ online enum('Y','N') NOT NULL DEFAULT 'Y',
+ lastsplit datetime default NULL,
+ PRIMARY KEY  (servid),
+ UNIQUE KEY server (server),
+ KEY linkedto (linkedto));")
+
+(define +user-init-query+ "CREATE TABLE IF NOT EXISTS user (
+  nickid int unsigned NOT NULL auto_increment,
+  nick varchar(31) NOT NULL default '',
+  realname varchar(51) NOT NULL default '',
+  hostname varchar(64) NOT NULL default '',
+  hiddenhostname varchar(64) NOT NULL default '',
+  username varchar(11) NOT NULL default '',
+  swhois varchar(32) NOT NULL default '',
+  connecttime datetime NOT NULL default '0000-00-00 00:00:00',
+  servid int unsigned NOT NULL default '0',
+  away enum('Y','N') NOT NULL default 'N',
+  awaymsg text,
+  online enum('Y','N') NOT NULL DEFAULT 'Y',
+  lastquit datetime default NULL,
+  mode_la enum('Y','N') NOT NULL default 'N',
+  mode_lc enum('Y','N') NOT NULL default 'N',
+  mode_ld enum('Y','N') NOT NULL default 'N',
+  mode_lg enum('Y','N') NOT NULL default 'N',
+  mode_lh enum('Y','N') NOT NULL default 'N',
+  mode_li enum('Y','N') NOT NULL default 'N',
+  mode_lo enum('Y','N') NOT NULL default 'N',
+  mode_lp enum('Y','N') NOT NULL default 'N',
+  mode_lq enum('Y','N') NOT NULL default 'N',
+  mode_lr enum('Y','N') NOT NULL default 'N',
+  mode_lt enum('Y','N') NOT NULL default 'N',
+  mode_lv enum('Y','N') NOT NULL default 'N',
+  mode_lw enum('Y','N') NOT NULL default 'N',
+  mode_lx enum('Y','N') NOT NULL default 'N',
+  mode_lz enum('Y','N') NOT NULL default 'N',
+  mode_ua enum('Y','N') NOT NULL default 'N',
+  mode_ub enum('Y','N') NOT NULL default 'N',
+  mode_uc enum('Y','N') NOT NULL default 'N',
+  mode_ud enum('Y','N') NOT NULL default 'N',
+  mode_ug enum('Y','N') NOT NULL default 'N',
+  mode_uh enum('Y','N') NOT NULL default 'N',
+  mode_un enum('Y','N') NOT NULL default 'N',
+  mode_ur enum('Y','N') NOT NULL default 'N',
+  mode_us enum('Y','N') NOT NULL default 'N',
+  mode_ut enum('Y','N') NOT NULL default 'N',
+  mode_uv enum('Y','N') NOT NULL default 'N',
+  mode_uu enum('Y','N') NOT NULL default 'N',
+  mode_uw enum('Y','N') NOT NULL default 'N',
+  PRIMARY KEY  (nickid),
+  UNIQUE KEY nick (nick),
+  KEY servid (servid));")
 
 (define (initialize-database-tables db-obj)
   (map (lambda (query) (dbi-query db-obj (eval query (resolve-module '(thales init-database))))
@@ -70,4 +127,4 @@
                    (error (format #f
                                   "Error while evaluating ~a database query.\nError message: ~a."
                                   query err-message)))))
-       '(+channel-init-query+ +ison-init-query+)))
+       '(+channel-init-query+ +ison-init-query+ +server-init-query+ +user-init-query+)))
