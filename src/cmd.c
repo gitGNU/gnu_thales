@@ -92,3 +92,18 @@ SCM_DEFINE(scm_irc_send_raw, "irc-send-raw", 2, 0, 0,
   irc_send_raw(session, "%s", cmd);
   return SCM_UNSPECIFIED;
 }
+
+SCM_DEFINE(scm_irc_cmd_msg, "irc-cmd-msg", 3, 0, 0,
+	   (SCM s, SCM scm_to, SCM scm_what),
+	   "Send message to channel or user")
+{
+  irc_session_t *session = scm_to_irc_session(s);
+  char *to = guarded_scm_to_ascii_string(scm_to);
+  char *what = guarded_scm_to_ascii_string(scm_what);
+  irc_cmd_msg(session, to, what);
+  return SCM_UNSPECIFIED;
+}
+
+SCM_DEFINE(scm_irc_cmd_invite, "irc-cmd-invite", 3, 0, 0,
+	   (SCM s, SCM scm_nick, SCM scm_channel),
+	   "Invite someone to invite-only channel."
