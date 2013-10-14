@@ -1,4 +1,4 @@
-(define-module (seal)
+(define-module (thales seal)
     #:export (sealed))
 (use-modules (ice-9 match))
 (use-modules (srfi srfi-1))
