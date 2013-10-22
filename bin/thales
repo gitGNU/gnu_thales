@@ -1,0 +1,44 @@
+(use-modules (ice-9 match))
+(use-modules (ice-9 ftw))
+(define *scheme-sources-root* (format #f "~a/src/" (getcwd)))
+(define *scheme-binary-dir* (format #f "~a/bin/" (getcwd)))
+(define-syntax push
+    (syntax-rules ()
+	    ((_ val list) (set! list (cons val list)))))
+
+(define-syntax pop
+    (syntax-rules ()
+	    ((_ list) (let ((val (car list)))
+			  (begin
+			      (set! list (cdr list))
+			      val)))))
+
+(define (list-modules root)
+    (define current-prefix '())
+    (define modules '())
+    (file-system-fold
+     (and #:enter? (const #t))
+     (and #:leaf (lambda (file . <>)
+		     (match (string-split (basename file) #\.)
+			    ((name "scm")
+			     (push modules (cons (string->symbol name)
+						 current-prefix)))
+			    (_ #f))))
+     (and #:down (lambda (path . <>)
+		     (unless (equal? path root)
+			     (push current-prefix
+				   (string->symbol (basename path))))))
+     (and #:up (lambda (path . <>)
+		   (unless (equal? path root)
+			   (pop current-prefix))))
+     (and #:skip (const #t))
+
+     (and #:error list)
+     (and #:init #f)
+     (and #:file-name root))
+    (map reverse modules))
+
+(define (module-interface->list interface)
+
+    #f
+)
