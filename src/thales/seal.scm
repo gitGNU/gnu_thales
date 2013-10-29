@@ -90,7 +90,7 @@ In particular, (seal-clause expr -->) asserts, that EXPR throws something."))))
 	    ((_ f (obj ...) ...)
 	     (with-syntax ((& (datum->syntax env '&)))
 		 #'(eval-when (compile)
-			      (load-once (current-filename))
+			      (load-once *thales-current-filename*)
 			      (let ((& f))
 				  (format #t "Checking seals with & = ~a... " 'f)
 				  (seal-clause obj ...) ...
