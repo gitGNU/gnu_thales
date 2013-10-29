@@ -7,10 +7,11 @@
 	      check-resolution
 	      perform-configure)
     #:use-module (thales core-modules)
-    #:use-module (thales seal)
     #:use-module (thales syntax)
     #:use-module (ice-9 match)
-    #:use-module (ice-9 ftw))
+    #:use-module (ice-9 ftw)
+    #:use-module (srfi srfi-1))
+(use-modules (thales seal))
 
 (sealed string-starts-with
 	(& "foo" "fo" => #t)
@@ -97,18 +98,20 @@
 				      #:ensure #f))))
 
 (define* (perform-configure modules #:key (unknown-sourced (const #t)))
-    (apply append
-     (for* (mod in modules)
-	   (format #t "Module ~a.\n" mod)
-	   (unless (module-resolvable? mod)
-		   (throw 'unresolved-module mod))
-	   (for* (dep in (module-deps mod))
-		 (format #t " → Checking for ~a... " dep)
-		       (if (member dep modules)
-			   (format #t "self\n")
-			   (let ((provider (check-dependency dep)))
-			       (if provider (format #t "~a\n" provider)
-				   (begin
-				       (unknown-sourced dep)
-				       (format #t "unknown\n")))
-			       provider))))))
+    (delete-duplicates
+     (filter symbol?
+	     (apply append
+		    (for* (mod in modules)
+			  (format #t "Module ~a.\n" mod)
+			  (unless (module-resolvable? mod)
+				  (throw 'unresolved-module mod))
+			  (for* (dep in (module-deps mod))
+				(format #t " Checking for ~a... " dep)
+				(if (member dep modules)
+				    (format #t "self\n")
+				    (let ((provider (check-dependency dep)))
+					(if provider (format #t "~a\n" provider)
+					    (begin
+						(unknown-sourced dep)
+						(format #t "unknown\n")))
+					provider))))))))
