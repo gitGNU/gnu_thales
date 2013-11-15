@@ -35,6 +35,7 @@ CONSTRAINS is list of constrains, that have following kinds:
         (<pkg-name> ? (<major> <minor>) ... )
 
 Both INSTALLED and AVAILIBLE are lists of package in form
-    (<pkg-name> (<major> <minor> <micro>))"
+    (<pkg-name> (<major> <minor> <micro>) <constrains>)
+where <constrains> are never rigid."
 #f
 )
