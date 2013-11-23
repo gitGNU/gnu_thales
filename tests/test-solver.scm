@@ -1,0 +1,17 @@
+(use-modules (thales solver))
+
+(define (test:no-alternatives)
+    (define installed '())
+    (define available '((foo  (1 0 0)  ())
+			(foo  (2 0 0)  ())
+			(bar  (1 0 0)  ((foo ? (1 0 0))))
+			(bar  (2 0 0)  ((foo ? (2 0 0))))
+			(quad (1 0 0)  ((foo ? (1 0 0))
+					(bar ? (1 0 0))))
+			(quad (2 0 0)  ((foo ? (1 0 0))
+					(bar ? (2 0 0))))))
+    (define constrains '(quad ? (1 0) (2 0)))
+    (define r1-solver (generate-r1-contrain-solver installed available))
+    (display (r1-solver '(quad ? (1)))))
+
+(test:no-alternatives)
