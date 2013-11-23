@@ -33,6 +33,7 @@
 	(for-each make-and-step
 		  (string-split path #\/))))
 
+;; FIXME: Need more accurate errors handling
 (define (touch-p path)
     (with-ignored-exceptions
         (mkdir-p path)
@@ -47,6 +48,8 @@
     (string-append (string-join (map symbol->string module) "/")
 		   extension))
 
+(sealed relative-to
+	(& "/home/kaction" "thales" => "/home/kaction/thales"))
 (define (relative-to basename fname)
     (format #f "~a/~a" basename fname))
 
