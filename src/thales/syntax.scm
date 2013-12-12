@@ -2,7 +2,7 @@
     #:use-module (srfi srfi-26)
     #:use-module (ice-9 match)
     #:re-export (cute)
-    #:export (lambda-match for for*))
+    #:export (lambda-match for for* define-match))
 
 (eval-when (eval load compile)
 	   (read-hash-extend #\[
@@ -25,6 +25,11 @@
 	      (((t ...) (generate-temporaries #'(pat ...))))
 	      #'(lambda (t ...)
 		    (nested-match (t ...) (pat ...) exp exps ... )))))))
+
+(define-syntax define-match
+    (syntax-rules ()
+	((_ (name args ...) expr ...)
+	 (define name (lambda-match (args ...) expr ...)))))
 
 (define-syntax for
     (syntax-rules (=>)
