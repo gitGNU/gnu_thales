@@ -46,8 +46,14 @@
 (use-modules (srfi srfi-26))
 
 (sealed version-compatible?
-	(& '(1 2) '(1 2 0) => #t)
-	(& '(1 2 3) '(1 2 2) => #f))
+    (& '(1 2) '(1 2 0) => #t)
+    (& '(1 2 3) '(1 2 2) => #t))
+
+(define (version-compatible? v1 v2)
+    "Version is compatible, if major versions is equal
+and minor is no less."
+    (and (=  (car v1)  (car v2))
+	 (<= (cadr v1) (cadr v2))))
 
 (sealed satisfy
 	(& '(foo ? (1 0))
@@ -68,27 +74,6 @@
 	(& '(foo = (1 2 4) (1 2 7))
 	   '(foo   (1 2 5))
 	   => #f))
-
-
-
-(define (version-compatible? v1 v2)
-    (if (equal? (car v1) (car v2))
-	(let version<= ((v1 (cdr v1)) (v2 (cdr v2)))
-	    (match v1
-		[(x v1-rest ...)
-		 (match v2
-		     ['() #f]
-		     [(y v2-rest ...)
-		      (cond [(< x y) #t]
-			    [(> x y) #f]
-			    [#t (version<= v1-rest v2-rest)])])]
-		['() #t]))
-	#f))
-
-(define (version-equal? v1 v2)
-    (unless (and (list? v1) (list? v2))
-	(error "Invalid versions: ~a ~a" v1 v2))
-    (equal? v1 v2))
 
 
 (define (satisfy constr package)
