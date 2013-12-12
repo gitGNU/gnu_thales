@@ -15,13 +15,17 @@
 	((_ val list)
 	 (set! list (cons val list)))))
 
-(define load-once
+(define* (module->filename module)
+    (string-append (string-join (map symbol->string (module-name module)) "/")))
+
+(define load-self-once
     (let ((already-loaded '()))
-	(lambda  (filename)
-	    "Load file, unless it was not already loaded with this function."
-	    (unless (member filename already-loaded)
-		    (primitive-load filename)
-		    (push filename already-loaded)))))
+        (lambda ()
+            "Load current module, unless it was not already
+loaded with this function."
+            (unless (member (current-module) already-loaded)
+                (primitive-load-path (module->filename (current-module)))
+                (push (current-module) already-loaded)))))
 
 (define (error:broken-seal form expect result)
     (format #t "\nCompilation aborted: seal broken.
@@ -86,12 +90,12 @@ In particular, (seal-clause expr -->) asserts, that EXPR throws something."))))
 
 (define-syntax sealed
     (lambda (env)
-	(syntax-case env ()
-	    ((_ f (obj ...) ...)
-	     (with-syntax ((& (datum->syntax env '&)))
-		 #'(eval-when (compile)
-			      (load-once *thales-current-filename*)
-			      (let ((& f))
-				  (format #t "Checking seals with & = ~a... " 'f)
-				  (seal-clause obj ...) ...
-				  (format #t "ok\n"))))))))
+        (syntax-case env ()
+            ((_ f (obj ...) ...)
+             (with-syntax ((& (datum->syntax env '&)))
+                 #'(eval-when (compile)
+		       (load-self-once)
+		       (let ((& f))
+			   (format #t "Checking seals with & = ~a... " 'f)
+			   (seal-clause obj ...) ...
+			   (format #t "ok\n"))))))))
