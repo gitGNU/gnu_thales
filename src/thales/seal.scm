@@ -7,13 +7,13 @@
 (eval-when (eval load compile)
     (read-hash-extend #\[
         (lambda (ch stream)
-	    (unread-char ch stream)
-	    (cons 'cute (read stream)))))
+            (unread-char ch stream)
+            (cons 'cute (read stream)))))
 
 (define-syntax push
     (syntax-rules ()
-	((_ val list)
-	 (set! list (cons val list)))))
+        ((_ val list)
+         (set! list (cons val list)))))
 
 (define* (module->filename module)
     (string-append (string-join (map symbol->string (module-name module)) "/")))
@@ -34,51 +34,51 @@ Eval: ~a\nExpect: ~a\nReceived: ~a\n" form expect result)
 
 (define-syntax call-and-catch
     (syntax-rules ()
-	((_ <form> <on-values> <on-throw>)
-	 (let ((throw-handler-called #f))
-	     (call-with-values #[catch #t
-				       (lambda () <form>)
-				       (lambda args
-					   (apply <on-throw> args)
-					   (set! throw-handler-called #t))]
-		 (lambda args
-		     (unless throw-handler-called
-			     (apply <on-values> args))))))))
+        ((_ <form> <on-values> <on-throw>)
+         (let ((throw-handler-called #f))
+             (call-with-values #[catch #t
+                                       (lambda () <form>)
+                                       (lambda args
+                                           (apply <on-throw> args)
+                                           (set! throw-handler-called #t))]
+                 (lambda args
+                     (unless throw-handler-called
+                             (apply <on-values> args))))))))
 
 (define-syntax seal-clause
     (syntax-rules (=> -->)
-	((_ <form>) (seal-clause <form> => #t))
-	((_ <form> => <val> <vals> ... )
-	 (let ((expected (cons 'values '(<val> <vals> ...))))
-	     (call-and-catch <form>
+        ((_ <form>) (seal-clause <form> => #t))
+        ((_ <form> => <val> <vals> ... )
+         (let ((expected (cons 'values '(<val> <vals> ...))))
+             (call-and-catch <form>
                  (lambda args
-		     (unless (equal? args (cdr expected))
-			     (error:broken-seal '<form>
-						expected
-						(cons 'values args))))
-		 (lambda throw-args
-		     (error:broken-seal '<form>
-					expected
-					(cons 'throw throw-args))))))
-	((_ <form> <forms> ... => <val> <vals> ...)
-	 (seal-clause (<form> <forms> ...) => <val> <vals> ...))
-	((_ <form> --> <val> ...)
-	 (let ((expected (cons 'throw '(<val> ...))))
-	     (call-and-catch <form>
+                     (unless (equal? args (cdr expected))
+                             (error:broken-seal '<form>
+                                                expected
+                                                (cons 'values args))))
+                 (lambda throw-args
+                     (error:broken-seal '<form>
+                                        expected
+                                        (cons 'throw throw-args))))))
+        ((_ <form> <forms> ... => <val> <vals> ...)
+         (seal-clause (<form> <forms> ...) => <val> <vals> ...))
+        ((_ <form> --> <val> ...)
+         (let ((expected (cons 'throw '(<val> ...))))
+             (call-and-catch <form>
                 (lambda args
-		    (error:broken-seal '<form>
-				       (append expected '(....))
-				       (cons 'values args)))
-		(lambda throw-args
-		    (unless (and (<= (length (cdr expected)) (length throw-args))
-				 (every equal? (cdr expected) throw-args))
-			    (error:broken-seal '<form>
-					       (append expected '(....))
-					       (cons 'throw throw-args)))))))
-	((_ <form> <forms> ... --> <val> ...)
-	 (seal-clause (<form> <forms> ...) --> <val> ...))
-	((_ obj ...)
-	 (error "Macro seal-clause usage:
+                    (error:broken-seal '<form>
+                                       (append expected '(....))
+                                       (cons 'values args)))
+                (lambda throw-args
+                    (unless (and (<= (length (cdr expected)) (length throw-args))
+                                 (every equal? (cdr expected) throw-args))
+                            (error:broken-seal '<form>
+                                               (append expected '(....))
+                                               (cons 'throw throw-args)))))))
+        ((_ <form> <forms> ... --> <val> ...)
+         (seal-clause (<form> <forms> ...) --> <val> ...))
+        ((_ obj ...)
+         (error "Macro seal-clause usage:
 Assert, that evaluation of EXPR returns value(s).
     (seal-clause expr => value [values])
 Assert, that evaluation of EXPR is #t
