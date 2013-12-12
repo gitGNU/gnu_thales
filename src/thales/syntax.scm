@@ -1,14 +1,24 @@
 (define-module (thales syntax)
+    #:use-module (srfi srfi-1)
     #:use-module (srfi srfi-26)
     #:use-module (ice-9 match)
     #:re-export (cute)
     #:export (lambda-match for for* define-match))
 
+(define (cute-reader ch stream)
+    (define (append-<...> list)
+	(if (eq? (last list) '<...>)
+	    list
+	    (append list '(<...>))))
+    (unread-char ch stream)
+    (cons '(@ (srfi srfi-26) cute)
+	   (append-<...> (read stream))))
+
 (eval-when (eval load compile)
-	   (read-hash-extend #\[
-			     (lambda (ch stream)
-				 (unread-char ch stream)
-				 (cons 'cute (read stream)))))
+    (read-hash-extend #\[
+	(lambda (ch stream)
+	    ((@@ (thales syntax) cute-reader) ch stream))))
+
 (define-syntax nested-match
     (syntax-rules ()
 	(( _ (var) (pat) exp exps ...)
