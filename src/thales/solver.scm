@@ -44,6 +44,7 @@
 (use-modules (srfi srfi-1))
 (use-modules (thales seal))
 (use-modules (srfi srfi-26))
+(use-modules (thales syntax))
 
 (sealed version-compatible?
     (& '(1 2) '(1 2 0) => #t)
@@ -62,7 +63,7 @@ and minor is no less."
 	(& '(foo ? (2 0))
 	   '(foo (1 2 3))
 	   => #f)
-	(& '(foo ? (1))
+	(& '(foo ? (1 0))
 	   '(foo (1 2 3))
 	   => #t)
 	(& '(foo ? (1 0) (2 0))
@@ -75,17 +76,15 @@ and minor is no less."
 	   '(foo   (1 2 5))
 	   => #f))
 
+(define version-equal? equal?)
 
-(define (satisfy constr package)
-    (match package
-	([pkgname pkg-version _ ...]
-	 (match constr
-	     ([?pkgname *cmp* versions ...]
-	      (let ((cmp (case *cmp*
-			     [(?) version-compatible?]
-			     [(=) version-equal? ])))
-		  (and (eq? pkgname ?pkgname)
-		       (any #[cmp <> pkg-version] versions))))))))
+(define-match (satisfy [?pkgname *cmp* ?versions ...]
+                       [pkgname  pkg-version _ ...])
+    (let ((cmp (case *cmp*
+		   [(?) version-compatible?]
+		   [(=) version-equal? ])))
+	(and (eq? pkgname ?pkgname)
+	    (any #[cmp <> pkg-version] ?versions))))
 
 (define* (generate-r1-contrain-solver installed availible
 				      #:key (conservative #f))
