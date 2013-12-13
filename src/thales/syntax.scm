@@ -19,10 +19,15 @@
         (lambda (ch stream)
             ((@@ (thales syntax) cute-reader) ch stream))))
 
+(eval-when (load compile eval)
+    (read-hash-extend #\~
+        (lambda (ch stream)
+	    `((lambda () ,@(read stream))))))
+
 (define-syntax nested-match
     (syntax-rules ()
         (( _ (var) (pat) exp exps ...)
-         (match var (pat exp exps ...)))
+         (match var (pat #~(exp exps ...))))
         (( _ (var vars ...) (pat pats ...) exp exps ...)
          (match var (pat (nested-match (vars ...) (pats ...) exp exps ...))))))
 
