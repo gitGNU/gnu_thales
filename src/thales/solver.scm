@@ -47,34 +47,38 @@
 (use-modules (thales syntax))
 
 (sealed version-compatible?
-    (& '(1 2) '(1 2 0) => #t)
-    (& '(1 2 3) '(1 2 2) => #t))
+	([& '(1 2) '(1 2 0)] => #t)
+	([& '(1 2 3) '(1 2 2)] => #t))
 
 (define (version-compatible? v1 v2)
     "Version is compatible, if major versions is equal
 and minor is no less."
     (and (=  (car v1)  (car v2))
 	 (<= (cadr v1) (cadr v2))))
+(define-match (version-interchangeble? [major1 minor1 _ ...]
+		                       [major2 minor2 _ ...])
+    (and (= major1 major2)
+	(= minor1 minor2)))
 
 (sealed satisfy
-	(& '(foo ? (1 0))
-	   '(foo (1 0 0))
-	   => #t)
-	(& '(foo ? (2 0))
-	   '(foo (1 2 3))
-	   => #f)
-	(& '(foo ? (1 0))
-	   '(foo (1 2 3))
-	   => #t)
-	(& '(foo ? (1 0) (2 0))
-	   '(foo   (1 2 3))
-	   => #t)
-	(& '(foo = (1 2 3))
-	   '(foo   (1 2 3))
-	   => #t)
-	(& '(foo = (1 2 4) (1 2 7))
-	   '(foo   (1 2 5))
-	   => #f))
+	[(& '(foo ? (1 0))
+	    '(foo (1 0 0)))
+	 => #t]
+	[(& '(foo ? (2 0))
+	    '(foo (1 2 3)))
+	 => #f]
+	[(& '(foo ? (1 0))
+	    '(foo (1 2 3)))
+	 => #t]
+	[(& '(foo ? (1 0) (2 0))
+	    '(foo   (1 2 3)))
+	 => #t]
+	[(& '(foo = (1 2 3))
+	    '(foo   (1 2 3)))
+	 => #t]
+	[(& '(foo = (1 2 4) (1 2 7))
+            '(foo   (1 2 5)))
+	 => #f])
 
 (define version-equal? equal?)
 

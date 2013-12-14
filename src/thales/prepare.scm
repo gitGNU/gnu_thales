@@ -14,9 +14,9 @@
 (use-modules (thales seal))
 
 (sealed string-starts-with
-	(& "foo" "fo" => #t)
-	(& "fo" "foo" => #f)
-	(& "f" #\c   -->))
+	([& "foo" "fo"] => #t)
+	([& "fo" "foo"] => #f)
+	([& "f" #\c]   !-->))
 
 (define (string-starts-with str prefix)
     (define prefix-length (string-length prefix))
@@ -24,8 +24,8 @@
 	 (equal? prefix (substring str 0 prefix-length))))
 
 (sealed string-strip-prefix
-	(& "foo" "f" => "oo")
-	(& "bar" "f" => "bar"))
+	([& "foo" "f"] => "oo")
+	([& "bar" "f"] => "bar"))
 
 (define (string-strip-prefix str prefix)
     (if (string-starts-with str prefix)
@@ -33,13 +33,13 @@
 	str))
 
 (sealed string-empty?
-	(& "fo" => #f)
-	(& ""   => #t))
+	([& "fo"] => #f)
+	([& ""]   => #t))
 (define (string-empty? str) (equal? str ""))
 
 (sealed relpath->module-name
-	(& "/foo/bar/baz.scm" => (foo bar baz))
-	(& "foo/bar/baz"      => (foo bar baz)))
+	([& "/foo/bar/baz.scm"] => '(foo bar baz))
+	([& "foo/bar/baz"]      => '(foo bar baz)))
 (define* (relpath->module-name path)
     (map (compose string->symbol #[basename <> ".scm"])
 	 (filter (negate string-empty?) (string-split path #\/))))
@@ -50,8 +50,8 @@
     (eq? (stat:type st) 'regular))
 
 (sealed have-extension?
-	(& "foo.foo" ".foo" => #t)
-	(& "barfoo"  ".foo" => #f))
+	([& "foo.foo" ".foo"] => #t)
+	([& "barfoo"  ".foo"] => #f))
 
 (define (have-extension? str ext)
     (not (equal? str (basename str ext))))
