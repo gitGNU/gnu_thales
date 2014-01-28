@@ -41,15 +41,15 @@
     path)
 
 (sealed modname->relative-filename
-	([& '(foo bar)] => "foo/bar.scm")
-	([& '(baz baf) #:extension ".go"] => "baz/baf.go"))
+	('(foo bar) *** "foo/bar.scm")
+	('(baz baf) #:extension ".go" *** "baz/baf.go"))
 
 (define* (modname->relative-filename module #:key (extension ".scm"))
     (string-append (string-join (map symbol->string module) "/")
 		   extension))
 
 (sealed relative-to
-	([& "/home/kaction" "thales"] => "/home/kaction/thales"))
+	("/home/kaction" "thales" *** "/home/kaction/thales"))
 (define (relative-to basename fname)
     (format #f "~a/~a" basename fname))
 

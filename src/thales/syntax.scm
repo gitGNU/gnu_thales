@@ -3,7 +3,12 @@
     #:use-module (srfi srfi-26)
     #:use-module (ice-9 match)
     #:re-export (cute)
-    #:export (lambda-match for for* define-match))
+    #:export (lambda-match for for* define-match push))
+
+(define-syntax push
+    (syntax-rules ()
+        ((_ val list)
+         (set! list (cons val list)))))
 
 (define (cute-reader ch stream)
     (define (append-<...> list)
@@ -22,7 +27,12 @@
 (eval-when (load compile eval)
     (read-hash-extend #\~
         (lambda (ch stream)
-	    `((lambda () ,@(read stream))))))
+	    (let ((next-char (read-char stream)))
+		(unread-char next-char stream)
+		(let ((next-sexp (read stream)))
+		    (case next-char
+			[(#\() `(let () ,@next-sexp)]
+			[(#\[) `(lambda () ,@next-sexp)]))))))
 
 (define-syntax nested-match
     (syntax-rules ()

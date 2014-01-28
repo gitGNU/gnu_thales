@@ -72,69 +72,16 @@ loaded with this function."
 		     (unless (throw-args-match (cdr expected) throw-args)
 			 (error:handle (cons 'throw throw-args)))))))))
 
-;; (define-syntax paaqqck-forms
-;;     (syntax-rules ()
-;; 	(_ <form>)
-;; )
-;; )
 (define-syntax seal-clause
-    (syntax-rules (=> !-->)
-	([_ <form> => <val> ...]
+    (syntax-rules (=> !--> ***)
+	([_ f <args> ... *** <val>]
+	 (seal-clause-expect-values (f <args> ...) (<val>)))
+	([_ f <form> => <val> ...]
 	 (seal-clause-expect-values <form> (<val> ...)))
-	([_ <form> !--> <val> ...]
+	([_ f <form> !--> <val> ...]
 	 (seal-clause-expect-throw <form> (<val> ...)))
-	([_ <form>]
+	([_ f <form>]
 	 (seal-clause-expect-values <form> (#t)))))
-
-;; (define-syntax seal-clause
-;;     (syntax-rules (=> !-->)
-;;         ((_ <form> => <val> <vals> ... )
-;;          (let ((expected (cons 'values '(<val> <vals> ...))))
-;; 	     'CLAUSE-1
-;;              (call-and-catch <form>
-;;                  (lambda args
-;;                      (unless (equal? args (cdr expected))
-;;                              (error:broken-seal '<form>
-;;                                                 expected
-;;                                                 (cons 'values args))))
-;;                  (lambda throw-args
-;;                      (error:broken-seal '<form>
-;;                                         expected
-;;                                         (cons 'throw throw-args))))))
-;;         ((_ <form> <forms> ... => <val> <vals> ...)
-;;          (seal-clause (<form> <forms> ...) => <val> <vals> ...))
-;;         ((_ <form> !--> <val> ...)
-;;          (let ((expected (cons 'throw '(<val> ...))))
-;; 	     'CLAUSE-2
-;;              (call-and-catch <form>
-;;                 (lambda args
-;;                     (error:broken-seal '<form>
-;;                                        (append expected '(....))
-;;                                        (cons 'values args)))
-;;                 (lambda throw-args
-;;                     (unless (and (<= (length (cdr expected)) (length throw-args))
-;;                                  (every equal? (cdr expected) throw-args))
-;;                             (error:broken-seal '<form>
-;;                                                (append expected '(....))
-;;                                                (cons 'throw throw-args)))))))
-;;         ((_ <form> ... !--> <val> <vals> ...)
-;; 	 #f
-;; 	 ;; (let ('CLAUSE-X)
-;; 	 ;;     (seal-clause (<form> ...) !--> <val> ...))
-;; )
-;;;	((_ <form> ...) (seal-clause <form> ... => #t))
-;;         ((_ obj ...)
-;;          (error "Macro seal-clause usage:
-;; Assert, that evaluation of EXPR returns value(s).
-;;     (seal-clause expr => value [values])
-;; Assert, that evaluation of EXPR is #t
-;;     (seal-clause expr)
-;; Assert, that evaluation of EXPR throws with argument list, starting with value(s)
-;;     (seal-clause expr --> value [values])
-;; In particular, (seal-clause expr -->) asserts, that EXPR throws something."))
-
-;; ))
-
 
 (define-syntax sealed
     (lambda (env)
@@ -145,5 +92,5 @@ loaded with this function."
 		       (load-self-once)
 		       (let ((& f))
 			   (format #t "Checking seals with & = ~a... " 'f)
-			   (seal-clause obj ...) ...
+			   (seal-clause f obj ...) ...
 			   (format #t "ok\n"))))))))
