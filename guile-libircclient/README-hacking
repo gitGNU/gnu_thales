@@ -1,5 +1,0 @@
-Coding style
-========
-- GNU Standard, single statement block allowed.
-- Please use bool from <stdbool.h> over int
-  unless you take address of variable.
