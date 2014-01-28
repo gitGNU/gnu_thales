@@ -19,12 +19,16 @@
             "Load current module, unless it was not already
 loaded with this function."
             (unless (member (current-module) already-loaded)
-                (primitive-load-path (module->filename (current-module)))
+                (primitive-load-path (current-module-load-filename))
                 (push (current-module) already-loaded)))))
 
 (define (error:broken-seal form expect result)
-    (format #t "\nCompilation aborted: seal broken.
-Eval: ~a\nExpect: ~a\nReceived: ~a\n" form expect result)
+    (format #t "\nCompilation aborted: seal broken when evaluating\n")
+    (pretty-print form)
+    (format #t "\nExpect:\n")
+    (pretty-print expect)
+    (format #t "\nActual:\n")
+    (pretty-print result)
     (exit 1))
 
 (define-syntax call-and-catch

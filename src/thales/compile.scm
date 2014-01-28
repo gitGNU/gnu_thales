@@ -5,7 +5,7 @@
     #:use-module (thales prepare)
     #:export (perform-compile mkdir-p with-current-working-directory
 			      touch-p))
-(define  (path-absolute? path)
+(define (path-absolute? path)
     (string-starts-with path "/"))
 
 (define-syntax with-current-working-directory
