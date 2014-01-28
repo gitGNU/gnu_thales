@@ -6,7 +6,6 @@
 	      list-modules
 	      check-resolution
 	      perform-configure)
-    #:use-module (thales core-modules)
     #:use-module (thales syntax)
     #:use-module (ice-9 match)
     #:use-module (ice-9 ftw)
