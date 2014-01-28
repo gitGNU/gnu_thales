@@ -2,16 +2,14 @@
     #:export (sealed))
 (use-modules (thales syntax))
 (use-modules (ice-9 match))
+(use-modules (ice-9 pretty-print))
 (use-modules (srfi srfi-1))
 (use-modules (srfi srfi-26))
 
-(define-syntax push
-    (syntax-rules ()
-        ((_ val list)
-         (set! list (cons val list)))))
-
-(define* (module->filename module)
-    (string-append (string-join (map symbol->string (module-name module)) "/")))
+(define (current-module-name)
+    (module-name (current-module)))
+(define (current-module-load-filename)
+    (string-join (map symbol->string (current-module-name)) "/"))
 
 (define load-self-once
     (let ((already-loaded '()))
@@ -76,6 +74,8 @@ loaded with this function."
     (syntax-rules (=> !--> ***)
 	([_ f <args> ... *** <val>]
 	 (seal-clause-expect-values (f <args> ...) (<val>)))
+	([_ f <args> ... *+* <val>]
+	 (seal-clause-expect-values (f <args> ...) ('<val>)))
 	([_ f <form> => <val> ...]
 	 (seal-clause-expect-values <form> (<val> ...)))
 	([_ f <form> !--> <val> ...]
