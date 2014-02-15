@@ -1,0 +1,33 @@
+GUILD = @GUILD@
+SOURCES = seal.scm
+OBJECTS = $(patsubst %.scm,%.go,$(SOURCES))
+
+%.go: @abs_srcdir@/%.scm
+	$(GUILD) compile $< -o $@
+all: $(OBJECTS)
+install: all
+	@MKDIR_P@ $(DESTDIR)@GUILE_SITE@/thales
+	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE@ $(OBJECTS) $(SOURCES)
+uninstall:
+	for file in $(SOURCES) ; do
+		rm -f @GUILE_SITE/thales/$$file
+	done
+clean:
+	rm -f $(SOURCES)
+distdir:
+	@INSTALL@ -t $(distdir) $(SOURCES)
+mostlyclean: clean
+maintainer-clean: clean
+install-strip: install
+install-html: html
+install-dvi: dvi
+install-pdf: pdf
+install-ps: ps
+info:
+html:
+dvi:
+pdf:
+ps:
+check:
+installcheck:
+TAGS:
