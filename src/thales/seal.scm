@@ -64,7 +64,7 @@ loaded with this function."
     (syntax-rules ()
 	([_ <form> (<val> ...)]
 	 (let* ((expected (list 'values <val> ...))
-		(error:handle [cute error:broken-seal '<form> expected]))
+		(error:handle [cute error:broken-seal '<form> expected <>]))
 	     (call-and-catch <form>
 	         (lambda args
 		     (unless (equal? args (cdr expected))
@@ -77,7 +77,7 @@ loaded with this function."
 	([_ <form> (<val> ...)]
 	 (let* ((expected (list 'throw <val> ...))
 		(error:handle [cute error:broken-seal '<form>
-                                    (append expected '(....))]))
+                                    (append expected '(....)) <>]))
 	     (call-and-catch <form>
                  (lambda args
 		     (error:handle (cons 'values args)))
@@ -89,7 +89,7 @@ loaded with this function."
 			 (error:handle (cons 'throw throw-args)))))))))
 
 (define-syntax seal-clause
-    (syntax-rules (=> !--> ***)
+    (syntax-rules (=> !--> *** *+* *!*)
 	([_ f <args> ... *** <val>]
 	 (seal-clause-expect-values (f <args> ...) (<val>)))
 	([_ f <args> ... *+* <val>]
@@ -98,6 +98,8 @@ loaded with this function."
 	 (seal-clause-expect-values <form> (<val> ...)))
 	([_ f <form> !--> <val> ...]
 	 (seal-clause-expect-throw <form> (<val> ...)))
+	([_ f <args> ... *!* <val>]
+	 (seal-clause-expect-throw (f <args> ...) ('<val>)))
 	([_ f <form>]
 	 (seal-clause-expect-values <form> (#t)))))
 
