@@ -1,0 +1,155 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename thales.info
+@settitle GNU Thales
+@c %**end of header
+@copying
+Macroses for GNU Guile for performing unit-testing and checking backward- and forward- compability..
+
+Copyright @copyright{} 2014
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled ``GNU
+Free Documentation License''.
+
+A copy of the license is also available from the Free Software
+Foundation Web site at @url{http://www.gnu.org/licenses/fdl.html}.
+
+@end quotation
+
+The document was typeset with
+@uref{http://www.texinfo.org/, GNU Texinfo}.
+
+@end copying
+
+@titlepage
+@title GNU Thales
+@subtitle Macroses for GNU Guile for performing unit-testing and checking backward- and forward- compability.
+@author  Dmitry Bogatov <KAction@@gnu.org>
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Output the table of the contents at the beginning.
+@contents
+
+@ifnottex
+@node Top, Introduction, (dir), (dir)
+@top GNU Thales
+
+@insertcopying
+@end ifnottex
+
+@c Generate the nodes for this menu with `C-c C-u C-m'.
+@menu
+* Introduction::
+* Reference::
+* GNU Free Documentation License::
+* Index::
+@end menu
+
+
+@c Update all node entries with `C-c C-u C-n'.
+@c Insert new nodes with `C-c C-c n'.
+@node Introduction, Reference, Top, Top
+@chapter Introduction
+
+GNU Thales provides macroses for GNU Guile to conviently write and check
+unit-tests, very simular to Python doctest. Thales do not have user
+interface, it can be useful to you only if you write code in Guile.
+Here is simple example, with overview of main use cases:
+
+@lisp
+@include examples/overview.scm
+@end lisp
+
+After we run @code{guild compile overview.scm} and assuming, that
+@var{GUILE_LOAD_PATH} is set properly.
+@example
+;;; note: source file /home/kaction/work/thales/doc/examples/overview.scm
+;;;       newer than compiled /home//kaction/.cache/guile/ccache/2.0-LE-8-2.0/share/home/kaction/work/thales/doc/examples/overview.scm.go
+Checking seals with & = mystic...
+Compilation aborted: seal broken when evaluating
+(mystic 1 2)
+
+Expect:
+(values 4)
+
+Actual:
+(values 3)
+@end example
+
+Ignore first two commented lines, they are leaky implementation
+detail. Next comes information what function is getting tested now, and,
+if test fails, pretty-printed evaluated expression, expected and actual
+values. Form @code{(values 4)} means that function returned value. If it
+would throw, @code{(throw key arg1 arg2)} would be printed.
+
+Now, lets fix code and view another use-case. Here is fixed source:
+@lisp
+@include examples/overview-fixed.scm
+@end lisp
+All tests now pass, and you can notice clause, expecting exception.
+
+Let us, run @code{THALES_SEAL=1 guild compile overview-fixed.scm} and we
+will get on stderr Guile program, that seals tests for public function
+and can be checked with @code{guild compile}, whether old tests still
+pass. This can be useful, since you will change tests for internal
+functions, but maybe you do not not ocassionally change public interface.
+
+Thales is mainly intended as light-weight solution for pure
+function. Scheme is functional language, after all.
+
+For full-fledged solution with test-cases, shared-state, variable
+definition, teardown and initialization, take a look on
+srfi-64(@url{http://srfi.schemers.org/srfi-64/srfi-64.html}) which, at
+time of reading, may be part of Guile.
+
+@node Reference, GNU Free Documentation License, Introduction, Top
+@chapter Reference
+
+Macro @code{sealed} have following form: @code{(sealed <tested-function>
+<clause> ...)}, where @code{<tested-function>} must be identifier, not
+expression. Each @code{clause} may be in one of following form:
+@itemize
+@item
+@code{(<args> ... *** <value>)} Asserts, that @code{(equal? (<tested-function> <args> ...) <value>)}.
+
+@item
+@code{(<args> ... *+* <value>)} Asserts, that @code{(equal? (<tested-function> <args> ...) (quote <value))}
+
+@item
+@code{(<args> ... *!* <value>)} Asserts, that @code{(<tested-function> <args> ...)} throws @code{(quote <value>)}
+
+@item
+@code{(<form>  => <value> ...)} Asserts, that evaluation of @code{<form>} yield specified value or values.
+
+@item
+@code{(<form> !--> <key> <args> ...)} Asserts, that evaluation of
+@code{<form>} throws exception with key @code{<key>} and arguments,
+matching @code{<args>}. It is okay if exception thrown proviedes more
+arguments, that you specified.
+
+@item
+@code{(<form>)} Asserts, that @code{<form>} evaluates to @code{#t}
+@end itemize
+
+@node GNU Free Documentation License
+@chapter GNU Free Documentation License
+
+@c Get fdl.texi from http://www.gnu.org/licenses/fdl.html
+@include fdl.texi
+
+@node Index
+@unnumbered Index
+
+@printindex cp
+
+@bye
+
+@c thales.texinfo ends here
