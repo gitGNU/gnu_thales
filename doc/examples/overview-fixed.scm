@@ -6,9 +6,13 @@
 (use-modules (thales seal))
 
 (sealed mystic
-	(1 2 *** (- 4 1))	;; Short-cut for most common case. Expected form is evaluated
+	(1 2 *** (- 4 1))	;; Short-cut for most common case.
+				;; Expected form is evaluated
+
 	(1 2 *+* 3)		;; Same. Expected form is not evaluated.
-	((& 5 6) => 11)         ;; Full form. & is bound to function beeing testing.
+	((& 5 6) => 11)		;; Full form.
+				;; & is bound to function beeing testing.
+
 	((mystic 3 4) => 7)	;; Or it can be written in full
 	(1 2 *** 3))		;; This will no more fail
 
@@ -23,4 +27,3 @@
 (define (not-exported x y)
     "Some not-exported function"
     (/ y x))
-

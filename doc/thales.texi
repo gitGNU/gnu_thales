@@ -4,7 +4,7 @@
 @settitle GNU Thales
 @c %**end of header
 @copying
-Macroses for GNU Guile for performing unit-testing and checking backward- and forward- compability..
+Macroses for GNU Guile for unit-testing and checking compability.
 
 Copyright @copyright{} 2014
 
@@ -28,7 +28,7 @@ The document was typeset with
 
 @titlepage
 @title GNU Thales
-@subtitle Macroses for GNU Guile for performing unit-testing and checking backward- and forward- compability.
+@subtitle Macroses for GNU Guile unit-testing and checking compability.
 @author  Dmitry Bogatov <KAction@@gnu.org>
 @page
 @vskip 0pt plus 1filll
@@ -71,8 +71,8 @@ Here is simple example, with overview of main use cases:
 After we run @code{guild compile overview.scm} and assuming, that
 @var{GUILE_LOAD_PATH} is set properly.
 @example
-;;; note: source file /home/kaction/work/thales/doc/examples/overview.scm
-;;;       newer than compiled /home//kaction/.cache/guile/ccache/2.0-LE-8-2.0/share/home/kaction/work/thales/doc/examples/overview.scm.go
+;;; note: source file /work/thales/doc/examples/overview.scm
+;;;       newer than compiled <cutted-to-fit-page>
 Checking seals with & = mystic...
 Compilation aborted: seal broken when evaluating
 (mystic 1 2)
