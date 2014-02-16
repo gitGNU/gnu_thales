@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 m4_include([modules.af.m4])
 AC_PREREQ([2.69])
-AC_INIT([GNU Thales], [0.99e], [KAction@gnu.org])
+AC_INIT([GNU Thales], [1.99], [KAction@gnu.org])
 AM_INIT_AUTOMAKE([foreign])
 GUILE_PROGS
 GUILE_SITE_DIR
