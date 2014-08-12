@@ -1,19 +1,24 @@
 GUILD = @GUILD@
 SOURCES = seal.scm
-OBJECTS = $(patsubst %.scm,%.go,$(SOURCES))
+## GNU Make $(patsubst %.scm,%.go,$(SOURCES)) would
+## be better, but portability...
+OBJECTS = seal.go
 
 %.go: @abs_srcdir@/%.scm
 	$(GUILD) compile $< -o $@
 all: $(OBJECTS)
 install: all
 	@MKDIR_P@ $(DESTDIR)@GUILE_SITE@/thales
-	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE@ $(OBJECTS) $(SOURCES)
+	@MKDIR_P@ $(DESTDIR)@GUILE_SITE_CCACHE@/thales
+	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE_CCACHE@/thales $(OBJECTS)
+	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE@/thales $(SOURCES)
 uninstall:
-	for file in $(SOURCES) ; do
-		rm -f @GUILE_SITE/thales/$$file
-	done
+	for file in $(SOURCES) ; do rm -f @GUILE_SITE@/thales/$$file; done
+	for file in $(OBJECTS) ; do rm -f @GUILE_SITE_CCACHE@/thales/$$file; done
+	rmdir @GUILE_SITE@/thales
+	rmdir @GUILE_SITE_CCACHE@/thales
 clean:
-	rm -f $(SOURCES)
+	rm -f $(OBJECTS)
 distdir:
 	@INSTALL@ -t $(distdir) $(SOURCES)
 mostlyclean: clean
