@@ -11,7 +11,7 @@ install: all
 	@MKDIR_P@ $(DESTDIR)@GUILE_SITE@/thales
 	@MKDIR_P@ $(DESTDIR)@GUILE_SITE_CCACHE@/thales
 	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE_CCACHE@/thales $(OBJECTS)
-	@INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE@/thales $(SOURCES)
+	for file in $(SOURCES) ; do @INSTALL@ -m 644 -t $(DESTDIR)@GUILE_SITE@/thales @srcdir@/$$file; done
 uninstall:
 	for file in $(SOURCES) ; do rm -f @GUILE_SITE@/thales/$$file; done
 	for file in $(OBJECTS) ; do rm -f @GUILE_SITE_CCACHE@/thales/$$file; done
