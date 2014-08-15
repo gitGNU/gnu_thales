@@ -1,5 +1,5 @@
 (define-module (thales seal)
-    #:export (sealed))
+    #:replace (sealed))
 (use-modules (ice-9 match))
 (use-modules (ice-9 pretty-print))
 (use-modules (srfi srfi-1))
@@ -89,7 +89,7 @@ loaded with this function."
 			 (error:handle (cons 'throw throw-args)))))))))
 
 (define-syntax seal-clause
-    (syntax-rules (=> !--> *** *+* *!*)
+    (syntax-rules (=> !--> *** *+* *!* *#*)
 	([_ f <args> ... *** <val>]
 	 (seal-clause-expect-values (f <args> ...) (<val>)))
 	([_ f <args> ... *+* <val>]
@@ -101,7 +101,9 @@ loaded with this function."
 	([_ f <args> ... *!* <val>]
 	 (seal-clause-expect-throw (f <args> ...) ('<val>)))
 	([_ f <form>]
-	 (seal-clause-expect-values <form> (#t)))))
+	 (seal-clause-expect-values <form> (#t)))
+	([_ f <args> ... *#* <val>]
+	 (seal-clause-expect-values (syntax->datum (f <args> ...)) ('<val>)))))
 
 (define-syntax sealed
     (lambda (env)

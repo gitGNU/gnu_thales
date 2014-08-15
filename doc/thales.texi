@@ -105,6 +105,21 @@ functions, but maybe you do not not ocassionally change public interface.
 Thales is mainly intended as light-weight solution for pure
 function. Scheme is functional language, after all.
 
+Usually it is not desirable to have hard dependency on GNU Thales.
+As a workaround you can put this snippet at top of file
+@lisp
+(eval-when (compile)
+  (define-syntax sealed (identifier-syntax #f))
+  (let ((thales-module (resolve-module '(thales seal))))
+    (if thales-module
+	(module-define! (current-module) 'sealed
+	  (module-ref thales-module 'sealed))
+	(format #t "~a\n~a\n"
+	  "Module (thales seal) is not available."
+	  "GNU Thales based testing is disabled."))))
+@end lisp
+
+
 For full-fledged solution with test-cases, shared-state, variable
 definition, teardown and initialization, take a look on
 srfi-64(@url{http://srfi.schemers.org/srfi-64/srfi-64.html}) which, at
@@ -134,6 +149,11 @@ expression. Each @code{clause} may be in one of following form:
 @code{<form>} throws exception with key @code{<key>} and arguments,
 matching @code{<args>}. It is okay if exception thrown proviedes more
 arguments, that you specified.
+
+@item
+@code{(<args> ... *#* <val>)} Asserts, that @code{(<tested-function>
+<args> ...)}  return syntax object, simplified with
+@code{syntax->datum}to @code{(quote <val>)}.
 
 @item
 @code{(<form>)} Asserts, that @code{<form>} evaluates to @code{#t}
