@@ -13,7 +13,7 @@
 				;; & is bound to function beeing testing.
 
 	((mystic 3 4) => 7)	;; Or it can be written in full
-	(1 2 ** 4))		;; This will fail and abort compilation
+	(1 2 *** 4))		;; This will fail and abort compilation
 
 (define (mystic x y)
     "Some mystic function of two arguments."
